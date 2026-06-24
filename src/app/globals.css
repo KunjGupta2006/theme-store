@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+:root{
+  --var-primary:#F5F1EA;
+  --var-secondary:#EEE7DD;
+  --var-tertiary:#FAF7F2;
+  --var-neutral:#111111;
+
+
+}
