@@ -94,6 +94,15 @@
   }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-18px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
 @layer utilities {
   .display-lg {
     font-family: var(--font-display), sans-serif;

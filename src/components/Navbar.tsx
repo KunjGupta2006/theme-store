@@ -16,19 +16,20 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="flex h-16 w-full items-center justify-between border-b border-outline-variant bg-secondary-container px-6">
-        <div className="font-display text-2xl font-semibold tracking-tight text-on-surface">
+      <nav className="absolute left-0 right-0 top-0 z-100 flex h-16 w-full items-center justify-between bg-transparent px-6 text-white">
+        <div className="font-display text-3xl font-semibold tracking-tight">
           Atelier
         </div>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-10 md:flex">
           {navLinks.map((link) => (
             <li key={link.label}>
               <a
                 href={link.href}
-                className="font-body text-sm font-medium text-on-surface transition-all duration-300 hover:shadow-2xs hover:shadow-black"
+                className="group relative font-body text-sm font-medium transition-all duration-300"
               >
                 {link.label}
+                <span className="absolute -bottom-1 left-0 h-[1.5px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
               </a>
             </li>
           ))}
@@ -36,38 +37,35 @@ export default function Navbar() {
 
         <div className="flex items-center gap-5">
           <button
-            className="flex items-center gap-1.5 text-on-surface transition-colors hover:text-primary md:hidden"
+            className="flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 md:hidden"
             onClick={() => setMenuOpen(true)}
           >
             <FontAwesomeIcon icon={faBars} className="text-lg" />
           </button>
-          {menuOpen==true && 
 
-<div className="hidden items-center gap-2 rounded-md border border-outline-variant px-3 py-1.5 sm:flex">
-  <FontAwesomeIcon icon={faMagnifyingGlass} className="text-sm text-on-surface-variant" />
-  <input
-    type="text"
-    placeholder="Search"
-    className="w-32 bg-transparent font-body text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
-  />
-</div>
-          }
+          <div className="hidden items-center gap-2 rounded-md border border-white/20 px-3 py-1.5 transition-all duration-200 focus-within:border-white/50 hover:border-white/40 sm:flex">
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="text-sm text-white/60" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-32 bg-transparent font-body text-sm outline-none placeholder:text-white/60"
+            />
+          </div>
 
-
-          <a href="#" className=" items-center gap-1.5 text-on-surface transition-colors hover:text-primary sm:flex">
-            <FontAwesomeIcon icon={faUser} className="text-sm" />
+          <a href="#" className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
+            <FontAwesomeIcon icon={faUser} className="text-sm transition-transform duration-200 group-hover:scale-110" />
             <span className="hidden font-body text-sm md:flex">Profile</span>
           </a>
 
-          <a href="#" className=" items-center gap-1.5 text-on-surface transition-colors hover:text-primary sm:flex">
-            <FontAwesomeIcon icon={faBagShopping} className="text-sm" />
+          <a href="#" className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
+            <FontAwesomeIcon icon={faBagShopping} className="text-sm transition-transform duration-200 group-hover:scale-110" />
             <span className="hidden font-body text-sm md:flex">Bag</span>
           </a>
         </div>
       </nav>
 
       <div
-        className={`fixed inset-0 z-50 transition-opacity duration-300 ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+        className={`fixed inset-0 z-1000 transition-opacity duration-300 ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
         onClick={() => setMenuOpen(false)}
       >
         <div className="absolute inset-0 bg-black/20" />
@@ -77,7 +75,7 @@ export default function Navbar() {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex justify-end">
-            <button onClick={() => setMenuOpen(false)} className="text-on-surface transition-colors hover:text-primary">
+            <button onClick={() => setMenuOpen(false)} className="z-100 text-on-surface transition-colors hover:text-primary">
               <FontAwesomeIcon icon={faXmark} className="text-xl" />
             </button>
           </div>
@@ -95,10 +93,11 @@ export default function Navbar() {
               <li key={link.label}>
                 <a
                   href={link.href}
-                  className="font-body text-lg font-medium text-on-surface transition-colors hover:text-primary"
+                  className="group relative inline-block font-body text-lg font-medium text-on-surface transition-all duration-300"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.label}
+                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-on-surface transition-all duration-300 group-hover:w-full" />
                 </a>
               </li>
             ))}
