@@ -9,6 +9,9 @@
     "postinstall": "prisma generate",
     "lint": "eslint"
   },
+  "prisma": {
+  "seed": "tsx prisma/seed.ts"
+},
   "dependencies": {
     "@clerk/nextjs": "^7.5.11",
     "@deemlol/next-icons": "^0.2.7",
@@ -32,6 +35,7 @@
     "eslint-config-next": "16.2.9",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5"
   }
 }

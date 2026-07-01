@@ -6,7 +6,7 @@ import { faMagnifyingGlass, faUser, faBagShopping, faBars, faXmark } from "@fort
 import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 
 const navLinks = [
-  { label: "Shop", href: "#" },
+  { label: "Shop", href: "/shop" },
   { label: "Collections", href: "#" },
   { label: "Customize", href: "#" },
   { label: "About", href: "#" },
@@ -28,10 +28,10 @@ export default function Navbar() {
             <li key={link.label}>
               <a
                 href={link.href}
-                className="group relative font-body text-sm font-medium transition-all duration-300"
+                className="group relative font-body text-sm font-medium transition-all duration-300 "
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 h-[1.5px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 h-[1.5px] w-0 bg-white transition-all duration-300 group-hover:w-full " />
               </a>
             </li>
           ))}
