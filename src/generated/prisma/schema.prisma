@@ -1,0 +1,169 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  clerkId   String   @unique
+  name      String
+  email     String   @unique
+  imageUrl  String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customDesigns CustomDesign[]
+  cart          Cart?
+  orders        Order[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String
+  basePrice   Float
+  thumbnail   String?
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  variants      ProductVariant[]
+  customDesigns CustomDesign[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+}
+
+model ProductVariant {
+  id              String  @id @default(uuid())
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  size            Size
+  color           Color
+  stockQuantity   Int
+  priceAdjustment Float
+
+  @@unique([productId, size, color])
+}
+
+enum Size {
+  S
+  M
+  L
+  XL
+  XXL
+}
+
+enum Color {
+  BLACK
+  WHITE
+}
+
+model TemplateDesign {
+  id        String   @id @default(uuid())
+  name      String
+  imageUrl  String
+  category  String
+  createdAt DateTime @default(now())
+
+  customDesigns CustomDesign[]
+}
+
+model CustomDesign {
+  id               String          @id @default(uuid())
+  userId           String
+  user             User            @relation(fields: [userId], references: [id])
+  productId        String
+  product          Product         @relation(fields: [productId], references: [id])
+  templateId       String?
+  template         TemplateDesign? @relation(fields: [templateId], references: [id])
+  uploadedImageUrl String?
+  frontDesignUrl   String?
+  backDesignUrl    String?
+  selectedColor    Color
+  selectedSize     Size
+  createdAt        DateTime        @default(now())
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+}
+
+model Cart {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  items CartItem[]
+}
+
+model CartItem {
+  id             String        @id @default(uuid())
+  cartId         String
+  cart           Cart          @relation(fields: [cartId], references: [id])
+  productId      String
+  product        Product       @relation(fields: [productId], references: [id])
+  customDesignId String?
+  customDesign   CustomDesign? @relation(fields: [customDesignId], references: [id])
+  quantity       Int           @default(1)
+  unitPrice      Float
+}
+
+model Order {
+  id              String        @id @default(uuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+  subtotal        Float
+  totalAmount     Float
+  paymentStatus   PaymentStatus @default(PENDING)
+  orderStatus     OrderStatus   @default(PROCESSING)
+  shippingAddress String
+  trackingId      String?
+  createdAt       DateTime      @default(now())
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id             String        @id @default(uuid())
+  orderId        String
+  order          Order         @relation(fields: [orderId], references: [id])
+  productId      String
+  product        Product       @relation(fields: [productId], references: [id])
+  customDesignId String?
+  customDesign   CustomDesign? @relation(fields: [customDesignId], references: [id])
+  quantity       Int
+  price          Float
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum OrderStatus {
+  PROCESSING
+  PRINTING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
