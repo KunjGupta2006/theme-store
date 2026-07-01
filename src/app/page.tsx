@@ -24,10 +24,10 @@ export default function HomePage() {
               Premium essentials built for those who value substance over excess.
             </p>
             <div className="flex justify-between items-center gap-6" >
-            <button className="label-caps mt-10 bg-white px-10 py-3.5 tracking-widest rounded-xl text-[#1c1b1b] transition-all hover:bg-inverse-surface hover:text-surface  md:mt-12">
+            <button className="label-caps mt-10 bg-white px-10 py-3.5 tracking-widest rounded-xl text-[#1c1b1b] transition-all hover:bg-inverse-surface hover:text-surface hover:cursor-pointer hover:scale-105  md:mt-12">
               Explore Collection
             </button>
-            <button className="label-caps mt-10 bg-[#1c1b1b] px-10 py-3.5 tracking-widest rounded-xl text-white transition-all hover:text-inverse-surface hover:bg-surface  md:mt-12">
+            <button className="label-caps mt-10 bg-[#1c1b1b] px-10 py-3.5 tracking-widest rounded-xl text-white transition-all hover:opacity-90 hover:cursor-pointer hover:scale-105  md:mt-12">
               Customize Now
             </button>
             </div>
@@ -39,6 +39,7 @@ export default function HomePage() {
                 src="/home-t-shirt.png"
                 alt="Premium t-shirt"
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-contain drop-shadow-2xl"
                 priority
               />

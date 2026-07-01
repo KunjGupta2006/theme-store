@@ -1,0 +1,830 @@
+
+===== FILE: .gitignore =====
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+
+
+
+===== FILE: DESIGN.md =====
+
+---
+name: Aurelian Thread
+colors:
+  surface: '#fcf9f8'
+  surface-dim: '#dcd9d9'
+  surface-bright: '#fcf9f8'
+  surface-container-lowest: '#ffffff'
+  surface-container-low: '#f6f3f2'
+  surface-container: '#f0edec'
+  surface-container-high: '#ebe7e7'
+  surface-container-highest: '#e5e2e1'
+  on-surface: '#1c1b1b'
+  on-surface-variant: '#484740'
+  inverse-surface: '#313030'
+  inverse-on-surface: '#f3f0ef'
+  outline: '#79776f'
+  outline-variant: '#cac6bd'
+  surface-tint: '#605e59'
+  primary: '#605e59'
+  on-primary: '#ffffff'
+  primary-container: '#f5f1ea'
+  on-primary-container: '#6f6d68'
+  inverse-primary: '#c9c6c0'
+  secondary: '#625e56'
+  on-secondary: '#ffffff'
+  secondary-container: '#e8e2d8'
+  on-secondary-container: '#68645c'
+  tertiary: '#5f5e5b'
+  on-tertiary: '#ffffff'
+  tertiary-container: '#f4f1ec'
+  on-tertiary-container: '#6e6d6a'
+  error: '#ba1a1a'
+  on-error: '#ffffff'
+  error-container: '#ffdad6'
+  on-error-container: '#93000a'
+  primary-fixed: '#e6e2db'
+  primary-fixed-dim: '#c9c6c0'
+  on-primary-fixed: '#1c1c18'
+  on-primary-fixed-variant: '#484742'
+  secondary-fixed: '#e8e2d8'
+  secondary-fixed-dim: '#ccc6bc'
+  on-secondary-fixed: '#1e1b15'
+  on-secondary-fixed-variant: '#4a463f'
+  tertiary-fixed: '#e5e2dd'
+  tertiary-fixed-dim: '#c8c6c2'
+  on-tertiary-fixed: '#1c1c19'
+  on-tertiary-fixed-variant: '#474743'
+  background: '#fcf9f8'
+  on-background: '#1c1b1b'
+  surface-variant: '#e5e2e1'
+typography:
+  display-lg:
+    fontFamily: Inter Tight
+    fontSize: 84px
+    fontWeight: '700'
+    lineHeight: 90px
+    letterSpacing: -0.04em
+  display-lg-mobile:
+    fontFamily: Inter Tight
+    fontSize: 48px
+    fontWeight: '700'
+    lineHeight: 52px
+    letterSpacing: -0.02em
+  headline-xl:
+    fontFamily: Inter Tight
+    fontSize: 60px
+    fontWeight: '600'
+    lineHeight: 68px
+    letterSpacing: -0.02em
+  headline-lg:
+    fontFamily: Inter Tight
+    fontSize: 40px
+    fontWeight: '600'
+    lineHeight: 48px
+    letterSpacing: -0.01em
+  headline-sm:
+    fontFamily: Inter Tight
+    fontSize: 24px
+    fontWeight: '600'
+    lineHeight: 32px
+    letterSpacing: 0em
+  body-lg:
+    fontFamily: Inter
+    fontSize: 18px
+    fontWeight: '400'
+    lineHeight: 28px
+    letterSpacing: 0em
+  body-md:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: 24px
+    letterSpacing: 0.01em
+  label-caps:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '600'
+    lineHeight: 16px
+    letterSpacing: 0.1em
+rounded:
+  sm: 0.125rem
+  DEFAULT: 0.25rem
+  md: 0.375rem
+  lg: 0.5rem
+  xl: 0.75rem
+  full: 9999px
+spacing:
+  unit: 4px
+  container-max: 1440px
+  gutter: 24px
+  margin-desktop: 64px
+  margin-mobile: 20px
+  section-gap: 120px
+---
+
+## Brand & Style
+The design system is rooted in high-end editorial minimalism, capturing the essence of a premium boutique atelier. It targets a discerning audience that values craft, material integrity, and "quiet luxury." The emotional response is one of calm sophistication, exclusivity, and structural permanence.
+
+The visual style blends **Editorial Minimalism** with **Modernist Architecture**. It prioritizes vast negative space to allow product photography to breathe. Layouts are asymmetric yet balanced, utilizing dramatic typography scales to create a sense of rhythm and hierarchy. Transitions should feel cinematic, employing slow fades and precision-weighted motion to reinforce the premium nature of the brand.
+
+## Colors
+The palette is built on a foundation of warm, organic neutrals that evoke the texture of premium cotton and natural fibers. 
+
+- **Primary Canvas**: A soft, warm beige (#F5F1EA) serves as the base for all pages, reducing the harshness of pure white while maintaining high legibility.
+- **Surface Hierarchy**: Secondary and tertiary surfaces provide subtle tonal shifts for sectioning and card backgrounds without breaking the monochromatic harmony.
+- **Ink & Contrast**: All functional text and primary actions use a deep charcoal/black (#111111) to ensure a commanding presence and absolute clarity against the warm background.
+- **Accents**: Use the accent color sparingly for high-intent actions, maintaining a strict "less is more" philosophy.
+
+## Typography
+Typography is the primary engine of the brand's character. The design system utilizes **Inter Tight** for headlines to achieve a condensed, vertical authority reminiscent of print fashion magazines. For body copy, the standard **Inter** family is used for its superior legibility and modern technical feel.
+
+- **Dramatic Scale**: Use `display-lg` for hero sections with tight kerning to create impact.
+- **Editorial Labels**: Use `label-caps` for eyebrows, categories, and small metadata. The increased letter spacing is essential for maintaining an airy, premium feel at small sizes.
+- **Negative Space**: Ensure generous paragraph spacing (1.5x - 2x line height) to prevent text-heavy areas from feeling cluttered.
+
+## Layout & Spacing
+The layout follows a **Strict Fluid Grid** with an emphasis on intentional "dead space." 
+
+- **Grid Strategy**: Use a 12-column grid for desktop with wide margins (64px) to center-focus the content.
+- **Rhythm**: Spacing is based on a 4px baseline, but larger modules should jump in increments of 16px or 24px to create visible "blocks" of content.
+- **Sectioning**: Vertical gaps between major sections should be aggressive (120px+) to ensure each product story or editorial block feels independent and significant.
+- **Mobile Adaptation**: On mobile, shift to a 4-column grid. Tighten vertical section gaps to 80px but maintain the 20px edge margins to ensure the "frame" effect remains intact.
+
+## Elevation & Depth
+This design system rejects traditional shadows in favor of **Tonal Layering** and **Thin Outlines**. 
+
+- **Planes**: Depth is communicated by placing `Card Surface` (#FAF7F2) elements on top of the `Primary Canvas` (#F5F1EA). 
+- **Borders**: Use 1px borders with the specified `border_color_rgba` to define boundaries without adding visual weight. 
+- **Focus**: When an element requires focus (like a modal or dropdown), use a subtle backdrop dim (rgba(17, 17, 17, 0.2)) rather than a heavy drop shadow. The aesthetic should remain flat and architectural.
+
+## Shapes
+The shape language is **Architectural and Precise**. 
+
+- **Corners**: While the overall impression should be "sharp," apply a global 2px or 4px radius (`roundedness: 1`) to UI elements like buttons and input fields. This removes the "aggressive" digital edge and replaces it with a manufactured, high-quality finish.
+- **Media**: Product imagery should remain strictly sharp (0px radius) to maintain the editorial magazine aesthetic. Only functional UI elements receive the subtle softening.
+
+## Components
+- **Primary Buttons**: Solid #0F0F0F background with white or #F5F1EA text. Use `label-caps` for the label. The height should be substantial (52px+) with minimal horizontal padding to create a monolithic look.
+- **Secondary Buttons**: 1px border of #111111 with no background. Hover state involves a solid fill of #111111 with inverted text.
+- **Inputs**: Bottom-border only or very thin 1px full borders. Background should be transparent or `Secondary Surface`. Labels should be `label-caps` placed above the field.
+- **Cards**: Minimalist containers using `Card Surface`. Avoid shadows; use the 1px border to define the edge. The content inside should have at least 32px of internal padding.
+- **Lists**: Clean horizontal dividers (1px) with generous vertical padding. Use `Inter` Medium for list items to ensure they feel structured.
+- **Product Tiles**: Focus on the image first. The price and title should appear in a refined `body-md` or `label-caps` below the image, with significant whitespace between the image and the metadata.
+
+===== FILE: eslint.config.mjs =====
+
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+
+
+===== FILE: next-env.d.ts =====
+
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+import "./.next/dev/types/routes.d.ts";
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+
+
+===== FILE: next.config.ts =====
+
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+
+
+===== FILE: package.json =====
+
+{
+  "name": "theme-store",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@deemlol/next-icons": "^0.2.7",
+    "@fortawesome/free-brands-svg-icons": "^7.3.0",
+    "@fortawesome/free-solid-svg-icons": "^7.3.0",
+    "@fortawesome/react-fontawesome": "^3.3.1",
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+
+
+===== FILE: postcss.config.mjs =====
+
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+
+
+===== FILE: README.md =====
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+===== FILE: tsconfig.json =====
+
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+
+
+===== FILE: src\app\globals.css =====
+
+@import "tailwindcss";
+
+@theme {
+  /* Surface & Background */
+  --color-surface: #fcf9f8;
+  --color-surface-dim: #dcd9d9;
+  --color-surface-bright: #fcf9f8;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f3f2;
+  --color-surface-container: #f0edec;
+  --color-surface-container-high: #ebe7e7;
+  --color-surface-container-highest: #e5e2e1;
+  --color-surface-variant: #e5e2e1;
+  --color-on-surface: #1c1b1b;
+  --color-on-surface-variant: #484740;
+  --color-inverse-surface: #313030;
+  --color-inverse-on-surface: #f3f0ef;
+  --color-outline: #79776f;
+  --color-outline-variant: #cac6bd;
+  --color-surface-tint: #605e59;
+
+  /* Primary */
+  --color-primary: #605e59;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #f5f1ea;
+  --color-on-primary-container: #6f6d68;
+  --color-inverse-primary: #c9c6c0;
+  --color-primary-fixed: #e6e2db;
+  --color-primary-fixed-dim: #c9c6c0;
+  --color-on-primary-fixed: #1c1c18;
+  --color-on-primary-fixed-variant: #484742;
+
+  /* Secondary */
+  --color-secondary: #625e56;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #e8e2d8;
+  --color-on-secondary-container: #68645c;
+  --color-secondary-fixed: #e8e2d8;
+  --color-secondary-fixed-dim: #ccc6bc;
+  --color-on-secondary-fixed: #1e1b15;
+  --color-on-secondary-fixed-variant: #4a463f;
+
+  /* Tertiary */
+  --color-tertiary: #5f5e5b;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #f4f1ec;
+  --color-on-tertiary-container: #6e6d6a;
+  --color-tertiary-fixed: #e5e2dd;
+  --color-tertiary-fixed-dim: #c8c6c2;
+  --color-on-tertiary-fixed: #1c1c19;
+  --color-on-tertiary-fixed-variant: #474743;
+
+  /* Error */
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Background */
+  --color-background: #fcf9f8;
+  --color-on-background: #1c1b1b;
+
+  /* Font Families */
+  --font-display: "Inter Tight", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Custom Spacing */
+  --spacing-gutter: 24px;
+  --spacing-section: 120px;
+  --spacing-margin-desktop: 64px;
+  --spacing-margin-mobile: 20px;
+
+  /* Container */
+  --container-max: 1440px;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    font-family: var(--font-body), sans-serif;
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-18px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@layer utilities {
+  .display-lg {
+    font-family: var(--font-display), sans-serif;
+    font-size: 84px;
+    font-weight: 700;
+    line-height: 90px;
+    letter-spacing: -0.04em;
+  }
+
+  .display-lg-mobile {
+    font-family: var(--font-display), sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 52px;
+    letter-spacing: -0.02em;
+  }
+
+  .headline-xl {
+    font-family: var(--font-display), sans-serif;
+    font-size: 60px;
+    font-weight: 600;
+    line-height: 68px;
+    letter-spacing: -0.02em;
+  }
+
+  .headline-lg {
+    font-family: var(--font-display), sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 48px;
+    letter-spacing: -0.01em;
+  }
+
+  .headline-sm {
+    font-family: var(--font-display), sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+    letter-spacing: 0em;
+  }
+
+  .body-lg {
+    font-family: var(--font-body), sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: 0em;
+  }
+
+  .body-md {
+    font-family: var(--font-body), sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.01em;
+  }
+
+  .label-caps {
+    font-family: var(--font-body), sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+}
+
+
+===== FILE: src\app\layout.tsx =====
+
+import type { Metadata } from "next";
+import { Inter, Inter_Tight } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-display",
+});
+
+export const metadata: Metadata = {
+  title: "Shirt Store",
+  description: "Modern custom t-shirt ecommerce platform",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className={`${inter.variable} ${interTight.variable}`}>
+      <body>
+        <Navbar />
+        {children}
+      </body>
+    </html>
+  );
+}
+
+===== FILE: src\app\page.tsx =====
+
+import Image from "next/image";
+
+export default function HomePage() {
+  return (
+    <main>
+      <section className="relative h-screen w-full overflow-hidden">
+        <Image
+          src="/home-bg.png"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-black/50" />
+
+        <div className="relative z-10 mx-auto flex h-full max-w-max flex-col items-center justify-center gap-8 px-5 md:flex-row md:items-center md:justify-between md:px-16">
+          <div className="flex flex-col items-center text-center md:items-start md:w-1/2 md:text-left">
+
+            <h1 className="display-lg-mobile mt-6 text-white md:display-lg md:mt-8">
+              Where Craft<br />Meets Creativity
+            </h1>
+
+            <p className="body-lg mt-5 max-w-xl text-white/65 md:mt-6">
+              Premium essentials built for those who value substance over excess.
+            </p>
+            <div className="flex justify-between items-center gap-6" >
+            <button className="label-caps mt-10 bg-white px-10 py-3.5 tracking-widest rounded-xl text-[#1c1b1b] transition-all hover:bg-inverse-surface hover:text-surface hover:cursor-pointer hover:scale-105  md:mt-12">
+              Explore Collection
+            </button>
+            <button className="label-caps mt-10 bg-[#1c1b1b] px-10 py-3.5 tracking-widest rounded-xl text-white transition-all hover:opacity-90 hover:cursor-pointer hover:scale-105  md:mt-12">
+              Customize Now
+            </button>
+            </div>
+          </div>
+
+          <div className="flex items-start justify-around md:w-2/3">
+            <div className="animate-float relative h-60 w-52 md:h-125 md:w-125">
+              <Image
+                src="/home-t-shirt.png"
+                alt="Premium t-shirt"
+                fill
+                className="object-contain drop-shadow-2xl"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-surface px-5 py-section md:px-16">
+        <div className="mx-auto max-w-max">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left">
+            <span className="label-caps text-on-surface-variant">What We Do</span>
+            <h2 className="headline-lg mt-3 text-on-surface md:headline-xl md:mt-4">
+              Premium Craft,<br />Your Way
+            </h2>
+            <p className="body-lg mt-4 max-w-2xl text-on-surface-variant md:mt-5">
+              Every garment is a blank canvas. We partner with you to bring your vision to life using
+              the finest materials and most advanced printing techniques in the industry.
+            </p>
+          </div>
+
+          <div className="mt-16 grid gap-6 md:mt-24 md:grid-cols-3">
+            <div className="group border border-outline-variant bg-surface-container-lowest p-8 transition-all duration-300 hover:border-primary hover:bg-surface-container-low md:p-10">
+
+              <h3 className="headline-sm mt-6 text-on-surface">Custom Designs</h3>
+              <p className="body-md mt-3 text-on-surface-variant">
+                Full customization from concept to creation. Upload your artwork, choose placement, and we handle the rest.
+              </p>
+            </div>
+
+            <div className="group border border-outline-variant bg-surface-container-lowest p-8 transition-all duration-300 hover:border-primary hover:bg-surface-container-low md:p-10">
+
+              <h3 className="headline-sm mt-6 text-on-surface">Sublimation &amp; DTF</h3>
+              <p className="body-md mt-3 text-on-surface-variant">
+                Vibrant, durable prints using state-of-the-art sublimation and Direct-to-Film technology that won&rsquo;t fade or crack.
+              </p>
+            </div>
+
+            <div className="group border border-outline-variant bg-surface-container-lowest p-8 transition-all duration-300 hover:border-primary hover:bg-surface-container-low md:p-10">
+
+              <h3 className="headline-sm mt-6 text-on-surface">Premium Fabrics</h3>
+              <p className="body-md mt-3 text-on-surface-variant">
+                Choose from a range of GSM weights &mdash; 160, 180, 200, 240 &amp; 260 &mdash; each selected for comfort, durability, and drape.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+===== FILE: src\app\(auth)\register\page.tsx =====
+
+
+===== FILE: src\app\(auth)\Signin\page.tsx =====
+
+
+===== FILE: src\components\Navbar.tsx =====
+
+"use client";
+
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass, faUser, faBagShopping, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+
+const navLinks = [
+  { label: "Shop", href: "#" },
+  { label: "Collections", href: "#" },
+  { label: "Customize", href: "#" },
+  { label: "About", href: "#" },
+];
+
+export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <>
+      <nav className="absolute left-0 right-0 top-0 z-100 flex h-16 w-full items-center justify-between bg-transparent px-6 text-white">
+        <div className="font-display text-3xl font-semibold tracking-tight">
+          Atelier
+        </div>
+
+        <ul className="hidden items-center gap-10 md:flex">
+          {navLinks.map((link) => (
+            <li key={link.label}>
+              <a
+                href={link.href}
+                className="group relative font-body text-sm font-medium transition-all duration-300"
+              >
+                {link.label}
+                <span className="absolute -bottom-1 left-0 h-[1.5px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-5">
+          <button
+            className="flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 md:hidden"
+            onClick={() => setMenuOpen(true)}
+          >
+            <FontAwesomeIcon icon={faBars} className="text-lg" />
+          </button>
+
+          <div className="hidden items-center gap-2 rounded-md border border-white/20 px-3 py-1.5 transition-all duration-200 focus-within:border-white/50 hover:border-white/40 sm:flex">
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="text-sm text-white/60" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-32 bg-transparent font-body text-sm outline-none placeholder:text-white/60"
+            />
+          </div>
+
+          <a href="#" className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
+            <FontAwesomeIcon icon={faUser} className="text-sm transition-transform duration-200 group-hover:scale-110" />
+            <span className="hidden font-body text-sm md:flex">Profile</span>
+          </a>
+
+          <a href="#" className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
+            <FontAwesomeIcon icon={faBagShopping} className="text-sm transition-transform duration-200 group-hover:scale-110" />
+            <span className="hidden font-body text-sm md:flex">Bag</span>
+          </a>
+        </div>
+      </nav>
+
+      <div
+        className={`fixed inset-0 z-1000 transition-opacity duration-300 ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+        onClick={() => setMenuOpen(false)}
+      >
+        <div className="absolute inset-0 bg-black/20" />
+
+        <aside
+          className={`absolute right-0 top-0 flex h-full w-1/2 flex-col bg-surface p-6 shadow-xl transition-transform duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex justify-end">
+            <button onClick={() => setMenuOpen(false)} className="z-100 text-on-surface transition-colors hover:text-primary">
+              <FontAwesomeIcon icon={faXmark} className="text-xl" />
+            </button>
+          </div>
+          <div className="mt-2 w-12/11 flex items-center gap-2 rounded-md border border-outline-variant px-2 py-1.5">
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-full bg-transparent font-body text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
+            />
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="text-sm text-on-surface-variant mx-4 cursor-pointer " />
+          </div>
+
+          <ul className="mt-8 flex flex-col gap-6">
+            {navLinks.map((link) => (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  className="group relative inline-block font-body text-lg font-medium text-on-surface transition-all duration-300"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-on-surface transition-all duration-300 group-hover:w-full" />
+                </a>
+              </li>
+            ))}
+          </ul>
+
+        </aside>
+      </div>
+    </>
+  );
+}
+
+
+===== FILE: src\constants\products.ts =====
+
+export const products = [
+  {
+    id: 1,
+    name: "Black Oversized Tee",
+    price: 799,
+    image:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
+    colors: ["Black", "White"],
+    sizes: ["S", "M", "L", "XL"],
+  },
+
+  {
+    id: 2,
+    name: "Anime Tee",
+    price: 999,
+    image:
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27",
+    colors: ["Black"],
+    sizes: ["M", "L"],
+  }
+];

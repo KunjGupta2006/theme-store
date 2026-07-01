@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faUser, faBagShopping, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 
 const navLinks = [
   { label: "Shop", href: "#" },
@@ -13,6 +14,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isSignedIn } = useUser();
 
   return (
     <>
@@ -52,10 +54,18 @@ export default function Navbar() {
             />
           </div>
 
-          <a href="#" className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
-            <FontAwesomeIcon icon={faUser} className="text-sm transition-transform duration-200 group-hover:scale-110" />
-            <span className="hidden font-body text-sm md:flex">Profile</span>
-          </a>
+          <div className="relative">
+            {isSignedIn ? (
+              <ProfileDropdown />
+            ) : (
+              <SignInButton mode="modal">
+                <button className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
+                  <FontAwesomeIcon icon={faUser} className="text-sm transition-transform duration-200 group-hover:scale-110" />
+                  <span className="hidden font-body text-sm md:flex">Sign In</span>
+                </button>
+              </SignInButton>
+            )}
+          </div>
 
           <a href="#" className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
             <FontAwesomeIcon icon={faBagShopping} className="text-sm transition-transform duration-200 group-hover:scale-110" />
@@ -106,5 +116,50 @@ export default function Navbar() {
         </aside>
       </div>
     </>
+  );
+}
+
+function ProfileDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const { signOut } = useClerk();
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex  "
+      >
+        <FontAwesomeIcon icon={faUser} className="text-sm transition-transform duration-200 group-hover:scale-110 " />
+
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-full mt-2 w-36 rounded-md border border-white/20 bg-black/80 py-1 shadow-lg backdrop-blur-sm">
+          <button
+            className="flex w-full items-center gap-2 px-4 py-2 text-sm text-white-600 transition-colors hover:bg-white/10"
+          >
+            Profile
+          </button>
+
+          <button
+            onClick={() => signOut({ redirectUrl: "/" })}
+            className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 transition-colors hover:bg-white/10"
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
