@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Analy  tics } from "@vercel/analytics/next"
+// import { Analyics } from "@vercel/analytics/next"
 
 export default function HomePage() {
   return (
