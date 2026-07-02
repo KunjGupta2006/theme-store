@@ -1,6 +1,9 @@
-============================================================
-FILE: Architecture.md
-============================================================
+﻿
+================================================================================
+FILE: Architecture.md                                                          
+LANGUAGE: md | SIZE: 407 bytes | PATH: Architecture.md                         
+================================================================================
+
 Tech Stack
 
 Frontend
@@ -40,13 +43,16 @@ types/
 API Flow
 
 Client
-→ Route Handler
-→ Prisma
-→ Database
+â†’ Route Handler
+â†’ Prisma
+â†’ Database
 
-============================================================
-FILE: DB_schema.md
-============================================================
+
+================================================================================
+FILE: DB_schema.md                                                             
+LANGUAGE: md | SIZE: 1559 bytes | PATH: DB_schema.md                           
+================================================================================
+
 # DB_SCHEMA.md
 
 ## User
@@ -203,29 +209,32 @@ Order Status:
 ## Relationships
 
 User
-↓
+â†“
 Cart
-↓
+â†“
 CartItems
 
 User
-↓
+â†“
 Orders
-↓
+â†“
 OrderItems
 
 Product
-↓
+â†“
 ProductVariants
 
 User
-↓
+â†“
 CustomDesign
 
-============================================================
-FILE: PRD.md
-============================================================
-# PRD — Shirt Store
+
+================================================================================
+FILE: PRD.md                                                                   
+LANGUAGE: md | SIZE: 3590 bytes | PATH: PRD.md                                 
+================================================================================
+
+# PRD â€” Shirt Store
 
 ## Project Name
 
@@ -250,7 +259,7 @@ Users often want personalized T-shirts for personal use, gifts, events, or brand
 
 The platform should make custom T-shirt creation simple:
 
-Choose → Customize → Preview → Order
+Choose â†’ Customize â†’ Preview â†’ Order
 
 ---
 
@@ -384,23 +393,23 @@ Not included in first release:
 ## User Flow
 
 Landing Page
-↓
+â†“
 Browse Products
-↓
+â†“
 Select Shirt
-↓
+â†“
 Upload or Choose Design
-↓
+â†“
 Customize Front/Back
-↓
+â†“
 Preview
-↓
+â†“
 Add to Cart
-↓
+â†“
 Checkout
-↓
+â†“
 Payment
-↓
+â†“
 Order Tracking
 
 ---
@@ -424,13 +433,18 @@ User Experience:
 * Design upload success > 95%
 * Checkout drop-off reduced
 
-============================================================
-FILE: prd2.md
-============================================================
 
-============================================================
-FILE: Rules.md
-============================================================
+================================================================================
+FILE: prd2.md                                                                  
+LANGUAGE: md | SIZE: 0 bytes | PATH: prd2.md                                   
+================================================================================
+
+
+================================================================================
+FILE: Rules.md                                                                 
+LANGUAGE: md | SIZE: 1217 bytes | PATH: Rules.md                               
+================================================================================
+
 # RULES.md
 
 ## General Rules
@@ -537,283 +551,65 @@ Never expose secrets
 
 Use environment variables only
 
-============================================================
-FILE: stack.md
-============================================================
+
+================================================================================
+FILE: stack.md                                                                 
+LANGUAGE: md | SIZE: 636 bytes | PATH: stack.md                                
+================================================================================
+
 Frontend
-├── Next.js 15
-├── TypeScript
-├── Tailwind v4
-├── shadcn/ui
-├── Framer Motion
+â”œâ”€â”€ Next.js 15
+â”œâ”€â”€ TypeScript
+â”œâ”€â”€ Tailwind v4
+â”œâ”€â”€ shadcn/ui
+â”œâ”€â”€ Framer Motion
 
 State
-├── Zustand
-└── TanStack Query
+â”œâ”€â”€ Zustand
+â””â”€â”€ TanStack Query
 
 Backend
-├── Next Route Handlers
-└── Server Actions
+â”œâ”€â”€ Next Route Handlers
+â””â”€â”€ Server Actions
 
 Auth
-└── Clerk
+â””â”€â”€ Clerk
 
 Database
-├── Supabase PostgreSQL
-└── Prisma
+â”œâ”€â”€ Supabase PostgreSQL
+â””â”€â”€ Prisma
 
 Storage
-└── Cloudinary
+â””â”€â”€ Cloudinary
 
 Payments
-└── Razorpay
+â””â”€â”€ Razorpay
 
 Emails
-└── Resend
+â””â”€â”€ Resend
 
 Analytics
-├── Google Analytics
-└── PostHog
+â”œâ”€â”€ Google Analytics
+â””â”€â”€ PostHog
 
 Monitoring
-└── Sentry
+â””â”€â”€ Sentry
 
 DevOps
-├── Vercel
-└── Cloudflare
+â”œâ”€â”€ Vercel
+â””â”€â”€ Cloudflare
 
 Later
-├── Upstash Redis
-├── Inngest
-└── AI APIs
-
-============================================================
-FILE: UI_UX.md
-============================================================
-Design a world-class premium ecommerce website UI for a men's custom t-shirt brand. IMPORTANT: This task is ONLY for visual design, user experience, interaction design, layout design, motion design, and frontend presentation. Do NOT focus on backend, database, authentication, APIs, or implementation details. The objective is to create a memorable luxury-fashion ecommerce experience that feels significantly more premium than typical Shopify stores. --- ## BRAND CONCEPT A premium men's t-shirt brand. Products: * Black T-Shirts * White T-Shirts Only two color variants exist. Customers can: * Upload their own design * Select pre-designed graphics * Print on front * Print on back * Print on both sides The website should feel like: Luxury Fashion Brand + Modern Design Studio + Premium Product Customizer The overall aesthetic should communicate: * Confidence * Simplicity * Premium quality * Modern craftsmanship * Minimalism The website must feel expensive, curated, and highly intentional. --- ## DESIGN DIRECTION Design Style: Luxury Minimalism Keywords: * Editorial * Fashion-forward * Premium * Elegant * Sophisticated * Refined * Clean * Spacious * Timeless Avoid: * Generic ecommerce layouts * Template-like sections * Bright colors * Neon effects * Visual clutter * Cheap-looking gradients * Overly rounded playful designs The experience should feel closer to a premium fashion label than a typical online store. --- ## COLOR SYSTEM(aureliam theme)  Background: Warm soft beige #F5F1EA Secondary Surface: #EEE7DD Card Surface: #FAF7F2 Primary Text: #111111 Secondary Text: #666666 Accent: #0F0F0F Border: rgba(0,0,0,0.08) The background should never be pure white. The overall visual tone should feel warm, premium, and comfortable for long browsing sessions. --- ## TYPOGRAPHY Typography is a major design element. Use a luxury editorial style. Headings: Inter Tight Body: Inter Characteristics: * Large dramatic headlines * Strong hierarchy * Elegant spacing * High readability * Fashion magazine feeling Hero headings should feel bold and memorable. Typography should carry much of the visual identity. --- ## LAYOUT PHILOSOPHY Use generous whitespace. Every section should breathe. Create a feeling of confidence through simplicity. Avoid overcrowding. Content width: 1280px Max layout width: 1440px Grid system: Modern editorial grid Balance imagery and typography carefully. --- ## MOTION DESIGN Motion should feel premium. Use subtle cinematic interactions. Animations should feel intentional. Allowed effects: * Smooth fade-up reveals * Blur reveals * Text reveal animations * Staggered content entrances * Parallax image movement * Hover image zoom * Elegant page transitions * Smooth section reveals Avoid flashy effects. Avoid excessive movement. The website should feel calm and sophisticated. --- ## NAVIGATION Design a premium navigation bar. Features: * Transparent initially * Soft blurred background on scroll * Elegant hover states * Refined active indicators Navigation Items: Shop Collections Customize Gallery About Contact Actions: Search Account Cart The navigation should feel lightweight and unobtrusive. --- ## HOMEPAGE EXPERIENCE SECTION 1 Hero Create a visually striking luxury hero section. Headline: Wear Your Design. Subheadline: Premium black and white t-shirts customized by you. CTA Buttons: Start Customizing Explore Designs Visual Area: A large premium t-shirt presentation. The shirt should feel like a product advertisement from a luxury fashion campaign. Use layered depth and subtle motion. The hero must create an immediate emotional impact. --- SECTION 2 Featured Collections Present collections using an editorial layout. Collections: Black Collection White Collection Minimal Collection Typography Collection Graphic Collection Use large photography. Minimal text. Strong visual storytelling. --- SECTION 3 Customization Journey Visually explain the customization process. Show: Choose Shirt Choose Print Side Upload Design Preview Checkout Use elegant progression visuals. Avoid boring step indicators. Make the process feel exciting and premium. --- SECTION 4 Featured Designs Create a visually engaging gallery. Categories: Minimal Streetwear Typography Graphic Abstract Use an editorial gallery layout. Hover interactions should feel premium. --- SECTION 5 Design Studio Showcase Create a large centerpiece section. Show a realistic customization experience. Include: Front View Back View Both Views Visual controls for: Upload Resize Rotate Position This section should feel like a luxury creative studio. Think Apple-level product presentation. --- SECTION 6 Brand Value Section Present: Premium Fabric High Quality Printing Long Lasting Designs Fast Shipping Made For Men Secure Checkout Use elegant iconography and refined cards. --- SECTION 7 Customer Gallery Display customer-created t-shirts. Use a premium masonry layout. The gallery should feel aspirational. --- SECTION 8 Testimonials Create a sophisticated review experience. Minimal cards. Smooth motion. Elegant typography. --- SECTION 9 FAQ Design a refined accordion experience. Simple. Elegant. Easy to scan. --- SECTION 10 Final CTA Create a powerful conversion section. Headline: Your Design Deserves Better Than Ordinary. CTA: Create Your Tee This should feel emotionally compelling. --- ## PRODUCT PAGE DESIGN The product page should feel premium and immersive. Include: Large imagery Front View Back View Detail Shots Zoom Experience Minimal information hierarchy Size Selection Color Selection Print Position Selection Related Products Sticky purchase actions The focus should remain on product presentation. --- ## CUSTOMIZATION PAGE DESIGN This is the signature experience. Create a modern design studio interface. Visual layout: Large t-shirt canvas Front/Back switcher Design controls Placement guides Interactive preview The experience should feel professional, intuitive, and satisfying. Not technical. Not overwhelming. --- ## CART DESIGN Minimal luxury checkout preparation. Use: Clean product summaries Elegant quantity controls Order overview Smooth drawer interactions Trust-building design patterns --- ## CHECKOUT DESIGN Create a premium checkout experience. Focus on: Trust Clarity Simplicity Visual hierarchy Reduce anxiety. Make the process feel seamless. --- ## MICRO INTERACTIONS Buttons: Subtle lift Soft shadow transitions Cards: Image zoom Hover elevation Navigation: Smooth underline motion Gallery: Preview interactions Forms: Elegant focus states Loading: Premium skeleton screens Every interaction should feel polished. --- ## IMAGERY DIRECTION Use photography styles inspired by: Luxury fashion campaigns Minimal product photography Studio lighting Editorial shoots Monochrome aesthetics Focus on: Black T-Shirts White T-Shirts Fabric texture Print quality Details Craftsmanship --- ## OVERALL GOAL Design a website that feels like the intersection of: Luxury Fashion Brand + Creative Design Studio + Premium Ecommerce Experience The final design should feel modern, memorable, premium, highly polished, visually elegant, and significantly above the quality of typical ecommerce websites.
-
-============================================================
-FILE: theme-store\.gitignore
-============================================================
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+â”œâ”€â”€ Upstash Redis
+â”œâ”€â”€ Inngest
+â””â”€â”€ AI APIs
 
 
+================================================================================
+FILE: theme-store\eslint.config.mjs                                            
+LANGUAGE: mjs | SIZE: 465 bytes | PATH: theme-store\eslint.config.mjs          
+================================================================================
 
-/src/generated/
-
-
-./theme-store-export.txt
-
-============================================================
-FILE: theme-store\DESIGN.md
-============================================================
----
-name: Aurelian Thread
-colors:
-  surface: '#fcf9f8'
-  surface-dim: '#dcd9d9'
-  surface-bright: '#fcf9f8'
-  surface-container-lowest: '#ffffff'
-  surface-container-low: '#f6f3f2'
-  surface-container: '#f0edec'
-  surface-container-high: '#ebe7e7'
-  surface-container-highest: '#e5e2e1'
-  on-surface: '#1c1b1b'
-  on-surface-variant: '#484740'
-  inverse-surface: '#313030'
-  inverse-on-surface: '#f3f0ef'
-  outline: '#79776f'
-  outline-variant: '#cac6bd'
-  surface-tint: '#605e59'
-  primary: '#605e59'
-  on-primary: '#ffffff'
-  primary-container: '#f5f1ea'
-  on-primary-container: '#6f6d68'
-  inverse-primary: '#c9c6c0'
-  secondary: '#625e56'
-  on-secondary: '#ffffff'
-  secondary-container: '#e8e2d8'
-  on-secondary-container: '#68645c'
-  tertiary: '#5f5e5b'
-  on-tertiary: '#ffffff'
-  tertiary-container: '#f4f1ec'
-  on-tertiary-container: '#6e6d6a'
-  error: '#ba1a1a'
-  on-error: '#ffffff'
-  error-container: '#ffdad6'
-  on-error-container: '#93000a'
-  primary-fixed: '#e6e2db'
-  primary-fixed-dim: '#c9c6c0'
-  on-primary-fixed: '#1c1c18'
-  on-primary-fixed-variant: '#484742'
-  secondary-fixed: '#e8e2d8'
-  secondary-fixed-dim: '#ccc6bc'
-  on-secondary-fixed: '#1e1b15'
-  on-secondary-fixed-variant: '#4a463f'
-  tertiary-fixed: '#e5e2dd'
-  tertiary-fixed-dim: '#c8c6c2'
-  on-tertiary-fixed: '#1c1c19'
-  on-tertiary-fixed-variant: '#474743'
-  background: '#fcf9f8'
-  on-background: '#1c1b1b'
-  surface-variant: '#e5e2e1'
-typography:
-  display-lg:
-    fontFamily: Inter Tight
-    fontSize: 84px
-    fontWeight: '700'
-    lineHeight: 90px
-    letterSpacing: -0.04em
-  display-lg-mobile:
-    fontFamily: Inter Tight
-    fontSize: 48px
-    fontWeight: '700'
-    lineHeight: 52px
-    letterSpacing: -0.02em
-  headline-xl:
-    fontFamily: Inter Tight
-    fontSize: 60px
-    fontWeight: '600'
-    lineHeight: 68px
-    letterSpacing: -0.02em
-  headline-lg:
-    fontFamily: Inter Tight
-    fontSize: 40px
-    fontWeight: '600'
-    lineHeight: 48px
-    letterSpacing: -0.01em
-  headline-sm:
-    fontFamily: Inter Tight
-    fontSize: 24px
-    fontWeight: '600'
-    lineHeight: 32px
-    letterSpacing: 0em
-  body-lg:
-    fontFamily: Inter
-    fontSize: 18px
-    fontWeight: '400'
-    lineHeight: 28px
-    letterSpacing: 0em
-  body-md:
-    fontFamily: Inter
-    fontSize: 16px
-    fontWeight: '400'
-    lineHeight: 24px
-    letterSpacing: 0.01em
-  label-caps:
-    fontFamily: Inter
-    fontSize: 12px
-    fontWeight: '600'
-    lineHeight: 16px
-    letterSpacing: 0.1em
-rounded:
-  sm: 0.125rem
-  DEFAULT: 0.25rem
-  md: 0.375rem
-  lg: 0.5rem
-  xl: 0.75rem
-  full: 9999px
-spacing:
-  unit: 4px
-  container-max: 1440px
-  gutter: 24px
-  margin-desktop: 64px
-  margin-mobile: 20px
-  section-gap: 120px
----
-
-## Brand & Style
-The design system is rooted in high-end editorial minimalism, capturing the essence of a premium boutique atelier. It targets a discerning audience that values craft, material integrity, and "quiet luxury." The emotional response is one of calm sophistication, exclusivity, and structural permanence.
-
-The visual style blends **Editorial Minimalism** with **Modernist Architecture**. It prioritizes vast negative space to allow product photography to breathe. Layouts are asymmetric yet balanced, utilizing dramatic typography scales to create a sense of rhythm and hierarchy. Transitions should feel cinematic, employing slow fades and precision-weighted motion to reinforce the premium nature of the brand.
-
-## Colors
-The palette is built on a foundation of warm, organic neutrals that evoke the texture of premium cotton and natural fibers. 
-
-- **Primary Canvas**: A soft, warm beige (#F5F1EA) serves as the base for all pages, reducing the harshness of pure white while maintaining high legibility.
-- **Surface Hierarchy**: Secondary and tertiary surfaces provide subtle tonal shifts for sectioning and card backgrounds without breaking the monochromatic harmony.
-- **Ink & Contrast**: All functional text and primary actions use a deep charcoal/black (#111111) to ensure a commanding presence and absolute clarity against the warm background.
-- **Accents**: Use the accent color sparingly for high-intent actions, maintaining a strict "less is more" philosophy.
-
-## Typography
-Typography is the primary engine of the brand's character. The design system utilizes **Inter Tight** for headlines to achieve a condensed, vertical authority reminiscent of print fashion magazines. For body copy, the standard **Inter** family is used for its superior legibility and modern technical feel.
-
-- **Dramatic Scale**: Use `display-lg` for hero sections with tight kerning to create impact.
-- **Editorial Labels**: Use `label-caps` for eyebrows, categories, and small metadata. The increased letter spacing is essential for maintaining an airy, premium feel at small sizes.
-- **Negative Space**: Ensure generous paragraph spacing (1.5x - 2x line height) to prevent text-heavy areas from feeling cluttered.
-
-## Layout & Spacing
-The layout follows a **Strict Fluid Grid** with an emphasis on intentional "dead space." 
-
-- **Grid Strategy**: Use a 12-column grid for desktop with wide margins (64px) to center-focus the content.
-- **Rhythm**: Spacing is based on a 4px baseline, but larger modules should jump in increments of 16px or 24px to create visible "blocks" of content.
-- **Sectioning**: Vertical gaps between major sections should be aggressive (120px+) to ensure each product story or editorial block feels independent and significant.
-- **Mobile Adaptation**: On mobile, shift to a 4-column grid. Tighten vertical section gaps to 80px but maintain the 20px edge margins to ensure the "frame" effect remains intact.
-
-## Elevation & Depth
-This design system rejects traditional shadows in favor of **Tonal Layering** and **Thin Outlines**. 
-
-- **Planes**: Depth is communicated by placing `Card Surface` (#FAF7F2) elements on top of the `Primary Canvas` (#F5F1EA). 
-- **Borders**: Use 1px borders with the specified `border_color_rgba` to define boundaries without adding visual weight. 
-- **Focus**: When an element requires focus (like a modal or dropdown), use a subtle backdrop dim (rgba(17, 17, 17, 0.2)) rather than a heavy drop shadow. The aesthetic should remain flat and architectural.
-
-## Shapes
-The shape language is **Architectural and Precise**. 
-
-- **Corners**: While the overall impression should be "sharp," apply a global 2px or 4px radius (`roundedness: 1`) to UI elements like buttons and input fields. This removes the "aggressive" digital edge and replaces it with a manufactured, high-quality finish.
-- **Media**: Product imagery should remain strictly sharp (0px radius) to maintain the editorial magazine aesthetic. Only functional UI elements receive the subtle softening.
-
-## Components
-- **Primary Buttons**: Solid #0F0F0F background with white or #F5F1EA text. Use `label-caps` for the label. The height should be substantial (52px+) with minimal horizontal padding to create a monolithic look.
-- **Secondary Buttons**: 1px border of #111111 with no background. Hover state involves a solid fill of #111111 with inverted text.
-- **Inputs**: Bottom-border only or very thin 1px full borders. Background should be transparent or `Secondary Surface`. Labels should be `label-caps` placed above the field.
-- **Cards**: Minimalist containers using `Card Surface`. Avoid shadows; use the 1px border to define the edge. The content inside should have at least 32px of internal padding.
-- **Lists**: Clean horizontal dividers (1px) with generous vertical padding. Use `Inter` Medium for list items to ensure they feel structured.
-- **Product Tiles**: Focus on the image first. The price and title should appear in a refined `body-md` or `label-caps` below the image, with significant whitespace between the image and the metadata.
-
-============================================================
-FILE: theme-store\eslint.config.mjs
-============================================================
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
@@ -833,35 +629,32 @@ const eslintConfig = defineConfig([
 
 export default eslintConfig;
 
-============================================================
-FILE: theme-store\next.config.ts
-============================================================
+
+================================================================================
+FILE: theme-store\next.config.ts                                               
+LANGUAGE: ts | SIZE: 326 bytes | PATH: theme-store\next.config.ts              
+================================================================================
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["@prisma/client", "@prisma/engines"],
-outputFileTracingIncludes: {
-  "/**": ["./src/generated/prisma/**"],
-},
+  serverExternalPackages: ["@prisma/client"],
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "img.clerk.com",  // for user avatars later
-      },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "img.clerk.com" },
     ],
   },
 };
 
 export default nextConfig;
 
-============================================================
-FILE: theme-store\package.json
-============================================================
+
+================================================================================
+FILE: theme-store\package.json                                                 
+LANGUAGE: json | SIZE: 1074 bytes | PATH: theme-store\package.json             
+================================================================================
+
 {
   "name": "theme-store",
   "version": "0.1.0",
@@ -905,9 +698,26 @@ FILE: theme-store\package.json
   }
 }
 
-============================================================
-FILE: theme-store\prisma.config.ts
-============================================================
+
+================================================================================
+FILE: theme-store\postcss.config.mjs                                           
+LANGUAGE: mjs | SIZE: 94 bytes | PATH: theme-store\postcss.config.mjs          
+================================================================================
+
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+
+
+================================================================================
+FILE: theme-store\prisma.config.ts                                             
+LANGUAGE: ts | SIZE: 305 bytes | PATH: theme-store\prisma.config.ts            
+================================================================================
+
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
@@ -922,201 +732,12 @@ export default defineConfig({
   },
 });
 
-============================================================
-FILE: theme-store\prisma\migrations\20260701072714_init\migration.sql
-============================================================
--- CreateEnum
-CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
 
--- CreateEnum
-CREATE TYPE "Size" AS ENUM ('S', 'M', 'L', 'XL', 'XXL');
+================================================================================
+FILE: theme-store\prisma\schema.prisma                                         
+LANGUAGE: prisma | SIZE: 4118 bytes | PATH: theme-store\prisma\schema.prisma   
+================================================================================
 
--- CreateEnum
-CREATE TYPE "Color" AS ENUM ('BLACK', 'WHITE');
-
--- CreateEnum
-CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'PAID', 'FAILED');
-
--- CreateEnum
-CREATE TYPE "OrderStatus" AS ENUM ('PROCESSING', 'PRINTING', 'SHIPPED', 'DELIVERED', 'CANCELLED');
-
--- CreateTable
-CREATE TABLE "User" (
-    "id" TEXT NOT NULL,
-    "clerkId" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "imageUrl" TEXT,
-    "role" "Role" NOT NULL DEFAULT 'USER',
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Product" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "slug" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "basePrice" DOUBLE PRECISION NOT NULL,
-    "thumbnail" TEXT,
-    "isFeatured" BOOLEAN NOT NULL DEFAULT false,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "ProductVariant" (
-    "id" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
-    "size" "Size" NOT NULL,
-    "color" "Color" NOT NULL,
-    "stockQuantity" INTEGER NOT NULL,
-    "priceAdjustment" DOUBLE PRECISION NOT NULL,
-
-    CONSTRAINT "ProductVariant_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "TemplateDesign" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "imageUrl" TEXT NOT NULL,
-    "category" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "TemplateDesign_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "CustomDesign" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
-    "templateId" TEXT,
-    "uploadedImageUrl" TEXT,
-    "frontDesignUrl" TEXT,
-    "backDesignUrl" TEXT,
-    "selectedColor" "Color" NOT NULL,
-    "selectedSize" "Size" NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "CustomDesign_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Cart" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "Cart_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "CartItem" (
-    "id" TEXT NOT NULL,
-    "cartId" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
-    "customDesignId" TEXT,
-    "quantity" INTEGER NOT NULL DEFAULT 1,
-    "unitPrice" DOUBLE PRECISION NOT NULL,
-
-    CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Order" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "subtotal" DOUBLE PRECISION NOT NULL,
-    "totalAmount" DOUBLE PRECISION NOT NULL,
-    "paymentStatus" "PaymentStatus" NOT NULL DEFAULT 'PENDING',
-    "orderStatus" "OrderStatus" NOT NULL DEFAULT 'PROCESSING',
-    "shippingAddress" TEXT NOT NULL,
-    "trackingId" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "OrderItem" (
-    "id" TEXT NOT NULL,
-    "orderId" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
-    "customDesignId" TEXT,
-    "quantity" INTEGER NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
-
-    CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
-);
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_clerkId_key" ON "User"("clerkId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Product_slug_key" ON "Product"("slug");
-
--- CreateIndex
-CREATE UNIQUE INDEX "ProductVariant_productId_size_color_key" ON "ProductVariant"("productId", "size", "color");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Cart_userId_key" ON "Cart"("userId");
-
--- AddForeignKey
-ALTER TABLE "ProductVariant" ADD CONSTRAINT "ProductVariant_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "CustomDesign" ADD CONSTRAINT "CustomDesign_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "CustomDesign" ADD CONSTRAINT "CustomDesign_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "CustomDesign" ADD CONSTRAINT "CustomDesign_templateId_fkey" FOREIGN KEY ("templateId") REFERENCES "TemplateDesign"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Cart" ADD CONSTRAINT "Cart_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_customDesignId_fkey" FOREIGN KEY ("customDesignId") REFERENCES "CustomDesign"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_customDesignId_fkey" FOREIGN KEY ("customDesignId") REFERENCES "CustomDesign"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
-============================================================
-FILE: theme-store\prisma\migrations\migration_lock.toml
-============================================================
-# Please do not edit this file manually
-# It should be added in your version-control system (e.g., Git)
-provider = "postgresql"
-
-============================================================
-FILE: theme-store\prisma\schema.prisma
-============================================================
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -1290,9 +911,12 @@ enum OrderStatus {
   CANCELLED
 }
 
-============================================================
-FILE: theme-store\prisma\seed.ts
-============================================================
+
+================================================================================
+FILE: theme-store\prisma\seed.ts                                               
+LANGUAGE: ts | SIZE: 3155 bytes | PATH: theme-store\prisma\seed.ts             
+================================================================================
+
 import { PrismaClient } from "../src/generated/prisma/client";
 
 const db = new PrismaClient();
@@ -1332,7 +956,7 @@ const products = [
     name: "Boxy Oversized Tee",
     slug: "boxy-oversized-tee",
     description:
-      "Wide box cut. 220gsm cotton-blend. Designed for custom prints — maximum canvas, minimum distraction.",
+      "Wide box cut. 220gsm cotton-blend. Designed for custom prints â€” maximum canvas, minimum distraction.",
     basePrice: 849,
     thumbnail:
       "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&q=80",
@@ -1364,7 +988,7 @@ const sizes = ["S", "M", "L", "XL", "XXL"] as const;
 const colors = ["BLACK", "WHITE"] as const;
 
 async function main() {
-  console.log("🌱 Seeding database...");
+  console.log("ðŸŒ± Seeding database...");
 
   // Clear existing
   await db.productVariant.deleteMany();
@@ -1387,10 +1011,10 @@ async function main() {
 
     await db.productVariant.createMany({ data: variants });
 
-    console.log(`✅ Created: ${product.name}`);
+    console.log(`âœ… Created: ${product.name}`);
   }
 
-  console.log("✅ Seed complete.");
+  console.log("âœ… Seed complete.");
 }
 
 main()
@@ -1402,49 +1026,11 @@ main()
     await db.$disconnect();
   });
 
-============================================================
-FILE: theme-store\README.md
-============================================================
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+================================================================================
+FILE: theme-store\src\app\(auth)\layout.tsx                                    
+LANGUAGE: tsx | SIZE: 224 bytes | PATH: theme-store\src\app\(auth)\layout.tsx  
+================================================================================
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-============================================================
-FILE: theme-store\src\app\(auth)\layout.tsx
-============================================================
 export default function AuthLayout({
   children,
 }: {
@@ -1457,27 +1043,36 @@ export default function AuthLayout({
   );
 }
 
-============================================================
-FILE: theme-store\src\app\(auth)\sign-in\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\(auth)\sign-in\page.tsx                              
+LANGUAGE: tsx | SIZE: 106 bytes | PATH: theme-store\src\app\(auth)\sign-in\page.tsx  
+================================================================================
+
 import { SignIn } from "@clerk/nextjs";
 
 export default function SignInPage() {
   return <SignIn />;
 }
 
-============================================================
-FILE: theme-store\src\app\(auth)\sign-up\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\(auth)\sign-up\page.tsx                              
+LANGUAGE: tsx | SIZE: 106 bytes | PATH: theme-store\src\app\(auth)\sign-up\page.tsx  
+================================================================================
+
 import { SignUp } from "@clerk/nextjs";
 
 export default function SignUpPage() {
   return <SignUp />;
 }
 
-============================================================
-FILE: theme-store\src\app\admin\layout.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\admin\layout.tsx                                     
+LANGUAGE: tsx | SIZE: 709 bytes | PATH: theme-store\src\app\admin\layout.tsx   
+================================================================================
+
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
@@ -1507,16 +1102,19 @@ export default async function AdminLayout({
   );
 }
 
-============================================================
-FILE: theme-store\src\app\admin\orders\[id]\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\admin\orders\[id]\page.tsx                           
+LANGUAGE: tsx | SIZE: 6683 bytes | PATH: theme-store\src\app\admin\orders\[id]\page.tsx  
+================================================================================
+
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { updateOrderStatus } from "@/features/admin/actions";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Order Detail — Admin" };
+export const metadata: Metadata = { title: "Order Detail â€” Admin" };
 
 interface OrderDetailPageProps {
   params: Promise<{ id: string }>;
@@ -1557,7 +1155,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
           href="/admin/orders"
           className="text-sm text-[#666666] hover:text-[#111111] transition-colors"
         >
-          ← Orders
+          â† Orders
         </Link>
         <span className="text-[#666666]">/</span>
         <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">
@@ -1605,13 +1203,13 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
           <p className="text-sm text-[#111111] mt-1">
             Subtotal:{" "}
             <span className="font-medium">
-              ₹{order.subtotal.toLocaleString("en-IN")}
+              â‚¹{order.subtotal.toLocaleString("en-IN")}
             </span>
           </p>
           <p className="text-sm text-[#111111] mt-1">
             Total:{" "}
             <span className="font-bold">
-              ₹{order.totalAmount.toLocaleString("en-IN")}
+              â‚¹{order.totalAmount.toLocaleString("en-IN")}
             </span>
           </p>
         </div>
@@ -1672,11 +1270,11 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
                   {item.product.name}
                 </p>
                 <p className="text-xs text-[#666666] mt-0.5">
-                  Qty: {item.quantity} × ₹{item.price.toLocaleString("en-IN")}
+                  Qty: {item.quantity} Ã— â‚¹{item.price.toLocaleString("en-IN")}
                 </p>
               </div>
               <p className="text-sm font-medium text-[#111111] shrink-0">
-                ₹{(item.quantity * item.price).toLocaleString("en-IN")}
+                â‚¹{(item.quantity * item.price).toLocaleString("en-IN")}
               </p>
             </div>
           ))}
@@ -1686,14 +1284,17 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
   );
 }
 
-============================================================
-FILE: theme-store\src\app\admin\orders\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\admin\orders\page.tsx                                
+LANGUAGE: tsx | SIZE: 4139 bytes | PATH: theme-store\src\app\admin\orders\page.tsx  
+================================================================================
+
 import { db } from "@/lib/db";
 import Link from "next/link";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Orders — Admin" };
+export const metadata: Metadata = { title: "Orders â€” Admin" };
 
 const STATUS_COLORS: Record<string, string> = {
   PROCESSING: "bg-yellow-100 text-yellow-800",
@@ -1767,7 +1368,7 @@ export default async function AdminOrdersPage() {
                     {order._count.items}
                   </td>
                   <td className="px-4 py-3 text-sm font-medium text-[#111111]">
-                    ₹{order.totalAmount.toLocaleString("en-IN")}
+                    â‚¹{order.totalAmount.toLocaleString("en-IN")}
                   </td>
                   <td className="px-4 py-3">
                     <span className={`text-[10px] px-2 py-1 rounded-full font-medium ${PAYMENT_COLORS[order.paymentStatus]}`}>
@@ -1800,15 +1401,18 @@ export default async function AdminOrdersPage() {
   );
 }
 
-============================================================
-FILE: theme-store\src\app\admin\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\admin\page.tsx                                       
+LANGUAGE: tsx | SIZE: 10856 bytes | PATH: theme-store\src\app\admin\page.tsx   
+================================================================================
+
 import { db } from "@/lib/db";
 import { RevenueChart } from "@/components/admin/RevenueChart";
 import { OrderStatusChart } from "@/components/admin/OrderStatusChart";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Dashboard — Admin" };
+export const metadata: Metadata = { title: "Dashboard â€” Admin" };
 
 async function getDashboardData() {
   const now = new Date();
@@ -1965,7 +1569,7 @@ export default async function AdminDashboard() {
         {[
           {
             label: "Total Revenue",
-            value: `₹${stats.revenue.toLocaleString("en-IN")}`,
+            value: `â‚¹${stats.revenue.toLocaleString("en-IN")}`,
             sub: "All time, paid orders",
           },
           {
@@ -2004,7 +1608,7 @@ export default async function AdminDashboard() {
         {/* Revenue chart */}
         <div className="lg:col-span-2 bg-[#FAF7F2] border border-black/6 p-6 rounded">
           <h2 className="text-sm font-medium text-[#111111] mb-1">
-            Revenue — Last 30 Days
+            Revenue â€” Last 30 Days
           </h2>
           <p className="text-xs text-[#666666] mb-6">Paid orders only</p>
           <RevenueChart data={revenueChartData} />
@@ -2030,7 +1634,7 @@ export default async function AdminDashboard() {
               href="/admin/orders"
               className="text-xs text-[#666666] hover:text-[#111111] transition-colors"
             >
-              View all →
+              View all â†’
             </a>
           </div>
           <table className="w-full">
@@ -2069,7 +1673,7 @@ export default async function AdminDashboard() {
                       {order.user.name}
                     </td>
                     <td className="px-6 py-3 text-sm text-[#111111]">
-                      ₹{order.totalAmount.toLocaleString("en-IN")}
+                      â‚¹{order.totalAmount.toLocaleString("en-IN")}
                     </td>
                     <td className="px-6 py-3">
                       <span
@@ -2132,16 +1736,19 @@ export default async function AdminDashboard() {
   );
 }
 
-============================================================
-FILE: theme-store\src\app\admin\products\[id]\edit\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\admin\products\[id]\edit\page.tsx                    
+LANGUAGE: tsx | SIZE: 6408 bytes | PATH: theme-store\src\app\admin\products\[id]\edit\page.tsx  
+================================================================================
+
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { updateProduct, updateVariantStock } from "@/features/admin/actions";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Edit Product — Admin" };
+export const metadata: Metadata = { title: "Edit Product â€” Admin" };
 
 interface EditProductPageProps {
   params: Promise<{ id: string }>;
@@ -2169,7 +1776,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
           href="/admin/products"
           className="text-sm text-[#666666] hover:text-[#111111] transition-colors"
         >
-          ← Products
+          â† Products
         </Link>
         <span className="text-[#666666]">/</span>
         <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">
@@ -2210,7 +1817,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <label className="text-xs text-[#666666] tracking-widest uppercase">
-              Base Price (₹)
+              Base Price (â‚¹)
             </label>
             <input
               name="basePrice"
@@ -2310,14 +1917,17 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
   );
 }
 
-============================================================
-FILE: theme-store\src\app\admin\products\new\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\admin\products\new\page.tsx                          
+LANGUAGE: tsx | SIZE: 4560 bytes | PATH: theme-store\src\app\admin\products\new\page.tsx  
+================================================================================
+
 import { createProduct } from "@/features/admin/actions";
 import Link from "next/link";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "New Product — Admin" };
+export const metadata: Metadata = { title: "New Product â€” Admin" };
 
 export default function NewProductPage() {
   return (
@@ -2328,7 +1938,7 @@ export default function NewProductPage() {
           href="/admin/products"
           className="text-sm text-[#666666] hover:text-[#111111] transition-colors"
         >
-          ← Products
+          â† Products
         </Link>
         <span className="text-[#666666]">/</span>
         <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">
@@ -2369,7 +1979,7 @@ export default function NewProductPage() {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <label className="text-xs text-[#666666] tracking-widest uppercase">
-              Base Price (₹)
+              Base Price (â‚¹)
             </label>
             <input
               name="basePrice"
@@ -2435,15 +2045,18 @@ export default function NewProductPage() {
   );
 }
 
-============================================================
-FILE: theme-store\src\app\admin\products\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\admin\products\page.tsx                              
+LANGUAGE: tsx | SIZE: 4742 bytes | PATH: theme-store\src\app\admin\products\page.tsx  
+================================================================================
+
 import { db } from "@/lib/db";
 import Link from "next/link";
 import { deleteProduct } from "@/features/admin/actions";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Products — Admin" };
+export const metadata: Metadata = { title: "Products â€” Admin" };
 
 export default async function AdminProductsPage() {
   const products = await db.product.findMany({
@@ -2513,7 +2126,7 @@ export default async function AdminProductsPage() {
                     </p>
                   </td>
                   <td className="px-6 py-4 text-sm text-[#111111]">
-                    ₹{product.basePrice.toLocaleString("en-IN")}
+                    â‚¹{product.basePrice.toLocaleString("en-IN")}
                   </td>
                   <td className="px-6 py-4">
                     <span
@@ -2564,13 +2177,16 @@ export default async function AdminProductsPage() {
   );
 }
 
-============================================================
-FILE: theme-store\src\app\admin\users\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\admin\users\page.tsx                                 
+LANGUAGE: tsx | SIZE: 3653 bytes | PATH: theme-store\src\app\admin\users\page.tsx  
+================================================================================
+
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Users — Admin" };
+export const metadata: Metadata = { title: "Users â€” Admin" };
 
 export default async function AdminUsersPage() {
   const users = await db.user.findMany({
@@ -2667,9 +2283,12 @@ export default async function AdminUsersPage() {
   );
 }
 
-============================================================
-FILE: theme-store\src\app\api\webhooks\clerk\route.ts
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\api\webhooks\clerk\route.ts                          
+LANGUAGE: ts | SIZE: 1640 bytes | PATH: theme-store\src\app\api\webhooks\clerk\route.ts  
+================================================================================
+
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
@@ -2724,9 +2343,12 @@ export async function POST(req: Request) {
   return new Response("OK", { status: 200 });
 }
 
-============================================================
-FILE: theme-store\src\app\customize\[productId]\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\customize\[productId]\page.tsx                       
+LANGUAGE: tsx | SIZE: 567 bytes | PATH: theme-store\src\app\customize\[productId]\page.tsx  
+================================================================================
+
 interface CustomizePageProps {
   params: Promise<{ productId: string }>;
 }
@@ -2748,9 +2370,12 @@ export default async function CustomizePage({ params }: CustomizePageProps) {
   );
 }
 
-============================================================
-FILE: theme-store\src\app\globals.css
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\globals.css                                          
+LANGUAGE: css | SIZE: 4245 bytes | PATH: theme-store\src\app\globals.css       
+================================================================================
+
 @import "tailwindcss";
 
 @theme {
@@ -2923,9 +2548,12 @@ FILE: theme-store\src\app\globals.css
   }
 }
 
-============================================================
-FILE: theme-store\src\app\layout.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\layout.tsx                                           
+LANGUAGE: tsx | SIZE: 841 bytes | PATH: theme-store\src\app\layout.tsx         
+================================================================================
+
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
@@ -2964,9 +2592,12 @@ export default function RootLayout({
   );
 }
 
-============================================================
-FILE: theme-store\src\app\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\page.tsx                                             
+LANGUAGE: tsx | SIZE: 4717 bytes | PATH: theme-store\src\app\page.tsx          
+================================================================================
+
 import Image from "next/image";
 // import { Analyics } from "@vercel/analytics/next"
 
@@ -3062,9 +2693,12 @@ export default function HomePage() {
   );
 }
 
-============================================================
-FILE: theme-store\src\app\shop\layout.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\shop\layout.tsx                                      
+LANGUAGE: tsx | SIZE: 842 bytes | PATH: theme-store\src\app\shop\layout.tsx    
+================================================================================
+
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
@@ -3103,9 +2737,12 @@ export default function shopLayout({
   );
 }
 
-============================================================
-FILE: theme-store\src\app\shop\loading.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\shop\loading.tsx                                     
+LANGUAGE: tsx | SIZE: 1371 bytes | PATH: theme-store\src\app\shop\loading.tsx  
+================================================================================
+
 export default function ShopLoading() {
   return (
     <main className="min-h-screen bg-[#F5F1EA]">
@@ -3144,9 +2781,12 @@ export default function ShopLoading() {
   );
 }
 
-============================================================
-FILE: theme-store\src\app\shop\page.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\app\shop\page.tsx                                        
+LANGUAGE: tsx | SIZE: 3695 bytes | PATH: theme-store\src\app\shop\page.tsx     
+================================================================================
+
 import { db } from "@/lib/db";
 import { ProductCard } from "@/components/products/ProductCard";
 import { ShopFilters } from "@/components/products/ShopFilters";
@@ -3154,7 +2794,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Shop — Shirt Store",
+  title: "Shop â€” Shirt Store",
   description: "Browse our collection of premium custom t-shirts.",
 };
 
@@ -3221,7 +2861,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
         <div className="flex items-end justify-between mt-6">
           <p className="text-sm text-[#666666] max-w-sm leading-relaxed">
-            Black and white. Front and back. Your design or ours — either way,
+            Black and white. Front and back. Your design or ours â€” either way,
             made to last.
           </p>
           <p className="text-xs text-[#666666] hidden md:block">
@@ -3268,9 +2908,12 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   );
 }
 
-============================================================
-FILE: theme-store\src\components\admin\AdminSidebar.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\components\admin\AdminSidebar.tsx                        
+LANGUAGE: tsx | SIZE: 3576 bytes | PATH: theme-store\src\components\admin\AdminSidebar.tsx  
+================================================================================
+
 "use client";
 
 import Link from "next/link";
@@ -3365,9 +3008,12 @@ export function AdminSidebar() {
   );
 }
 
-============================================================
-FILE: theme-store\src\components\admin\OrderStatusChart.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\components\admin\OrderStatusChart.tsx                    
+LANGUAGE: tsx | SIZE: 1570 bytes | PATH: theme-store\src\components\admin\OrderStatusChart.tsx  
+================================================================================
+
 "use client";
 
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
@@ -3432,9 +3078,12 @@ export function OrderStatusChart({ data }: OrderStatusChartProps) {
   );
 }
 
-============================================================
-FILE: theme-store\src\components\admin\RevenueChart.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\components\admin\RevenueChart.tsx                        
+LANGUAGE: tsx | SIZE: 1553 bytes | PATH: theme-store\src\components\admin\RevenueChart.tsx  
+================================================================================
+
 "use client";
 
 import {
@@ -3466,7 +3115,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
           tick={{ fontSize: 11, fill: "#666666" }}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
+          tickFormatter={(v) => `â‚¹${(v / 1000).toFixed(0)}k`}
         />
         <Tooltip
           contentStyle={{
@@ -3477,7 +3126,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
           }}
           formatter={(value) => {
             if (typeof value === "number") {
-              return `₹${value.toLocaleString("en-IN")}`;
+              return `â‚¹${value.toLocaleString("en-IN")}`;
             }
             return value;
           }}
@@ -3495,9 +3144,12 @@ export function RevenueChart({ data }: RevenueChartProps) {
   );
 }
 
-============================================================
-FILE: theme-store\src\components\Navbar.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\components\Navbar.tsx                                    
+LANGUAGE: tsx | SIZE: 6827 bytes | PATH: theme-store\src\components\Navbar.tsx  
+================================================================================
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -3664,9 +3316,12 @@ function ProfileDropdown() {
   );
 }
 
-============================================================
-FILE: theme-store\src\components\products\ProductCard.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\components\products\ProductCard.tsx                      
+LANGUAGE: tsx | SIZE: 2553 bytes | PATH: theme-store\src\components\products\ProductCard.tsx  
+================================================================================
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -3742,16 +3397,19 @@ export function ProductCard({
         </div>
 
         <p className="text-sm text-[#111111] font-medium shrink-0">
-          ₹{basePrice.toLocaleString("en-IN")}
+          â‚¹{basePrice.toLocaleString("en-IN")}
         </p>
       </div>
     </Link>
   );
 }
 
-============================================================
-FILE: theme-store\src\components\products\ShopFilters.tsx
-============================================================
+
+================================================================================
+FILE: theme-store\src\components\products\ShopFilters.tsx                      
+LANGUAGE: tsx | SIZE: 3592 bytes | PATH: theme-store\src\components\products\ShopFilters.tsx  
+================================================================================
+
 "use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
@@ -3860,9 +3518,12 @@ export function ShopFilters() {
   );
 }
 
-============================================================
-FILE: theme-store\src\data\products.ts
-============================================================
+
+================================================================================
+FILE: theme-store\src\data\products.ts                                         
+LANGUAGE: ts | SIZE: 9423 bytes | PATH: theme-store\src\data\products.ts       
+================================================================================
+
 // src/data/products.ts
 
 import { Product, TemplateDesign } from "@/types";
@@ -4008,9 +3669,12 @@ export const templates: TemplateDesign[] = [
 
 export const templateCategories = ["All", "Minimal", "Typography", "Graphic", "Abstract", "Streetwear"] as const;
 
-============================================================
-FILE: theme-store\src\features\admin\actions.ts
-============================================================
+
+================================================================================
+FILE: theme-store\src\features\admin\actions.ts                                
+LANGUAGE: ts | SIZE: 4243 bytes | PATH: theme-store\src\features\admin\actions.ts  
+================================================================================
+
 "use server";
 
 import { db } from "@/lib/db";
@@ -4018,7 +3682,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
-// ─── Guard ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Guard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 async function requireAdmin() {
   const { userId: clerkId } = await auth();
@@ -4027,7 +3691,7 @@ async function requireAdmin() {
   if (!user || user.role !== "ADMIN") redirect("/");
 }
 
-// ─── Products ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Products â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function createProduct(formData: FormData) {
   await requireAdmin();
@@ -4107,7 +3771,7 @@ export async function updateVariantStock(variantId: string, stock: number) {
   revalidatePath("/admin/products");
 }
 
-// ─── Orders ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Orders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function updateOrderStatus(orderId: string, formData: FormData) {
   await requireAdmin();
@@ -4132,11 +3796,13 @@ export async function updateOrderStatus(orderId: string, formData: FormData) {
   revalidatePath("/admin/orders");
 }
 
-============================================================
-FILE: theme-store\src\lib\db.ts
-============================================================
-import { PrismaClient } from "@/generated/prisma/client";
 
+================================================================================
+FILE: theme-store\src\lib\db.ts                                                
+LANGUAGE: ts | SIZE: 300 bytes | PATH: theme-store\src\lib\db.ts               
+================================================================================
+
+import { PrismaClient } from "@/generated/prisma/client";
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
@@ -4147,9 +3813,12 @@ if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = db;
 }
 
-============================================================
-FILE: theme-store\src\lib\utils.ts
-============================================================
+
+================================================================================
+FILE: theme-store\src\lib\utils.ts                                             
+LANGUAGE: ts | SIZE: 360 bytes | PATH: theme-store\src\lib\utils.ts            
+================================================================================
+
 export function formatPrice(price: number): string {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -4163,10 +3832,14 @@ export function cn(...classes: (string | boolean | undefined | null)[]): string 
   return classes.filter(Boolean).join(" ");
 }
 
-============================================================
-FILE: theme-store\src\middleware.ts
-============================================================
+
+================================================================================
+FILE: theme-store\src\middleware.ts                                            
+LANGUAGE: ts | SIZE: 735 bytes | PATH: theme-store\src\middleware.ts           
+================================================================================
+
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher([
   "/checkout(.*)",
@@ -4176,6 +3849,11 @@ const isProtectedRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
+  // Skip all webhook routes â€” Clerk must not process these
+  if (req.nextUrl.pathname.startsWith("/api/webhooks")) {
+    return NextResponse.next();
+  }
+
   if (isProtectedRoute(req)) {
     await auth.protect();
   }
@@ -4188,9 +3866,12 @@ export const config = {
   ],
 };
 
-============================================================
-FILE: theme-store\src\types\index.ts
-============================================================
+
+================================================================================
+FILE: theme-store\src\types\index.ts                                           
+LANGUAGE: ts | SIZE: 991 bytes | PATH: theme-store\src\types\index.ts          
+================================================================================
+
 // src/types/index.ts
 
 export type Size = "S" | "M" | "L" | "XL" | "XXL";
@@ -4240,4 +3921,64 @@ export interface CustomDesignState {
   backPosition: DesignPosition;
   activeSide: "front" | "back";
 }
+
+
+================================================================================
+FILE: theme-store\tsconfig.json                                                
+LANGUAGE: json | SIZE: 670 bytes | PATH: theme-store\tsconfig.json             
+================================================================================
+
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+
+
+================================================================================
+FILE: theme-store\vercel.json                                                  
+LANGUAGE: json | SIZE: 89 bytes | PATH: theme-store\vercel.json                
+================================================================================
+
+{
+  "buildCommand": "npx prisma generate && npx next build",
+  "framework": "nextjs"
+}
+
+
+================================================================================
+FILE: UI_UX.md                                                                 
+LANGUAGE: md | SIZE: 7147 bytes | PATH: UI_UX.md                               
+================================================================================
+
+Design a world-class premium ecommerce website UI for a men's custom t-shirt brand. IMPORTANT: This task is ONLY for visual design, user experience, interaction design, layout design, motion design, and frontend presentation. Do NOT focus on backend, database, authentication, APIs, or implementation details. The objective is to create a memorable luxury-fashion ecommerce experience that feels significantly more premium than typical Shopify stores. --- ## BRAND CONCEPT A premium men's t-shirt brand. Products: * Black T-Shirts * White T-Shirts Only two color variants exist. Customers can: * Upload their own design * Select pre-designed graphics * Print on front * Print on back * Print on both sides The website should feel like: Luxury Fashion Brand + Modern Design Studio + Premium Product Customizer The overall aesthetic should communicate: * Confidence * Simplicity * Premium quality * Modern craftsmanship * Minimalism The website must feel expensive, curated, and highly intentional. --- ## DESIGN DIRECTION Design Style: Luxury Minimalism Keywords: * Editorial * Fashion-forward * Premium * Elegant * Sophisticated * Refined * Clean * Spacious * Timeless Avoid: * Generic ecommerce layouts * Template-like sections * Bright colors * Neon effects * Visual clutter * Cheap-looking gradients * Overly rounded playful designs The experience should feel closer to a premium fashion label than a typical online store. --- ## COLOR SYSTEM(aureliam theme)  Background: Warm soft beige #F5F1EA Secondary Surface: #EEE7DD Card Surface: #FAF7F2 Primary Text: #111111 Secondary Text: #666666 Accent: #0F0F0F Border: rgba(0,0,0,0.08) The background should never be pure white. The overall visual tone should feel warm, premium, and comfortable for long browsing sessions. --- ## TYPOGRAPHY Typography is a major design element. Use a luxury editorial style. Headings: Inter Tight Body: Inter Characteristics: * Large dramatic headlines * Strong hierarchy * Elegant spacing * High readability * Fashion magazine feeling Hero headings should feel bold and memorable. Typography should carry much of the visual identity. --- ## LAYOUT PHILOSOPHY Use generous whitespace. Every section should breathe. Create a feeling of confidence through simplicity. Avoid overcrowding. Content width: 1280px Max layout width: 1440px Grid system: Modern editorial grid Balance imagery and typography carefully. --- ## MOTION DESIGN Motion should feel premium. Use subtle cinematic interactions. Animations should feel intentional. Allowed effects: * Smooth fade-up reveals * Blur reveals * Text reveal animations * Staggered content entrances * Parallax image movement * Hover image zoom * Elegant page transitions * Smooth section reveals Avoid flashy effects. Avoid excessive movement. The website should feel calm and sophisticated. --- ## NAVIGATION Design a premium navigation bar. Features: * Transparent initially * Soft blurred background on scroll * Elegant hover states * Refined active indicators Navigation Items: Shop Collections Customize Gallery About Contact Actions: Search Account Cart The navigation should feel lightweight and unobtrusive. --- ## HOMEPAGE EXPERIENCE SECTION 1 Hero Create a visually striking luxury hero section. Headline: Wear Your Design. Subheadline: Premium black and white t-shirts customized by you. CTA Buttons: Start Customizing Explore Designs Visual Area: A large premium t-shirt presentation. The shirt should feel like a product advertisement from a luxury fashion campaign. Use layered depth and subtle motion. The hero must create an immediate emotional impact. --- SECTION 2 Featured Collections Present collections using an editorial layout. Collections: Black Collection White Collection Minimal Collection Typography Collection Graphic Collection Use large photography. Minimal text. Strong visual storytelling. --- SECTION 3 Customization Journey Visually explain the customization process. Show: Choose Shirt Choose Print Side Upload Design Preview Checkout Use elegant progression visuals. Avoid boring step indicators. Make the process feel exciting and premium. --- SECTION 4 Featured Designs Create a visually engaging gallery. Categories: Minimal Streetwear Typography Graphic Abstract Use an editorial gallery layout. Hover interactions should feel premium. --- SECTION 5 Design Studio Showcase Create a large centerpiece section. Show a realistic customization experience. Include: Front View Back View Both Views Visual controls for: Upload Resize Rotate Position This section should feel like a luxury creative studio. Think Apple-level product presentation. --- SECTION 6 Brand Value Section Present: Premium Fabric High Quality Printing Long Lasting Designs Fast Shipping Made For Men Secure Checkout Use elegant iconography and refined cards. --- SECTION 7 Customer Gallery Display customer-created t-shirts. Use a premium masonry layout. The gallery should feel aspirational. --- SECTION 8 Testimonials Create a sophisticated review experience. Minimal cards. Smooth motion. Elegant typography. --- SECTION 9 FAQ Design a refined accordion experience. Simple. Elegant. Easy to scan. --- SECTION 10 Final CTA Create a powerful conversion section. Headline: Your Design Deserves Better Than Ordinary. CTA: Create Your Tee This should feel emotionally compelling. --- ## PRODUCT PAGE DESIGN The product page should feel premium and immersive. Include: Large imagery Front View Back View Detail Shots Zoom Experience Minimal information hierarchy Size Selection Color Selection Print Position Selection Related Products Sticky purchase actions The focus should remain on product presentation. --- ## CUSTOMIZATION PAGE DESIGN This is the signature experience. Create a modern design studio interface. Visual layout: Large t-shirt canvas Front/Back switcher Design controls Placement guides Interactive preview The experience should feel professional, intuitive, and satisfying. Not technical. Not overwhelming. --- ## CART DESIGN Minimal luxury checkout preparation. Use: Clean product summaries Elegant quantity controls Order overview Smooth drawer interactions Trust-building design patterns --- ## CHECKOUT DESIGN Create a premium checkout experience. Focus on: Trust Clarity Simplicity Visual hierarchy Reduce anxiety. Make the process feel seamless. --- ## MICRO INTERACTIONS Buttons: Subtle lift Soft shadow transitions Cards: Image zoom Hover elevation Navigation: Smooth underline motion Gallery: Preview interactions Forms: Elegant focus states Loading: Premium skeleton screens Every interaction should feel polished. --- ## IMAGERY DIRECTION Use photography styles inspired by: Luxury fashion campaigns Minimal product photography Studio lighting Editorial shoots Monochrome aesthetics Focus on: Black T-Shirts White T-Shirts Fabric texture Print quality Details Craftsmanship --- ## OVERALL GOAL Design a website that feels like the intersection of: Luxury Fashion Brand + Creative Design Studio + Premium Ecommerce Experience The final design should feel modern, memorable, premium, highly polished, visually elegant, and significantly above the quality of typical ecommerce websites.
 
