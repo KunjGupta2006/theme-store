@@ -1,3 +1,5 @@
+// theme-store/src/app/api/webhooks/clerk/route.ts
+
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
@@ -16,8 +18,7 @@ export async function POST(req: Request) {
     return new Response("Missing svix headers", { status: 400 });
   }
 
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
+  const body = await req.text();
 
   const wh = new Webhook(WEBHOOK_SECRET);
   let evt: WebhookEvent;
@@ -38,7 +39,7 @@ export async function POST(req: Request) {
       data: {
         clerkId: id,
         email: email_addresses[0].email_address,
-        name: `${first_name ?? ""} ${last_name ?? ""}`.trim(),
+        name: `${first_name ?? ""} ${last_name ?? ""}`.trim() || email_addresses[0].email_address.split("@")[0],
         imageUrl: image_url,
       },
     });
@@ -46,7 +47,7 @@ export async function POST(req: Request) {
 
   if (evt.type === "user.deleted") {
     const { id } = evt.data;
-    await db.user.delete({ where: { clerkId: id as string } });
+    await db.user.delete({ where: { clerkId: id as string } }).catch(() => {});
   }
 
   return new Response("OK", { status: 200 });
