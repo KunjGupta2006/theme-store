@@ -1,7 +1,6 @@
-================================================================================
-FILE: shirt-store/Architecture.md
-================================================================================
-
+============================================================
+FILE: Architecture.md
+============================================================
 Tech Stack
 
 Frontend
@@ -45,10 +44,9 @@ Client
 → Prisma
 → Database
 
-================================================================================
-FILE: shirt-store/DB_schema.md
-================================================================================
-
+============================================================
+FILE: DB_schema.md
+============================================================
 # DB_SCHEMA.md
 
 ## User
@@ -224,11 +222,9 @@ User
 ↓
 CustomDesign
 
-
-================================================================================
-FILE: shirt-store/PRD.md
-================================================================================
-
+============================================================
+FILE: PRD.md
+============================================================
 # PRD — Shirt Store
 
 ## Project Name
@@ -428,17 +424,13 @@ User Experience:
 * Design upload success > 95%
 * Checkout drop-off reduced
 
+============================================================
+FILE: prd2.md
+============================================================
 
-================================================================================
-FILE: shirt-store/prd2.md
-================================================================================
-
-
-
-================================================================================
-FILE: shirt-store/Rules.md
-================================================================================
-
+============================================================
+FILE: Rules.md
+============================================================
 # RULES.md
 
 ## General Rules
@@ -545,11 +537,9 @@ Never expose secrets
 
 Use environment variables only
 
-
-================================================================================
-FILE: shirt-store/stack.md
-================================================================================
-
+============================================================
+FILE: stack.md
+============================================================
 Frontend
 ├── Next.js 15
 ├── TypeScript
@@ -597,16 +587,14 @@ Later
 ├── Inngest
 └── AI APIs
 
-================================================================================
-FILE: shirt-store/UI_UX.md
-================================================================================
-
+============================================================
+FILE: UI_UX.md
+============================================================
 Design a world-class premium ecommerce website UI for a men's custom t-shirt brand. IMPORTANT: This task is ONLY for visual design, user experience, interaction design, layout design, motion design, and frontend presentation. Do NOT focus on backend, database, authentication, APIs, or implementation details. The objective is to create a memorable luxury-fashion ecommerce experience that feels significantly more premium than typical Shopify stores. --- ## BRAND CONCEPT A premium men's t-shirt brand. Products: * Black T-Shirts * White T-Shirts Only two color variants exist. Customers can: * Upload their own design * Select pre-designed graphics * Print on front * Print on back * Print on both sides The website should feel like: Luxury Fashion Brand + Modern Design Studio + Premium Product Customizer The overall aesthetic should communicate: * Confidence * Simplicity * Premium quality * Modern craftsmanship * Minimalism The website must feel expensive, curated, and highly intentional. --- ## DESIGN DIRECTION Design Style: Luxury Minimalism Keywords: * Editorial * Fashion-forward * Premium * Elegant * Sophisticated * Refined * Clean * Spacious * Timeless Avoid: * Generic ecommerce layouts * Template-like sections * Bright colors * Neon effects * Visual clutter * Cheap-looking gradients * Overly rounded playful designs The experience should feel closer to a premium fashion label than a typical online store. --- ## COLOR SYSTEM(aureliam theme)  Background: Warm soft beige #F5F1EA Secondary Surface: #EEE7DD Card Surface: #FAF7F2 Primary Text: #111111 Secondary Text: #666666 Accent: #0F0F0F Border: rgba(0,0,0,0.08) The background should never be pure white. The overall visual tone should feel warm, premium, and comfortable for long browsing sessions. --- ## TYPOGRAPHY Typography is a major design element. Use a luxury editorial style. Headings: Inter Tight Body: Inter Characteristics: * Large dramatic headlines * Strong hierarchy * Elegant spacing * High readability * Fashion magazine feeling Hero headings should feel bold and memorable. Typography should carry much of the visual identity. --- ## LAYOUT PHILOSOPHY Use generous whitespace. Every section should breathe. Create a feeling of confidence through simplicity. Avoid overcrowding. Content width: 1280px Max layout width: 1440px Grid system: Modern editorial grid Balance imagery and typography carefully. --- ## MOTION DESIGN Motion should feel premium. Use subtle cinematic interactions. Animations should feel intentional. Allowed effects: * Smooth fade-up reveals * Blur reveals * Text reveal animations * Staggered content entrances * Parallax image movement * Hover image zoom * Elegant page transitions * Smooth section reveals Avoid flashy effects. Avoid excessive movement. The website should feel calm and sophisticated. --- ## NAVIGATION Design a premium navigation bar. Features: * Transparent initially * Soft blurred background on scroll * Elegant hover states * Refined active indicators Navigation Items: Shop Collections Customize Gallery About Contact Actions: Search Account Cart The navigation should feel lightweight and unobtrusive. --- ## HOMEPAGE EXPERIENCE SECTION 1 Hero Create a visually striking luxury hero section. Headline: Wear Your Design. Subheadline: Premium black and white t-shirts customized by you. CTA Buttons: Start Customizing Explore Designs Visual Area: A large premium t-shirt presentation. The shirt should feel like a product advertisement from a luxury fashion campaign. Use layered depth and subtle motion. The hero must create an immediate emotional impact. --- SECTION 2 Featured Collections Present collections using an editorial layout. Collections: Black Collection White Collection Minimal Collection Typography Collection Graphic Collection Use large photography. Minimal text. Strong visual storytelling. --- SECTION 3 Customization Journey Visually explain the customization process. Show: Choose Shirt Choose Print Side Upload Design Preview Checkout Use elegant progression visuals. Avoid boring step indicators. Make the process feel exciting and premium. --- SECTION 4 Featured Designs Create a visually engaging gallery. Categories: Minimal Streetwear Typography Graphic Abstract Use an editorial gallery layout. Hover interactions should feel premium. --- SECTION 5 Design Studio Showcase Create a large centerpiece section. Show a realistic customization experience. Include: Front View Back View Both Views Visual controls for: Upload Resize Rotate Position This section should feel like a luxury creative studio. Think Apple-level product presentation. --- SECTION 6 Brand Value Section Present: Premium Fabric High Quality Printing Long Lasting Designs Fast Shipping Made For Men Secure Checkout Use elegant iconography and refined cards. --- SECTION 7 Customer Gallery Display customer-created t-shirts. Use a premium masonry layout. The gallery should feel aspirational. --- SECTION 8 Testimonials Create a sophisticated review experience. Minimal cards. Smooth motion. Elegant typography. --- SECTION 9 FAQ Design a refined accordion experience. Simple. Elegant. Easy to scan. --- SECTION 10 Final CTA Create a powerful conversion section. Headline: Your Design Deserves Better Than Ordinary. CTA: Create Your Tee This should feel emotionally compelling. --- ## PRODUCT PAGE DESIGN The product page should feel premium and immersive. Include: Large imagery Front View Back View Detail Shots Zoom Experience Minimal information hierarchy Size Selection Color Selection Print Position Selection Related Products Sticky purchase actions The focus should remain on product presentation. --- ## CUSTOMIZATION PAGE DESIGN This is the signature experience. Create a modern design studio interface. Visual layout: Large t-shirt canvas Front/Back switcher Design controls Placement guides Interactive preview The experience should feel professional, intuitive, and satisfying. Not technical. Not overwhelming. --- ## CART DESIGN Minimal luxury checkout preparation. Use: Clean product summaries Elegant quantity controls Order overview Smooth drawer interactions Trust-building design patterns --- ## CHECKOUT DESIGN Create a premium checkout experience. Focus on: Trust Clarity Simplicity Visual hierarchy Reduce anxiety. Make the process feel seamless. --- ## MICRO INTERACTIONS Buttons: Subtle lift Soft shadow transitions Cards: Image zoom Hover elevation Navigation: Smooth underline motion Gallery: Preview interactions Forms: Elegant focus states Loading: Premium skeleton screens Every interaction should feel polished. --- ## IMAGERY DIRECTION Use photography styles inspired by: Luxury fashion campaigns Minimal product photography Studio lighting Editorial shoots Monochrome aesthetics Focus on: Black T-Shirts White T-Shirts Fabric texture Print quality Details Craftsmanship --- ## OVERALL GOAL Design a website that feels like the intersection of: Luxury Fashion Brand + Creative Design Studio + Premium Ecommerce Experience The final design should feel modern, memorable, premium, highly polished, visually elegant, and significantly above the quality of typical ecommerce websites.
 
-================================================================================
-FILE: theme-store/.gitignore
-================================================================================
-
+============================================================
+FILE: theme-store\.gitignore
+============================================================
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -651,13 +639,14 @@ next-env.d.ts
 
 
 
-/src/generated/prisma
+/src/generated/
 
 
-================================================================================
-FILE: theme-store/DESIGN.md
-================================================================================
+./theme-store-export.txt
 
+============================================================
+FILE: theme-store\DESIGN.md
+============================================================
 ---
 name: Aurelian Thread
 colors:
@@ -822,10 +811,9 @@ The shape language is **Architectural and Precise**.
 - **Lists**: Clean horizontal dividers (1px) with generous vertical padding. Use `Inter` Medium for list items to ensure they feel structured.
 - **Product Tiles**: Focus on the image first. The price and title should appear in a refined `body-md` or `label-caps` below the image, with significant whitespace between the image and the metadata.
 
-================================================================================
-FILE: theme-store/eslint.config.mjs
-================================================================================
-
+============================================================
+FILE: theme-store\eslint.config.mjs
+============================================================
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
@@ -845,36 +833,35 @@ const eslintConfig = defineConfig([
 
 export default eslintConfig;
 
-
-================================================================================
-FILE: theme-store/next-env.d.ts
-================================================================================
-
-/// <reference types="next" />
-/// <reference types="next/image-types/global" />
-import "./.next/dev/types/routes.d.ts";
-
-// NOTE: This file should not be edited
-// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
-
-
-================================================================================
-FILE: theme-store/next.config.ts
-================================================================================
-
+============================================================
+FILE: theme-store\next.config.ts
+============================================================
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  serverExternalPackages: ["@prisma/client", "@prisma/engines"],
+outputFileTracingIncludes: {
+  "/**": ["./src/generated/prisma/**"],
+},
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "img.clerk.com",  // for user avatars later
+      },
+    ],
+  },
 };
 
 export default nextConfig;
 
-
-================================================================================
-FILE: theme-store/package.json
-================================================================================
-
+============================================================
+FILE: theme-store\package.json
+============================================================
 {
   "name": "theme-store",
   "version": "0.1.0",
@@ -885,6 +872,9 @@ FILE: theme-store/package.json
     "start": "next start",
     "postinstall": "prisma generate",
     "lint": "eslint"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.5.11",
@@ -898,6 +888,7 @@ FILE: theme-store/package.json
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "recharts": "^3.9.1",
     "svix": "^1.96.1"
   },
   "devDependencies": {
@@ -909,28 +900,14 @@ FILE: theme-store/package.json
     "eslint-config-next": "16.2.9",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5"
   }
 }
 
-
-================================================================================
-FILE: theme-store/postcss.config.mjs
-================================================================================
-
-const config = {
-  plugins: {
-    "@tailwindcss/postcss": {},
-  },
-};
-
-export default config;
-
-
-================================================================================
-FILE: theme-store/prisma.config.ts
-================================================================================
-
+============================================================
+FILE: theme-store\prisma.config.ts
+============================================================
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
@@ -945,236 +922,9 @@ export default defineConfig({
   },
 });
 
-================================================================================
-FILE: theme-store/tsconfig.json
-================================================================================
-
-{
-  "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
-  ],
-  "exclude": ["node_modules"]
-}
-
-
-================================================================================
-FILE: theme-store/prisma/schema.prisma
-================================================================================
-
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
-generator client {
-  provider      = "prisma-client-js"
-  output         = "../src/generated/prisma"
-  binaryTargets  = ["native", "rhel-openssl-3.0.x"]
-}
-
-datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
-}
-
-
-
-model User {
-  id        String   @id @default(uuid())
-  clerkId   String   @unique
-  name      String
-  email     String   @unique
-  imageUrl  String?
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  customDesigns CustomDesign[]
-  cart          Cart?
-  orders        Order[]
-}
-
-enum Role {
-  USER
-  ADMIN
-}
-
-model Product {
-  id          String   @id @default(uuid())
-  name        String
-  slug        String   @unique
-  description String
-  basePrice   Float
-  thumbnail   String?
-  isFeatured  Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  variants      ProductVariant[]
-  customDesigns CustomDesign[]
-  cartItems     CartItem[]     
-  orderItems    OrderItem[]     
-}
-
-model ProductVariant{
-  
- id                 String  @id @default(uuid())
- productId          String
- product            Product @relation(fields: [productId], references: [id])
- size               Size
- color              Color
- stockQuantity      Int
- priceAdjustment    Float
-
- @@unique([productId, size, color])
-}
-enum Size {
-  S
-  M
-  L
-  XL
-  XXL
-}
-
-enum Color {
-  BLACK
-  WHITE
-}
-
-
-model TemplateDesign {
-  id        String   @id @default(uuid())
-  name      String
-  imageUrl  String
-  category  String
-  createdAt DateTime @default(now())
-
-  customDesigns CustomDesign[]
-}
-
-model CustomDesign {
-  id               String          @id @default(uuid())
-  userId           String
-  user             User            @relation(fields: [userId], references: [id])
-  productId        String
-  product          Product         @relation(fields: [productId], references: [id])
-  templateId       String?
-  template         TemplateDesign? @relation(fields: [templateId], references: [id])
-  uploadedImageUrl String?
-  frontDesignUrl   String?
-  backDesignUrl    String?
-  selectedColor    Color
-  selectedSize     Size
-  createdAt        DateTime        @default(now())
-
-  cartItems  CartItem[]
-  orderItems OrderItem[]
-}
-
-model Cart {
-  id        String   @id @default(uuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-
-  items CartItem[]
-}
-
-model CartItem {
-  id             String        @id @default(uuid())
-  cartId         String
-  cart           Cart          @relation(fields: [cartId], references: [id])
-  productId      String
-  product        Product       @relation(fields: [productId], references: [id])
-  customDesignId String?
-  customDesign   CustomDesign? @relation(fields: [customDesignId], references: [id])
-  quantity       Int           @default(1)
-  unitPrice      Float
-}
-
-model Order {
-  id              String        @id @default(uuid())
-  userId          String
-  user            User          @relation(fields: [userId], references: [id])
-  subtotal        Float
-  totalAmount     Float
-  paymentStatus   PaymentStatus @default(PENDING)
-  orderStatus     OrderStatus   @default(PROCESSING)
-  shippingAddress String
-  trackingId      String?
-  createdAt       DateTime      @default(now())
-
-  items OrderItem[]
-}
-
-model OrderItem {
-  id             String        @id @default(uuid())
-  orderId        String
-  order          Order         @relation(fields: [orderId], references: [id])
-  productId      String
-  product        Product       @relation(fields: [productId], references: [id])
-  customDesignId String?
-  customDesign   CustomDesign? @relation(fields: [customDesignId], references: [id])
-  quantity       Int
-  price          Float
-}
-
-enum PaymentStatus {
-  PENDING
-  PAID
-  FAILED
-}
-
-enum OrderStatus {
-  PROCESSING
-  PRINTING
-  SHIPPED
-  DELIVERED
-  CANCELLED
-}
-
-================================================================================
-FILE: theme-store/prisma/migrations/migration_lock.toml
-================================================================================
-
-# Please do not edit this file manually
-# It should be added in your version-control system (e.g., Git)
-provider = "postgresql"
-
-
-================================================================================
-FILE: theme-store/prisma/migrations/20260701072714_init/migration.sql
-================================================================================
-
+============================================================
+FILE: theme-store\prisma\migrations\20260701072714_init\migration.sql
+============================================================
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
 
@@ -1357,37 +1107,1650 @@ ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_productId_fkey" FOREIGN KEY ("
 -- AddForeignKey
 ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_customDesignId_fkey" FOREIGN KEY ("customDesignId") REFERENCES "CustomDesign"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
+============================================================
+FILE: theme-store\prisma\migrations\migration_lock.toml
+============================================================
+# Please do not edit this file manually
+# It should be added in your version-control system (e.g., Git)
+provider = "postgresql"
 
-================================================================================
-FILE: theme-store/src/middleware.ts
-================================================================================
+============================================================
+FILE: theme-store\prisma\schema.prisma
+============================================================
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+// Get a free hosted Postgres database in seconds: `npx create-db`
 
-const isProtectedRoute = createRouteMatcher([
-  "/checkout(.*)",
-  "/orders(.*)",
-  "/profile(.*)",
-  "/admin(.*)",
-]);
+generator client {
+  provider      = "prisma-client"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect();
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+
+model User {
+  id        String   @id @default(uuid())
+  clerkId   String   @unique
+  name      String
+  email     String   @unique
+  imageUrl  String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customDesigns CustomDesign[]
+  cart          Cart?
+  orders        Order[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String
+  basePrice   Float
+  thumbnail   String?
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  variants      ProductVariant[]
+  customDesigns CustomDesign[]
+  cartItems     CartItem[]     
+  orderItems    OrderItem[]     
+}
+
+model ProductVariant{
+  
+ id                 String  @id @default(uuid())
+ productId          String
+ product            Product @relation(fields: [productId], references: [id])
+ size               Size
+ color              Color
+ stockQuantity      Int
+ priceAdjustment    Float
+
+ @@unique([productId, size, color])
+}
+enum Size {
+  S
+  M
+  L
+  XL
+  XXL
+}
+
+enum Color {
+  BLACK
+  WHITE
+}
+
+
+model TemplateDesign {
+  id        String   @id @default(uuid())
+  name      String
+  imageUrl  String
+  category  String
+  createdAt DateTime @default(now())
+
+  customDesigns CustomDesign[]
+}
+
+model CustomDesign {
+  id               String          @id @default(uuid())
+  userId           String
+  user             User            @relation(fields: [userId], references: [id])
+  productId        String
+  product          Product         @relation(fields: [productId], references: [id])
+  templateId       String?
+  template         TemplateDesign? @relation(fields: [templateId], references: [id])
+  uploadedImageUrl String?
+  frontDesignUrl   String?
+  backDesignUrl    String?
+  selectedColor    Color
+  selectedSize     Size
+  createdAt        DateTime        @default(now())
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+}
+
+model Cart {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  items CartItem[]
+}
+
+model CartItem {
+  id             String        @id @default(uuid())
+  cartId         String
+  cart           Cart          @relation(fields: [cartId], references: [id])
+  productId      String
+  product        Product       @relation(fields: [productId], references: [id])
+  customDesignId String?
+  customDesign   CustomDesign? @relation(fields: [customDesignId], references: [id])
+  quantity       Int           @default(1)
+  unitPrice      Float
+}
+
+model Order {
+  id              String        @id @default(uuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+  subtotal        Float
+  totalAmount     Float
+  paymentStatus   PaymentStatus @default(PENDING)
+  orderStatus     OrderStatus   @default(PROCESSING)
+  shippingAddress String
+  trackingId      String?
+  createdAt       DateTime      @default(now())
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id             String        @id @default(uuid())
+  orderId        String
+  order          Order         @relation(fields: [orderId], references: [id])
+  productId      String
+  product        Product       @relation(fields: [productId], references: [id])
+  customDesignId String?
+  customDesign   CustomDesign? @relation(fields: [customDesignId], references: [id])
+  quantity       Int
+  price          Float
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum OrderStatus {
+  PROCESSING
+  PRINTING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+============================================================
+FILE: theme-store\prisma\seed.ts
+============================================================
+import { PrismaClient } from "../src/generated/prisma/client";
+
+const db = new PrismaClient();
+
+const products = [
+  {
+    name: "Structured Heavyweight Tee",
+    slug: "structured-heavyweight-tee",
+    description:
+      "230gsm combed cotton. Pre-shrunk. Reinforced collar. Built to hold its shape through repeated wear.",
+    basePrice: 899,
+    thumbnail:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80",
+    isFeatured: true,
+  },
+  {
+    name: "Relaxed Drop Shoulder Tee",
+    slug: "relaxed-drop-shoulder-tee",
+    description:
+      "Oversized silhouette with a dropped shoulder seam. 200gsm jersey. Lived-in feel from day one.",
+    basePrice: 799,
+    thumbnail:
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80",
+    isFeatured: true,
+  },
+  {
+    name: "Classic Fitted Crew",
+    slug: "classic-fitted-crew",
+    description:
+      "180gsm ringspun cotton. Clean lines, zero distraction. The foundation of any wardrobe.",
+    basePrice: 699,
+    thumbnail:
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&q=80",
+    isFeatured: true,
+  },
+  {
+    name: "Boxy Oversized Tee",
+    slug: "boxy-oversized-tee",
+    description:
+      "Wide box cut. 220gsm cotton-blend. Designed for custom prints — maximum canvas, minimum distraction.",
+    basePrice: 849,
+    thumbnail:
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&q=80",
+    isFeatured: false,
+  },
+  {
+    name: "Slim Tapered Tee",
+    slug: "slim-tapered-tee",
+    description:
+      "Slightly tapered through the waist. 190gsm combed cotton. A cleaner line without being restrictive.",
+    basePrice: 749,
+    thumbnail:
+      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&q=80",
+    isFeatured: false,
+  },
+  {
+    name: "Longline Extended Tee",
+    slug: "longline-extended-tee",
+    description:
+      "Extended hem, 3 inches longer than standard. 210gsm cotton. Works layered or standalone.",
+    basePrice: 849,
+    thumbnail:
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80",
+    isFeatured: false,
+  },
+];
+
+const sizes = ["S", "M", "L", "XL", "XXL"] as const;
+const colors = ["BLACK", "WHITE"] as const;
+
+async function main() {
+  console.log("🌱 Seeding database...");
+
+  // Clear existing
+  await db.productVariant.deleteMany();
+  await db.product.deleteMany();
+
+  for (const product of products) {
+    const created = await db.product.create({
+      data: product,
+    });
+
+    const variants = sizes.flatMap((size) =>
+      colors.map((color) => ({
+        productId: created.id,
+        size,
+        color,
+        stockQuantity: Math.floor(Math.random() * 50) + 10,
+        priceAdjustment: 0,
+      }))
+    );
+
+    await db.productVariant.createMany({ data: variants });
+
+    console.log(`✅ Created: ${product.name}`);
   }
-});
 
-export const config = {
-  matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
-  ],
+  console.log("✅ Seed complete.");
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await db.$disconnect();
+  });
+
+============================================================
+FILE: theme-store\README.md
+============================================================
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+============================================================
+FILE: theme-store\src\app\(auth)\layout.tsx
+============================================================
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#F5F1EA]">
+      {children}
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\(auth)\sign-in\page.tsx
+============================================================
+import { SignIn } from "@clerk/nextjs";
+
+export default function SignInPage() {
+  return <SignIn />;
+}
+
+============================================================
+FILE: theme-store\src\app\(auth)\sign-up\page.tsx
+============================================================
+import { SignUp } from "@clerk/nextjs";
+
+export default function SignUpPage() {
+  return <SignUp />;
+}
+
+============================================================
+FILE: theme-store\src\app\admin\layout.tsx
+============================================================
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { db } from "@/lib/db";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
+
+export default async function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { userId: clerkId } = await auth();
+
+  if (!clerkId) redirect("/sign-in");
+
+  const user = await db.user.findUnique({
+    where: { clerkId },
+    select: { role: true },
+  });
+
+  if (!user || user.role !== "ADMIN") redirect("/");
+
+  return (
+    <div className="flex min-h-screen bg-[#F5F1EA]">
+      <AdminSidebar />
+      <main className="flex-1 ml-56 p-8">{children}</main>
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\admin\orders\[id]\page.tsx
+============================================================
+import { db } from "@/lib/db";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { updateOrderStatus } from "@/features/admin/actions";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Order Detail — Admin" };
+
+interface OrderDetailPageProps {
+  params: Promise<{ id: string }>;
+}
+
+const STATUS_COLORS: Record<string, string> = {
+  PROCESSING: "bg-yellow-100 text-yellow-800",
+  PRINTING: "bg-blue-100 text-blue-800",
+  SHIPPED: "bg-purple-100 text-purple-800",
+  DELIVERED: "bg-green-100 text-green-800",
+  CANCELLED: "bg-red-100 text-red-800",
 };
 
-================================================================================
-FILE: theme-store/src/app/globals.css
-================================================================================
+export default async function OrderDetailPage({ params }: OrderDetailPageProps) {
+  const { id } = await params;
 
+  const order = await db.order.findUnique({
+    where: { id },
+    include: {
+      user: { select: { name: true, email: true, imageUrl: true } },
+      items: {
+        include: {
+          product: { select: { name: true, thumbnail: true } },
+        },
+      },
+    },
+  });
+
+  if (!order) notFound();
+
+  const updateAction = updateOrderStatus.bind(null, order.id);
+
+  return (
+    <div className="max-w-3xl space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <Link
+          href="/admin/orders"
+          className="text-sm text-[#666666] hover:text-[#111111] transition-colors"
+        >
+          ← Orders
+        </Link>
+        <span className="text-[#666666]">/</span>
+        <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">
+          #{order.id.slice(0, 8)}
+        </h1>
+        <span className={`text-[10px] px-2 py-1 rounded-full font-medium ${STATUS_COLORS[order.orderStatus]}`}>
+          {order.orderStatus}
+        </span>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        {/* Customer */}
+        <div className="bg-[#FAF7F2] border border-black/6 rounded p-5">
+          <h2 className="text-xs text-[#666666] tracking-widest uppercase mb-3">
+            Customer
+          </h2>
+          <p className="text-sm font-medium text-[#111111]">{order.user.name}</p>
+          <p className="text-xs text-[#666666] mt-0.5">{order.user.email}</p>
+        </div>
+
+        {/* Shipping */}
+        <div className="bg-[#FAF7F2] border border-black/6 rounded p-5">
+          <h2 className="text-xs text-[#666666] tracking-widest uppercase mb-3">
+            Shipping Address
+          </h2>
+          <p className="text-sm text-[#111111] whitespace-pre-line">
+            {order.shippingAddress}
+          </p>
+          {order.trackingId && (
+            <p className="text-xs text-[#666666] mt-2">
+              Tracking: <span className="font-mono">{order.trackingId}</span>
+            </p>
+          )}
+        </div>
+
+        {/* Payment */}
+        <div className="bg-[#FAF7F2] border border-black/6 rounded p-5">
+          <h2 className="text-xs text-[#666666] tracking-widest uppercase mb-3">
+            Payment
+          </h2>
+          <p className="text-sm text-[#111111]">
+            Status:{" "}
+            <span className="font-medium">{order.paymentStatus}</span>
+          </p>
+          <p className="text-sm text-[#111111] mt-1">
+            Subtotal:{" "}
+            <span className="font-medium">
+              ₹{order.subtotal.toLocaleString("en-IN")}
+            </span>
+          </p>
+          <p className="text-sm text-[#111111] mt-1">
+            Total:{" "}
+            <span className="font-bold">
+              ₹{order.totalAmount.toLocaleString("en-IN")}
+            </span>
+          </p>
+        </div>
+
+        {/* Update status */}
+        <div className="bg-[#FAF7F2] border border-black/6 rounded p-5">
+          <h2 className="text-xs text-[#666666] tracking-widest uppercase mb-3">
+            Update Status
+          </h2>
+          <form action={updateAction} className="space-y-3">
+            <select
+              name="orderStatus"
+              defaultValue={order.orderStatus}
+              className="w-full bg-white border border-black/[0.08] px-3 py-2 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
+            >
+              {["PROCESSING", "PRINTING", "SHIPPED", "DELIVERED", "CANCELLED"].map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+            <input
+              name="trackingId"
+              placeholder="Tracking ID (optional)"
+              defaultValue={order.trackingId ?? ""}
+              className="w-full bg-white border border-black/[0.08] px-3 py-2 text-sm text-[#111111] placeholder:text-[#999] focus:outline-none focus:border-[#111111] transition-colors rounded"
+            />
+            <button
+              type="submit"
+              className="w-full bg-[#111111] text-white text-xs tracking-widest uppercase py-2.5 hover:opacity-80 transition-opacity"
+            >
+              Update Order
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Order items */}
+      <div className="bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
+        <div className="px-6 py-4 border-b border-black/6">
+          <h2 className="text-sm font-medium text-[#111111]">
+            Items ({order.items.length})
+          </h2>
+        </div>
+        <div className="divide-y divide-black/[0.04]">
+          {order.items.map((item) => (
+            <div key={item.id} className="flex items-center gap-4 px-6 py-4">
+              <div className="w-12 h-12 bg-[#EEE7DD] rounded overflow-hidden shrink-0">
+                {item.product.thumbnail && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={item.product.thumbnail}
+                    alt={item.product.name}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-[#111111] truncate">
+                  {item.product.name}
+                </p>
+                <p className="text-xs text-[#666666] mt-0.5">
+                  Qty: {item.quantity} × ₹{item.price.toLocaleString("en-IN")}
+                </p>
+              </div>
+              <p className="text-sm font-medium text-[#111111] shrink-0">
+                ₹{(item.quantity * item.price).toLocaleString("en-IN")}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\admin\orders\page.tsx
+============================================================
+import { db } from "@/lib/db";
+import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Orders — Admin" };
+
+const STATUS_COLORS: Record<string, string> = {
+  PROCESSING: "bg-yellow-100 text-yellow-800",
+  PRINTING: "bg-blue-100 text-blue-800",
+  SHIPPED: "bg-purple-100 text-purple-800",
+  DELIVERED: "bg-green-100 text-green-800",
+  CANCELLED: "bg-red-100 text-red-800",
+};
+
+const PAYMENT_COLORS: Record<string, string> = {
+  PENDING: "bg-yellow-100 text-yellow-800",
+  PAID: "bg-green-100 text-green-800",
+  FAILED: "bg-red-100 text-red-800",
+};
+
+export default async function AdminOrdersPage() {
+  const orders = await db.order.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      user: { select: { name: true, email: true } },
+      _count: { select: { items: true } },
+    },
+  });
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-['Inter_Tight'] text-3xl font-bold text-[#111111]">
+          Orders
+        </h1>
+        <p className="text-sm text-[#666666] mt-1">
+          {orders.length} {orders.length === 1 ? "order" : "orders"} total
+        </p>
+      </div>
+
+      <div className="bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-black/6">
+              {["Order", "Customer", "Items", "Amount", "Payment", "Status", "Date", ""].map((h) => (
+                <th
+                  key={h}
+                  className="text-left text-[10px] text-[#666666] tracking-widest uppercase px-4 py-4 font-normal"
+                >
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {orders.length === 0 ? (
+              <tr>
+                <td colSpan={8} className="text-center text-sm text-[#666666] py-12">
+                  No orders yet.
+                </td>
+              </tr>
+            ) : (
+              orders.map((order) => (
+                <tr
+                  key={order.id}
+                  className="border-b border-black/4 hover:bg-[#EEE7DD]/30 transition-colors"
+                >
+                  <td className="px-4 py-3 text-xs font-mono text-[#666666]">
+                    #{order.id.slice(0, 8)}
+                  </td>
+                  <td className="px-4 py-3">
+                    <p className="text-sm text-[#111111]">{order.user.name}</p>
+                    <p className="text-xs text-[#666666]">{order.user.email}</p>
+                  </td>
+                  <td className="px-4 py-3 text-sm text-[#666666]">
+                    {order._count.items}
+                  </td>
+                  <td className="px-4 py-3 text-sm font-medium text-[#111111]">
+                    ₹{order.totalAmount.toLocaleString("en-IN")}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className={`text-[10px] px-2 py-1 rounded-full font-medium ${PAYMENT_COLORS[order.paymentStatus]}`}>
+                      {order.paymentStatus}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className={`text-[10px] px-2 py-1 rounded-full font-medium ${STATUS_COLORS[order.orderStatus]}`}>
+                      {order.orderStatus}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-xs text-[#666666]">
+                    {order.createdAt.toLocaleDateString("en-IN")}
+                  </td>
+                  <td className="px-4 py-3">
+                    <Link
+                      href={`/admin/orders/${order.id}`}
+                      className="text-xs text-[#666666] hover:text-[#111111] transition-colors underline"
+                    >
+                      View
+                    </Link>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\admin\page.tsx
+============================================================
+import { db } from "@/lib/db";
+import { RevenueChart } from "@/components/admin/RevenueChart";
+import { OrderStatusChart } from "@/components/admin/OrderStatusChart";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Dashboard — Admin" };
+
+async function getDashboardData() {
+  const now = new Date();
+  const thirtyDaysAgo = new Date(now);
+  thirtyDaysAgo.setDate(now.getDate() - 30);
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const [
+    totalRevenue,
+    totalOrders,
+    totalUsers,
+    pendingOrders,
+    recentOrders,
+    ordersByStatus,
+    topProducts,
+    revenueByDay,
+  ] = await Promise.all([
+    // Total revenue from paid orders
+    db.order.aggregate({
+      where: { paymentStatus: "PAID" },
+      _sum: { totalAmount: true },
+    }),
+
+    // Total orders
+    db.order.count(),
+
+    // Total users
+    db.user.count(),
+
+    // Pending orders
+    db.order.count({ where: { orderStatus: "PROCESSING" } }),
+
+    // Recent 5 orders
+    db.order.findMany({
+      take: 5,
+      orderBy: { createdAt: "desc" },
+      include: { user: { select: { name: true, email: true } } },
+    }),
+
+    // Orders grouped by status
+    db.order.groupBy({
+      by: ["orderStatus"],
+      _count: { id: true },
+    }),
+
+    // Top 5 products by quantity sold
+    db.orderItem.groupBy({
+      by: ["productId"],
+      _sum: { quantity: true },
+      orderBy: { _sum: { quantity: "desc" } },
+      take: 5,
+    }),
+
+    // Revenue last 30 days
+    db.order.findMany({
+      where: {
+        paymentStatus: "PAID",
+        createdAt: { gte: thirtyDaysAgo },
+      },
+      select: { createdAt: true, totalAmount: true },
+      orderBy: { createdAt: "asc" },
+    }),
+  ]);
+
+  // Resolve product names for top products
+  const topProductIds = topProducts.map((p) => p.productId);
+  const products = await db.product.findMany({
+    where: { id: { in: topProductIds } },
+    select: { id: true, name: true },
+  });
+  const productMap = Object.fromEntries(products.map((p) => [p.id, p.name]));
+
+  // Build revenue chart data (group by day)
+  const revenueMap: Record<string, number> = {};
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+    revenueMap[key] = 0;
+  }
+  for (const order of revenueByDay) {
+    const key = order.createdAt.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+    });
+    if (key in revenueMap) revenueMap[key] += order.totalAmount;
+  }
+  const revenueChartData = Object.entries(revenueMap).map(([date, revenue]) => ({
+    date,
+    revenue,
+  }));
+
+  // Order status chart data
+  const statusData = [
+    "PROCESSING",
+    "PRINTING",
+    "SHIPPED",
+    "DELIVERED",
+    "CANCELLED",
+  ].map((status) => ({
+    name: status,
+    value:
+      ordersByStatus.find((o) => o.orderStatus === status)?._count.id ?? 0,
+  }));
+
+  return {
+    stats: {
+      revenue: totalRevenue._sum.totalAmount ?? 0,
+      orders: totalOrders,
+      users: totalUsers,
+      pending: pendingOrders,
+    },
+    recentOrders,
+    topProducts: topProducts.map((p) => ({
+      name: productMap[p.productId] ?? "Unknown",
+      sold: p._sum.quantity ?? 0,
+    })),
+    revenueChartData,
+    statusData,
+  };
+}
+
+const STATUS_COLORS: Record<string, string> = {
+  PROCESSING: "bg-yellow-100 text-yellow-800",
+  PRINTING: "bg-blue-100 text-blue-800",
+  SHIPPED: "bg-purple-100 text-purple-800",
+  DELIVERED: "bg-green-100 text-green-800",
+  CANCELLED: "bg-red-100 text-red-800",
+};
+
+export default async function AdminDashboard() {
+  const { stats, recentOrders, topProducts, revenueChartData, statusData } =
+    await getDashboardData();
+
+  return (
+    <div className="space-y-8">
+      {/* Header */}
+      <div>
+        <h1 className="font-['Inter_Tight'] text-3xl font-bold text-[#111111]">
+          Dashboard
+        </h1>
+        <p className="text-sm text-[#666666] mt-1">
+          {new Date().toLocaleDateString("en-IN", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </p>
+      </div>
+
+      {/* Stat cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          {
+            label: "Total Revenue",
+            value: `₹${stats.revenue.toLocaleString("en-IN")}`,
+            sub: "All time, paid orders",
+          },
+          {
+            label: "Total Orders",
+            value: stats.orders.toLocaleString(),
+            sub: "All time",
+          },
+          {
+            label: "Registered Users",
+            value: stats.users.toLocaleString(),
+            sub: "All time",
+          },
+          {
+            label: "Pending Orders",
+            value: stats.pending.toLocaleString(),
+            sub: "Needs action",
+          },
+        ].map((card) => (
+          <div
+            key={card.label}
+            className="bg-[#FAF7F2] border border-black/6 p-5 rounded"
+          >
+            <p className="text-xs text-[#666666] tracking-widest uppercase mb-2">
+              {card.label}
+            </p>
+            <p className="font-['Inter_Tight'] text-3xl font-bold text-[#111111]">
+              {card.value}
+            </p>
+            <p className="text-xs text-[#666666] mt-1">{card.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Charts row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Revenue chart */}
+        <div className="lg:col-span-2 bg-[#FAF7F2] border border-black/6 p-6 rounded">
+          <h2 className="text-sm font-medium text-[#111111] mb-1">
+            Revenue — Last 30 Days
+          </h2>
+          <p className="text-xs text-[#666666] mb-6">Paid orders only</p>
+          <RevenueChart data={revenueChartData} />
+        </div>
+
+        {/* Order status chart */}
+        <div className="bg-[#FAF7F2] border border-black/6 p-6 rounded">
+          <h2 className="text-sm font-medium text-[#111111] mb-1">
+            Orders by Status
+          </h2>
+          <p className="text-xs text-[#666666] mb-6">All time</p>
+          <OrderStatusChart data={statusData} />
+        </div>
+      </div>
+
+      {/* Bottom row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Recent orders */}
+        <div className="lg:col-span-2 bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
+          <div className="px-6 py-4 border-b border-black/6 flex items-center justify-between">
+            <h2 className="text-sm font-medium text-[#111111]">Recent Orders</h2>
+            <a
+              href="/admin/orders"
+              className="text-xs text-[#666666] hover:text-[#111111] transition-colors"
+            >
+              View all →
+            </a>
+          </div>
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-black/6">
+                {["Order ID", "Customer", "Amount", "Status"].map((h) => (
+                  <th
+                    key={h}
+                    className="text-left text-[10px] text-[#666666] tracking-widest uppercase px-6 py-3 font-normal"
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {recentOrders.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="text-center text-sm text-[#666666] py-8"
+                  >
+                    No orders yet
+                  </td>
+                </tr>
+              ) : (
+                recentOrders.map((order) => (
+                  <tr
+                    key={order.id}
+                    className="border-b border-black/4 hover:bg-[#EEE7DD]/40 transition-colors"
+                  >
+                    <td className="px-6 py-3 text-xs font-mono text-[#666666]">
+                      #{order.id.slice(0, 8)}
+                    </td>
+                    <td className="px-6 py-3 text-sm text-[#111111]">
+                      {order.user.name}
+                    </td>
+                    <td className="px-6 py-3 text-sm text-[#111111]">
+                      ₹{order.totalAmount.toLocaleString("en-IN")}
+                    </td>
+                    <td className="px-6 py-3">
+                      <span
+                        className={`text-[10px] px-2 py-1 rounded-full font-medium ${
+                          STATUS_COLORS[order.orderStatus] ?? ""
+                        }`}
+                      >
+                        {order.orderStatus}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Top products */}
+        <div className="bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
+          <div className="px-6 py-4 border-b border-black/6">
+            <h2 className="text-sm font-medium text-[#111111]">
+              Top Products
+            </h2>
+            <p className="text-xs text-[#666666] mt-0.5">By units sold</p>
+          </div>
+          <div className="p-6 space-y-4">
+            {topProducts.length === 0 ? (
+              <p className="text-sm text-[#666666] text-center py-4">
+                No sales yet
+              </p>
+            ) : (
+              topProducts.map((p, i) => (
+                <div key={p.name} className="flex items-center gap-3">
+                  <span className="text-xs text-[#666666] w-4">{i + 1}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-[#111111] truncate">{p.name}</p>
+                    <div className="mt-1 h-1 bg-[#EEE7DD] rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-[#111111] rounded-full"
+                        style={{
+                          width: `${
+                            topProducts[0].sold > 0
+                              ? (p.sold / topProducts[0].sold) * 100
+                              : 0
+                          }%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <span className="text-xs text-[#666666] shrink-0">
+                    {p.sold} sold
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\admin\products\[id]\edit\page.tsx
+============================================================
+import { db } from "@/lib/db";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { updateProduct, updateVariantStock } from "@/features/admin/actions";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Edit Product — Admin" };
+
+interface EditProductPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function EditProductPage({ params }: EditProductPageProps) {
+  const { id } = await params;
+
+  const product = await db.product.findUnique({
+    where: { id },
+    include: {
+      variants: { orderBy: [{ color: "asc" }, { size: "asc" }] },
+    },
+  });
+
+  if (!product) notFound();
+
+  const updateWithId = updateProduct.bind(null, id);
+
+  return (
+    <div className="max-w-2xl space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <Link
+          href="/admin/products"
+          className="text-sm text-[#666666] hover:text-[#111111] transition-colors"
+        >
+          ← Products
+        </Link>
+        <span className="text-[#666666]">/</span>
+        <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">
+          Edit Product
+        </h1>
+      </div>
+
+      {/* Product form */}
+      <form
+        action={updateWithId}
+        className="bg-[#FAF7F2] border border-black/6 rounded p-6 space-y-5"
+      >
+        <div className="space-y-1.5">
+          <label className="text-xs text-[#666666] tracking-widest uppercase">
+            Product Name
+          </label>
+          <input
+            name="name"
+            required
+            defaultValue={product.name}
+            className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs text-[#666666] tracking-widest uppercase">
+            Description
+          </label>
+          <textarea
+            name="description"
+            required
+            rows={3}
+            defaultValue={product.description}
+            className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded resize-none"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className="text-xs text-[#666666] tracking-widest uppercase">
+              Base Price (₹)
+            </label>
+            <input
+              name="basePrice"
+              type="number"
+              required
+              min={0}
+              step={0.01}
+              defaultValue={product.basePrice}
+              className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs text-[#666666] tracking-widest uppercase">
+              Featured
+            </label>
+            <select
+              name="isFeatured"
+              defaultValue={product.isFeatured ? "true" : "false"}
+              className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
+            >
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs text-[#666666] tracking-widest uppercase">
+            Thumbnail URL
+          </label>
+          <input
+            name="thumbnail"
+            type="url"
+            defaultValue={product.thumbnail ?? ""}
+            className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
+          />
+        </div>
+
+        <div className="flex items-center gap-3 pt-2">
+          <button
+            type="submit"
+            className="bg-[#111111] text-white text-xs tracking-widest uppercase px-6 py-3 hover:opacity-80 transition-opacity"
+          >
+            Save Changes
+          </button>
+          <Link
+            href="/admin/products"
+            className="text-xs text-[#666666] hover:text-[#111111] transition-colors"
+          >
+            Cancel
+          </Link>
+        </div>
+      </form>
+
+      {/* Variant stock management */}
+      <div className="bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
+        <div className="px-6 py-4 border-b border-black/6">
+          <h2 className="text-sm font-medium text-[#111111]">Stock by Variant</h2>
+          <p className="text-xs text-[#666666] mt-0.5">
+            Update stock for each size/color combination
+          </p>
+        </div>
+        <div className="divide-y divide-black/4">
+          {product.variants.map((variant) => (
+            <form
+              key={variant.id}
+              action={async (formData) => {
+                "use server";
+                const stock = parseInt(formData.get("stock") as string, 10);
+                await updateVariantStock(variant.id, stock);
+              }}
+              className="flex items-center gap-4 px-6 py-3"
+            >
+              <span className="text-xs font-medium text-[#111111] w-12">
+                {variant.color}
+              </span>
+              <span className="text-xs text-[#666666] w-10">{variant.size}</span>
+              <input
+                name="stock"
+                type="number"
+                min={0}
+                defaultValue={variant.stockQuantity}
+                className="w-20 bg-white border border-black/8 px-3 py-1.5 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded text-center"
+              />
+              <button
+                type="submit"
+                className="text-xs text-[#666666] hover:text-[#111111] transition-colors underline"
+              >
+                Save
+              </button>
+            </form>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\admin\products\new\page.tsx
+============================================================
+import { createProduct } from "@/features/admin/actions";
+import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "New Product — Admin" };
+
+export default function NewProductPage() {
+  return (
+    <div className="max-w-2xl space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <Link
+          href="/admin/products"
+          className="text-sm text-[#666666] hover:text-[#111111] transition-colors"
+        >
+          ← Products
+        </Link>
+        <span className="text-[#666666]">/</span>
+        <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">
+          New Product
+        </h1>
+      </div>
+
+      {/* Form */}
+      <form
+        action={createProduct}
+        className="bg-[#FAF7F2] border border-black/6 rounded p-6 space-y-5"
+      >
+        <div className="space-y-1.5">
+          <label className="text-xs text-[#666666] tracking-widest uppercase">
+            Product Name
+          </label>
+          <input
+            name="name"
+            required
+            placeholder="e.g. Structured Heavyweight Tee"
+            className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] placeholder:text-[#999] focus:outline-none focus:border-[#111111] transition-colors rounded"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs text-[#666666] tracking-widest uppercase">
+            Description
+          </label>
+          <textarea
+            name="description"
+            required
+            rows={3}
+            placeholder="Brief product description..."
+            className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] placeholder:text-[#999] focus:outline-none focus:border-[#111111] transition-colors rounded resize-none"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className="text-xs text-[#666666] tracking-widest uppercase">
+              Base Price (₹)
+            </label>
+            <input
+              name="basePrice"
+              type="number"
+              required
+              min={0}
+              step={0.01}
+              placeholder="799"
+              className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] placeholder:text-[#999] focus:outline-none focus:border-[#111111] transition-colors rounded"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs text-[#666666] tracking-widest uppercase">
+              Featured
+            </label>
+            <select
+              name="isFeatured"
+              className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
+            >
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs text-[#666666] tracking-widest uppercase">
+            Thumbnail URL
+          </label>
+          <input
+            name="thumbnail"
+            type="url"
+            placeholder="https://images.unsplash.com/..."
+            className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] placeholder:text-[#999] focus:outline-none focus:border-[#111111] transition-colors rounded"
+          />
+          <p className="text-[11px] text-[#666666]">
+            Cloudinary upload coming soon. Paste a URL for now.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3 pt-2">
+          <button
+            type="submit"
+            className="bg-[#111111] text-white text-xs tracking-widest uppercase px-6 py-3 hover:opacity-80 transition-opacity"
+          >
+            Create Product
+          </button>
+          <Link
+            href="/admin/products"
+            className="text-xs text-[#666666] hover:text-[#111111] transition-colors"
+          >
+            Cancel
+          </Link>
+        </div>
+      </form>
+
+      <p className="text-xs text-[#666666]">
+        All size/color variants (SU+002dXXL U+0078 Black/White) are created automatically
+        with 0 stock. Edit individual variants after creation.
+      </p>
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\admin\products\page.tsx
+============================================================
+import { db } from "@/lib/db";
+import Link from "next/link";
+import { deleteProduct } from "@/features/admin/actions";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Products — Admin" };
+
+export default async function AdminProductsPage() {
+  const products = await db.product.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      _count: { select: { variants: true } },
+    },
+  });
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-['Inter_Tight'] text-3xl font-bold text-[#111111]">
+            Products
+          </h1>
+          <p className="text-sm text-[#666666] mt-1">
+            {products.length} {products.length === 1 ? "product" : "products"} total
+          </p>
+        </div>
+        <Link
+          href="/admin/products/new"
+          className="bg-[#111111] text-white text-xs tracking-widest uppercase px-5 py-3 hover:opacity-80 transition-opacity"
+        >
+          + Add Product
+        </Link>
+      </div>
+
+      {/* Table */}
+      <div className="bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-black/6">
+              {["Product", "Price", "Featured", "Variants", "Actions"].map((h) => (
+                <th
+                  key={h}
+                  className="text-left text-[10px] text-[#666666] tracking-widest uppercase px-6 py-4 font-normal"
+                >
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {products.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="text-center text-sm text-[#666666] py-12">
+                  No products yet.{" "}
+                  <Link href="/admin/products/new" className="underline">
+                    Add one
+                  </Link>
+                </td>
+              </tr>
+            ) : (
+              products.map((product) => (
+                <tr
+                  key={product.id}
+                  className="border-b border-black/4 hover:bg-[#EEE7DD]/30 transition-colors"
+                >
+                  <td className="px-6 py-4">
+                    <p className="text-sm font-medium text-[#111111]">
+                      {product.name}
+                    </p>
+                    <p className="text-xs text-[#666666] mt-0.5">
+                      /{product.slug}
+                    </p>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-[#111111]">
+                    ₹{product.basePrice.toLocaleString("en-IN")}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`text-[10px] px-2 py-1 rounded-full font-medium ${
+                        product.isFeatured
+                          ? "bg-green-100 text-green-800"
+                          : "bg-[#EEE7DD] text-[#666666]"
+                      }`}
+                    >
+                      {product.isFeatured ? "Featured" : "Standard"}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-[#666666]">
+                    {product._count.variants} variants
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-4">
+                      <Link
+                        href={`/admin/products/${product.id}/edit`}
+                        className="text-xs text-[#666666] hover:text-[#111111] transition-colors underline"
+                      >
+                        Edit
+                      </Link>
+                      <form
+                        action={deleteProduct.bind(null, product.id)}
+                      >
+                        <button
+                          type="submit"
+                          className="text-xs text-red-500 hover:text-red-700 transition-colors"
+                          onClick={(e) => {
+                            if (!confirm(`Delete "${product.name}"? This cannot be undone.`)) {
+                              e.preventDefault();
+                            }
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\admin\users\page.tsx
+============================================================
+import { db } from "@/lib/db";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Users — Admin" };
+
+export default async function AdminUsersPage() {
+  const users = await db.user.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      _count: { select: { orders: true } },
+    },
+  });
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-['Inter_Tight'] text-3xl font-bold text-[#111111]">
+          Users
+        </h1>
+        <p className="text-sm text-[#666666] mt-1">
+          {users.length} {users.length === 1 ? "user" : "users"} registered
+        </p>
+      </div>
+
+      <div className="bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-black/6">
+              {["User", "Role", "Orders", "Joined"].map((h) => (
+                <th
+                  key={h}
+                  className="text-left text-[10px] text-[#666666] tracking-widest uppercase px-6 py-4 font-normal"
+                >
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {users.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="text-center text-sm text-[#666666] py-12">
+                  No users yet.
+                </td>
+              </tr>
+            ) : (
+              users.map((user) => (
+                <tr
+                  key={user.id}
+                  className="border-b border-black/4 hover:bg-[#EEE7DD]/30 transition-colors"
+                >
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      {user.imageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={user.imageUrl}
+                          alt={user.name}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-[#EEE7DD] flex items-center justify-center text-xs font-medium text-[#666666]">
+                          {user.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-sm font-medium text-[#111111]">
+                          {user.name}
+                        </p>
+                        <p className="text-xs text-[#666666]">{user.email}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`text-[10px] px-2 py-1 rounded-full font-medium ${
+                        user.role === "ADMIN"
+                          ? "bg-[#111111] text-white"
+                          : "bg-[#EEE7DD] text-[#666666]"
+                      }`}
+                    >
+                      {user.role}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-[#666666]">
+                    {user._count.orders}
+                  </td>
+                  <td className="px-6 py-4 text-xs text-[#666666]">
+                    {user.createdAt.toLocaleDateString("en-IN")}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\api\webhooks\clerk\route.ts
+============================================================
+import { Webhook } from "svix";
+import { headers } from "next/headers";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { db } from "@/lib/db";
+
+export async function POST(req: Request) {
+  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+  if (!WEBHOOK_SECRET) throw new Error("Missing CLERK_WEBHOOK_SECRET");
+
+  const headerPayload = await headers();
+  const svix_id = headerPayload.get("svix-id");
+  const svix_timestamp = headerPayload.get("svix-timestamp");
+  const svix_signature = headerPayload.get("svix-signature");
+
+  if (!svix_id || !svix_timestamp || !svix_signature) {
+    return new Response("Missing svix headers", { status: 400 });
+  }
+
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
+
+  const wh = new Webhook(WEBHOOK_SECRET);
+  let evt: WebhookEvent;
+
+  try {
+    evt = wh.verify(body, {
+      "svix-id": svix_id,
+      "svix-timestamp": svix_timestamp,
+      "svix-signature": svix_signature,
+    }) as WebhookEvent;
+  } catch {
+    return new Response("Invalid signature", { status: 400 });
+  }
+
+  if (evt.type === "user.created") {
+    const { id, email_addresses, first_name, last_name, image_url } = evt.data;
+    await db.user.create({
+      data: {
+        clerkId: id,
+        email: email_addresses[0].email_address,
+        name: `${first_name ?? ""} ${last_name ?? ""}`.trim(),
+        imageUrl: image_url,
+      },
+    });
+  }
+
+  if (evt.type === "user.deleted") {
+    const { id } = evt.data;
+    await db.user.delete({ where: { clerkId: id as string } });
+  }
+
+  return new Response("OK", { status: 200 });
+}
+
+============================================================
+FILE: theme-store\src\app\customize\[productId]\page.tsx
+============================================================
+interface CustomizePageProps {
+  params: Promise<{ productId: string }>;
+}
+
+export default async function CustomizePage({ params }: CustomizePageProps) {
+  const { productId } = await params;
+
+  return (
+    <main className="min-h-screen bg-[#F5F1EA] flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="font-['Inter_Tight'] text-3xl font-bold text-[#111111]">
+          Customize
+        </h1>
+        <p className="text-sm text-[#666666] mt-2">
+          Product ID: {productId}
+        </p>
+      </div>
+    </main>
+  );
+}
+
+============================================================
+FILE: theme-store\src\app\globals.css
+============================================================
 @import "tailwindcss";
 
 @theme {
@@ -1560,11 +2923,9 @@ FILE: theme-store/src/app/globals.css
   }
 }
 
-
-================================================================================
-FILE: theme-store/src/app/layout.tsx
-================================================================================
-
+============================================================
+FILE: theme-store\src\app\layout.tsx
+============================================================
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
@@ -1603,10 +2964,9 @@ export default function RootLayout({
   );
 }
 
-================================================================================
-FILE: theme-store/src/app/page.tsx
-================================================================================
-
+============================================================
+FILE: theme-store\src\app\page.tsx
+============================================================
 import Image from "next/image";
 // import { Analyics } from "@vercel/analytics/next"
 
@@ -1702,104 +3062,442 @@ export default function HomePage() {
   );
 }
 
-================================================================================
-FILE: theme-store/src/app/(auth)/layout.tsx
-================================================================================
+============================================================
+FILE: theme-store\src\app\shop\layout.tsx
+============================================================
+import { ClerkProvider } from "@clerk/nextjs";
+import type { Metadata } from "next";
+import { Inter, Inter_Tight } from "next/font/google";
+import "../globals.css";
+import Navbar from "@/components/Navbar";
 
-export default function AuthLayout({
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-display",
+});
+
+export const metadata: Metadata = {
+  title: "Shirt Store",
+  description: "Modern custom t-shirt ecommerce platform",
+};
+
+export default function shopLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F5F1EA]">
-      {children}
-    </div>
+    <ClerkProvider>
+    <html lang="en" className={`${inter.variable} ${interTight.variable}`}>
+      <body>
+        <Navbar />
+        {children}
+      </body>
+    </html>
+    </ClerkProvider>
   );
 }
 
-================================================================================
-FILE: theme-store/src/app/(auth)/sign-in/page.tsx
-================================================================================
+============================================================
+FILE: theme-store\src\app\shop\loading.tsx
+============================================================
+export default function ShopLoading() {
+  return (
+    <main className="min-h-screen bg-[#F5F1EA]">
+      {/* Header skeleton */}
+      <section className="max-w-max mx-auto px-6 pt-24 pb-12">
+        <div className="w-24 h-3 bg-[#EEE7DD] rounded mb-3 animate-pulse" />
+        <div className="w-72 h-14 bg-[#EEE7DD] rounded animate-pulse" />
+      </section>
 
-import { SignIn } from "@clerk/nextjs";
+      {/* Filter skeleton */}
+      <section className="max-w-max mx-auto px-6 pb-8 border-b border-black/8">
+        <div className="flex gap-4">
+          {[80, 60, 120, 60, 60].map((w, i) => (
+            <div
+              key={i}
+              className="h-8 bg-[#EEE7DD] rounded animate-pulse"
+              style={{ width: w }}
+            />
+          ))}
+        </div>
+      </section>
 
-export default function SignInPage() {
-  return <SignIn />;
+      {/* Grid skeleton */}
+      <section className="max-w-max mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i}>
+              <div className="aspect-4/5 bg-[#EEE7DD] animate-pulse mb-4" />
+              <div className="w-3/4 h-4 bg-[#EEE7DD] rounded animate-pulse mb-2" />
+              <div className="w-1/4 h-4 bg-[#EEE7DD] rounded animate-pulse" />
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
 }
 
-================================================================================
-FILE: theme-store/src/app/(auth)/sign-up/page.tsx
-================================================================================
-
-import { SignUp } from "@clerk/nextjs";
-
-export default function SignUpPage() {
-  return <SignUp />;
-}
-
-================================================================================
-FILE: theme-store/src/app/api/webhooks/clerk/route.ts
-================================================================================
-
-import { Webhook } from "svix";
-import { headers } from "next/headers";
-import { WebhookEvent } from "@clerk/nextjs/server";
+============================================================
+FILE: theme-store\src\app\shop\page.tsx
+============================================================
 import { db } from "@/lib/db";
+import { ProductCard } from "@/components/products/ProductCard";
+import { ShopFilters } from "@/components/products/ShopFilters";
+import { Suspense } from "react";
+import type { Metadata } from "next";
 
-export async function POST(req: Request) {
-  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
-  if (!WEBHOOK_SECRET) throw new Error("Missing CLERK_WEBHOOK_SECRET");
+export const metadata: Metadata = {
+  title: "Shop — Shirt Store",
+  description: "Browse our collection of premium custom t-shirts.",
+};
 
-  const headerPayload = await headers();
-  const svix_id = headerPayload.get("svix-id");
-  const svix_timestamp = headerPayload.get("svix-timestamp");
-  const svix_signature = headerPayload.get("svix-signature");
-
-  if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Missing svix headers", { status: 400 });
-  }
-
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
-
-  const wh = new Webhook(WEBHOOK_SECRET);
-  let evt: WebhookEvent;
-
-  try {
-    evt = wh.verify(body, {
-      "svix-id": svix_id,
-      "svix-timestamp": svix_timestamp,
-      "svix-signature": svix_signature,
-    }) as WebhookEvent;
-  } catch {
-    return new Response("Invalid signature", { status: 400 });
-  }
-
-  if (evt.type === "user.created") {
-    const { id, email_addresses, first_name, last_name, image_url } = evt.data;
-    await db.user.create({
-      data: {
-        clerkId: id,
-        email: email_addresses[0].email_address,
-        name: `${first_name ?? ""} ${last_name ?? ""}`.trim(),
-        imageUrl: image_url,
-      },
-    });
-  }
-
-  if (evt.type === "user.deleted") {
-    const { id } = evt.data;
-    await db.user.delete({ where: { clerkId: id as string } });
-  }
-
-  return new Response("OK", { status: 200 });
+interface ShopPageProps {
+  searchParams: Promise<{
+    color?: string;
+    size?: string;
+    sort?: string;
+  }>;
 }
 
-================================================================================
-FILE: theme-store/src/components/Navbar.tsx
-================================================================================
+async function getProducts(filters: {
+  color?: string;
+  size?: string;
+  sort?: string;
+}) {
+  const { color, size, sort } = filters;
 
+  const products = await db.product.findMany({
+    where: {
+      variants: {
+        some: {
+          ...(color ? { color: color as "BLACK" | "WHITE" } : {}),
+          ...(size
+            ? { size: size as "S" | "M" | "L" | "XL" | "XXL" }
+            : {}),
+          stockQuantity: { gt: 0 },
+        },
+      },
+    },
+    include: {
+      variants: {
+        select: { color: true },
+        distinct: ["color"],
+      },
+    },
+    orderBy:
+      sort === "price_asc"
+        ? { basePrice: "asc" }
+        : sort === "price_desc"
+        ? { basePrice: "desc" }
+        : { createdAt: "desc" },
+  });
+
+  return products;
+}
+
+export default async function ShopPage({ searchParams }: ShopPageProps) {
+  const filters = await searchParams;
+  const products = await getProducts(filters);
+
+  return (
+    <main className="min-h-screen bg-[#F5F1EA]">
+      {/* Editorial header */}
+      <section className="max-w-[1280px] mx-auto px-6 pt-24 pb-12">
+        <div className="flex flex-col gap-2">
+          <span className="text-xs text-[#666666] tracking-[0.2em] uppercase">
+            All Products
+          </span>
+          <h1 className="font-['Inter_Tight'] text-5xl md:text-6xl font-bold text-[#111111] leading-none tracking-tight">
+            The Collection
+          </h1>
+        </div>
+
+        <div className="flex items-end justify-between mt-6">
+          <p className="text-sm text-[#666666] max-w-sm leading-relaxed">
+            Black and white. Front and back. Your design or ours — either way,
+            made to last.
+          </p>
+          <p className="text-xs text-[#666666] hidden md:block">
+            {products.length} {products.length === 1 ? "style" : "styles"}
+          </p>
+        </div>
+      </section>
+
+      {/* Filters */}
+      <section className="max-w-7xl mx-auto px-6">
+        <Suspense fallback={null}>
+          <ShopFilters />
+        </Suspense>
+      </section>
+
+      {/* Product grid */}
+      <section className="max-w-7xl mx-auto px-6 py-12 h-auto">
+        {products.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-32 gap-4">
+            <p className="text-[#111111] text-lg font-medium">
+              No styles match your filters
+            </p>
+            <p className="text-[#666666] text-sm">
+              Try removing a filter to see more.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                slug={product.slug}
+                basePrice={product.basePrice}
+                thumbnail={product.thumbnail}
+                colors={product.variants.map((v) => v.color)}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    </main>
+  );
+}
+
+============================================================
+FILE: theme-store\src\components\admin\AdminSidebar.tsx
+============================================================
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { UserButton } from "@clerk/nextjs";
+
+const NAV = [
+  {
+    label: "Dashboard",
+    href: "/admin",
+    icon: (
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Products",
+    href: "/admin/products",
+    icon: (
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Orders",
+    href: "/admin/orders",
+    icon: (
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+      </svg>
+    ),
+  },
+  {
+    label: "Users",
+    href: "/admin/users",
+    icon: (
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+      </svg>
+    ),
+  },
+];
+
+export function AdminSidebar() {
+  const pathname = usePathname();
+
+  return (
+    <aside className="w-56 min-h-screen bg-[#FAF7F2] border-r border-black/6 flex flex-col fixed left-0 top-0">
+      {/* Logo */}
+      <div className="px-6 py-6 border-b border-black/6">
+        <span className="font-['Inter_Tight'] text-lg font-bold tracking-tight text-[#111111]">
+          Admin
+        </span>
+        <p className="text-[10px] text-[#666666] tracking-widest uppercase mt-0.5">
+          Shirt Store
+        </p>
+      </div>
+
+      {/* Nav */}
+      <nav className="flex-1 px-3 py-4 space-y-0.5">
+        {NAV.map((item) => {
+          const isActive =
+            item.href === "/admin"
+              ? pathname === "/admin"
+              : pathname.startsWith(item.href);
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded text-sm transition-all ${
+                isActive
+                  ? "bg-[#111111] text-white"
+                  : "text-[#666666] hover:text-[#111111] hover:bg-[#EEE7DD]"
+              }`}
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* Footer */}
+      <div className="px-6 py-4 border-t border-black/6 flex items-center gap-3">
+        <UserButton />
+        <span className="text-xs text-[#666666]">Account</span>
+      </div>
+    </aside>
+  );
+}
+
+============================================================
+FILE: theme-store\src\components\admin\OrderStatusChart.tsx
+============================================================
+"use client";
+
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
+
+interface OrderStatusChartProps {
+  data: { name: string; value: number }[];
+}
+
+const COLORS: Record<string, string> = {
+  PROCESSING: "#111111",
+  PRINTING: "#555555",
+  SHIPPED: "#888888",
+  DELIVERED: "#AAAAAA",
+  CANCELLED: "#DDDDDD",
+};
+
+export function OrderStatusChart({ data }: OrderStatusChartProps) {
+  if (data.every((d) => d.value === 0)) {
+    return (
+      <div className="h-60 flex items-center justify-center text-sm text-[#666666]">
+        No orders yet
+      </div>
+    );
+  }
+
+  return (
+    <ResponsiveContainer width="100%" height={240}>
+      <PieChart>
+        <Pie
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius={60}
+          outerRadius={90}
+          paddingAngle={2}
+          dataKey="value"
+        >
+          {data.map((entry) => (
+            <Cell
+              key={entry.name}
+              fill={COLORS[entry.name] ?? "#999999"}
+            />
+          ))}
+        </Pie>
+        <Tooltip
+          contentStyle={{
+            background: "#FAF7F2",
+            border: "1px solid rgba(0,0,0,0.08)",
+            borderRadius: 4,
+            fontSize: 12,
+          }}
+        />
+        <Legend
+          iconType="circle"
+          iconSize={8}
+          formatter={(value) => (
+            <span style={{ fontSize: 11, color: "#666666" }}>{value}</span>
+          )}
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  );
+}
+
+============================================================
+FILE: theme-store\src\components\admin\RevenueChart.tsx
+============================================================
+"use client";
+
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
+
+interface RevenueChartProps {
+  data: { date: string; revenue: number }[];
+}
+
+export function RevenueChart({ data }: RevenueChartProps) {
+  return (
+    <ResponsiveContainer width="100%" height={240}>
+      <LineChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.04)" />
+        <XAxis
+          dataKey="date"
+          tick={{ fontSize: 11, fill: "#666666" }}
+          tickLine={false}
+          axisLine={false}
+        />
+        <YAxis
+          tick={{ fontSize: 11, fill: "#666666" }}
+          tickLine={false}
+          axisLine={false}
+          tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
+        />
+        <Tooltip
+          contentStyle={{
+            background: "#FAF7F2",
+            border: "1px solid rgba(0,0,0,0.08)",
+            borderRadius: 4,
+            fontSize: 12,
+          }}
+          formatter={(value) => {
+            if (typeof value === "number") {
+              return `₹${value.toLocaleString("en-IN")}`;
+            }
+            return value;
+          }}
+        />
+        <Line
+          type="monotone"
+          dataKey="revenue"
+          stroke="#111111"
+          strokeWidth={1.5}
+          dot={false}
+          activeDot={{ r: 4, fill: "#111111" }}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+}
+
+============================================================
+FILE: theme-store\src\components\Navbar.tsx
+============================================================
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -1808,7 +3506,7 @@ import { faMagnifyingGlass, faUser, faBagShopping, faBars, faXmark } from "@fort
 import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 
 const navLinks = [
-  { label: "Shop", href: "#" },
+  { label: "Shop", href: "/shop" },
   { label: "Collections", href: "#" },
   { label: "Customize", href: "#" },
   { label: "About", href: "#" },
@@ -1830,10 +3528,10 @@ export default function Navbar() {
             <li key={link.label}>
               <a
                 href={link.href}
-                className="group relative font-body text-sm font-medium transition-all duration-300"
+                className="group relative font-body text-sm font-medium transition-all duration-300 "
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 h-[1.5px] w-0 bg-white transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 h-[1.5px] w-0 bg-white transition-all duration-300 group-hover:w-full " />
               </a>
             </li>
           ))}
@@ -1966,37 +3664,477 @@ function ProfileDropdown() {
   );
 }
 
+============================================================
+FILE: theme-store\src\components\products\ProductCard.tsx
+============================================================
+import Image from "next/image";
+import Link from "next/link";
 
-================================================================================
-FILE: theme-store/src/constants/products.ts
-================================================================================
+type Color = "BLACK" | "WHITE";
 
-export const products = [
-  {
-    id: 1,
-    name: "Black Oversized Tee",
-    price: 799,
-    image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
-    colors: ["Black", "White"],
-    sizes: ["S", "M", "L", "XL"],
-  },
+interface ProductCardProps {
+  id: string;
+  name: string;
+  slug: string;
+  basePrice: number;
+  thumbnail: string | null;
+  colors: Color[];
+}
 
-  {
-    id: 2,
-    name: "Anime Tee",
-    price: 999,
-    image:
-      "https://images.unsplash.com/photo-1576566588028-4147f3842f27",
-    colors: ["Black"],
-    sizes: ["M", "L"],
-  }
+export function ProductCard({
+  name,
+  slug,
+  basePrice,
+  thumbnail,
+  colors,
+}: ProductCardProps) {
+  return (
+    <Link href={`/shop/${slug}`} className="group block">
+      {/* Image container */}
+      <div className="relative overflow-hidden bg-[#EEE7DD] aspect-4/5 mb-4">
+        {thumbnail ? (
+          <Image
+            src={thumbnail}
+            alt={name}
+            fill
+            sizes="(max-width: 768px) 100vw 100vh, (max-width: 1200px) 50vw 60vh, 33vw 40vh"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-[#666666] text-sm">
+            No image
+          </div>
+        )}
+
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+
+        {/* Customize CTA */}
+        <div className="absolute bottom-4 left-4 right-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+          <div className="bg-[#111111] text-white text-xs tracking-[0.15em] uppercase text-center py-3 px-4">
+            Customize
+          </div>
+        </div>
+      </div>
+
+      {/* Info */}
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h3 className="text-sm font-medium text-[#111111] leading-snug group-hover:opacity-70 transition-opacity duration-200">
+            {name}
+          </h3>
+
+          {/* Color dots */}
+          <div className="flex items-center gap-1.5 mt-2">
+            {colors.includes("BLACK") && (
+              <span
+                className="w-3 h-3 rounded-full border border-black/20 bg-[#111111]"
+                title="Black"
+              />
+            )}
+            {colors.includes("WHITE") && (
+              <span
+                className="w-3 h-3 rounded-full border border-black/20 bg-white"
+                title="White"
+              />
+            )}
+          </div>
+        </div>
+
+        <p className="text-sm text-[#111111] font-medium shrink-0">
+          ₹{basePrice.toLocaleString("en-IN")}
+        </p>
+      </div>
+    </Link>
+  );
+}
+
+============================================================
+FILE: theme-store\src\components\products\ShopFilters.tsx
+============================================================
+"use client";
+
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+
+const SIZES = ["S", "M", "L", "XL", "XXL"];
+const SORT_OPTIONS = [
+  { label: "Newest", value: "newest" },
+  { label: "Price: Low to High", value: "price_asc" },
+  { label: "Price: High to Low", value: "price_desc" },
 ];
 
-================================================================================
-FILE: theme-store/src/lib/db.ts
-================================================================================
+export function ShopFilters() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
+  const activeColor = searchParams.get("color");
+  const activeSize = searchParams.get("size");
+  const activeSort = searchParams.get("sort") ?? "newest";
+
+  const setParam = useCallback(
+    (key: string, value: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value === null || params.get(key) === value) {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
+
+  return (
+    <div className="flex flex-wrap items-center gap-6 pb-8 border-b border-black/[0.08]">
+      {/* Color filter */}
+      <div className="flex items-center gap-3">
+        <span className="text-xs text-[#666666] tracking-[0.1em] uppercase">
+          Color
+        </span>
+        <button
+          onClick={() => setParam("color", "BLACK")}
+          className={`flex items-center gap-1.5 text-xs transition-opacity ${
+            activeColor === "BLACK" ? "opacity-100" : "opacity-40 hover:opacity-70"
+          }`}
+        >
+          <span className="w-3.5 h-3.5 rounded-full bg-[#111111] border border-black/20" />
+          Black
+        </button>
+        <button
+          onClick={() => setParam("color", "WHITE")}
+          className={`flex items-center gap-1.5 text-xs transition-opacity ${
+            activeColor === "WHITE" ? "opacity-100" : "opacity-40 hover:opacity-70"
+          }`}
+        >
+          <span className="w-3.5 h-3.5 rounded-full bg-white border border-black/20" />
+          White
+        </button>
+      </div>
+
+      {/* Divider */}
+      <span className="h-4 w-px bg-black/10" />
+
+      {/* Size filter */}
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-[#666666] tracking-[0.1em] uppercase">
+          Size
+        </span>
+        {SIZES.map((size) => (
+          <button
+            key={size}
+            onClick={() => setParam("size", size)}
+            className={`text-xs w-8 h-8 border transition-all ${
+              activeSize === size
+                ? "border-[#111111] bg-[#111111] text-white"
+                : "border-black/10 text-[#666666] hover:border-black/30"
+            }`}
+          >
+            {size}
+          </button>
+        ))}
+      </div>
+
+      {/* Divider */}
+      <span className="h-4 w-px bg-black/10" />
+
+      {/* Sort */}
+      <div className="flex items-center gap-2 ml-auto">
+        <span className="text-xs text-[#666666] tracking-[0.1em] uppercase">
+          Sort
+        </span>
+        <select
+          value={activeSort}
+          onChange={(e) => setParam("sort", e.target.value)}
+          className="text-xs text-[#111111] bg-transparent border-none outline-none cursor-pointer"
+        >
+          {SORT_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  );
+}
+
+============================================================
+FILE: theme-store\src\data\products.ts
+============================================================
+// src/data/products.ts
+
+import { Product, TemplateDesign } from "@/types";
+export const products: Product[] = [
+  {
+    id: "prod-001",
+    name: "Essential Tee",
+    slug: "essential-tee",
+    description:
+      "Our signature heavyweight cotton tee. 220gsm premium fabric with a relaxed fit that drapes perfectly. Double-stitched seams for durability.",
+    basePrice: 899,
+    thumbnail: ".../public/plain-white-t-shirt.png",
+    isFeatured: true,
+    variants: [
+      { id: "v-001", productId: "prod-001", size: "S", color: "BLACK", stockQuantity: 24, priceAdjustment: 0 },
+      { id: "v-002", productId: "prod-001", size: "M", color: "BLACK", stockQuantity: 48, priceAdjustment: 0 },
+      { id: "v-003", productId: "prod-001", size: "L", color: "BLACK", stockQuantity: 36, priceAdjustment: 0 },
+      { id: "v-004", productId: "prod-001", size: "XL", color: "BLACK", stockQuantity: 18, priceAdjustment: 0 },
+      { id: "v-005", productId: "prod-001", size: "XXL", color: "BLACK", stockQuantity: 8, priceAdjustment: 50 },
+      { id: "v-006", productId: "prod-001", size: "S", color: "WHITE", stockQuantity: 20, priceAdjustment: 0 },
+      { id: "v-007", productId: "prod-001", size: "M", color: "WHITE", stockQuantity: 42, priceAdjustment: 0 },
+      { id: "v-008", productId: "prod-001", size: "L", color: "WHITE", stockQuantity: 30, priceAdjustment: 0 },
+      { id: "v-009", productId: "prod-001", size: "XL", color: "WHITE", stockQuantity: 15, priceAdjustment: 0 },
+      { id: "v-010", productId: "prod-001", size: "XXL", color: "WHITE", stockQuantity: 6, priceAdjustment: 50 },
+    ],
+  },
+  {
+    id: "prod-002",
+    name: "Oversized Tee",
+    slug: "oversized-tee",
+    description:
+      "A modern oversized silhouette with dropped shoulders and extended length. 240gsm cotton for substantial weight and structure.",
+    basePrice: 1099,
+    thumbnail: ".../public/plain-black-t-shirt.png",
+    isFeatured: true,
+    variants: [
+      { id: "v-011", productId: "prod-002", size: "S", color: "BLACK", stockQuantity: 15, priceAdjustment: 0 },
+      { id: "v-012", productId: "prod-002", size: "M", color: "BLACK", stockQuantity: 30, priceAdjustment: 0 },
+      { id: "v-013", productId: "prod-002", size: "L", color: "BLACK", stockQuantity: 25, priceAdjustment: 0 },
+      { id: "v-014", productId: "prod-002", size: "XL", color: "BLACK", stockQuantity: 20, priceAdjustment: 0 },
+      { id: "v-015", productId: "prod-002", size: "XXL", color: "BLACK", stockQuantity: 10, priceAdjustment: 50 },
+      { id: "v-016", productId: "prod-002", size: "S", color: "WHITE", stockQuantity: 12, priceAdjustment: 0 },
+      { id: "v-017", productId: "prod-002", size: "M", color: "WHITE", stockQuantity: 28, priceAdjustment: 0 },
+      { id: "v-018", productId: "prod-002", size: "L", color: "WHITE", stockQuantity: 22, priceAdjustment: 0 },
+      { id: "v-019", productId: "prod-002", size: "XL", color: "WHITE", stockQuantity: 16, priceAdjustment: 0 },
+      { id: "v-020", productId: "prod-002", size: "XXL", color: "WHITE", stockQuantity: 8, priceAdjustment: 50 },
+    ],
+  },
+  {
+    id: "prod-003",
+    name: "Fitted Tee",
+    slug: "fitted-tee",
+    description:
+      "Tailored fit with side seams for a clean, structured look. 200gsm fine-gauge cotton with a smooth hand feel.",
+    basePrice: 949,
+    thumbnail: ".../public/plain-white-t-shirt.png",
+    isFeatured: false,
+    variants: [
+      { id: "v-021", productId: "prod-003", size: "S", color: "BLACK", stockQuantity: 30, priceAdjustment: 0 },
+      { id: "v-022", productId: "prod-003", size: "M", color: "BLACK", stockQuantity: 45, priceAdjustment: 0 },
+      { id: "v-023", productId: "prod-003", size: "L", color: "BLACK", stockQuantity: 35, priceAdjustment: 0 },
+      { id: "v-024", productId: "prod-003", size: "XL", color: "BLACK", stockQuantity: 20, priceAdjustment: 0 },
+      { id: "v-025", productId: "prod-003", size: "S", color: "WHITE", stockQuantity: 25, priceAdjustment: 0 },
+      { id: "v-026", productId: "prod-003", size: "M", color: "WHITE", stockQuantity: 40, priceAdjustment: 0 },
+      { id: "v-027", productId: "prod-003", size: "L", color: "WHITE", stockQuantity: 30, priceAdjustment: 0 },
+      { id: "v-028", productId: "prod-003", size: "XL", color: "WHITE", stockQuantity: 18, priceAdjustment: 0 },
+    ],
+  },
+  {
+    id: "prod-004",
+    name: "Boxy Tee",
+    slug: "boxy-tee",
+    description:
+      "A square-cut silhouette inspired by vintage workwear. Roomy through the body with a straight hem. 230gsm cotton.",
+    basePrice: 999,
+    thumbnail: ".../public/plain-white-t-shirt.png",
+    isFeatured: true,
+    variants: [
+      { id: "v-029", productId: "prod-004", size: "S", color: "BLACK", stockQuantity: 18, priceAdjustment: 0 },
+      { id: "v-030", productId: "prod-004", size: "M", color: "BLACK", stockQuantity: 32, priceAdjustment: 0 },
+      { id: "v-031", productId: "prod-004", size: "L", color: "BLACK", stockQuantity: 28, priceAdjustment: 0 },
+      { id: "v-032", productId: "prod-004", size: "XL", color: "BLACK", stockQuantity: 14, priceAdjustment: 0 },
+      { id: "v-033", productId: "prod-004", size: "S", color: "WHITE", stockQuantity: 16, priceAdjustment: 0 },
+      { id: "v-034", productId: "prod-004", size: "M", color: "WHITE", stockQuantity: 30, priceAdjustment: 0 },
+      { id: "v-035", productId: "prod-004", size: "L", color: "WHITE", stockQuantity: 24, priceAdjustment: 0 },
+      { id: "v-036", productId: "prod-004", size: "XL", color: "WHITE", stockQuantity: 12, priceAdjustment: 0 },
+    ],
+  },
+  {
+    id: "prod-005",
+    name: "Heavyweight Tee",
+    slug: "heavyweight-tee",
+    description:
+      "Our heaviest fabric at 280gsm. Substantial, structured, and built to last. Pre-shrunk for consistent fit wash after wash.",
+    basePrice: 1299,
+    thumbnail: ".../public/plain-black-t-shirt.png",
+    isFeatured: false,
+    variants: [
+      { id: "v-037", productId: "prod-005", size: "S", color: "BLACK", stockQuantity: 10, priceAdjustment: 0 },
+      { id: "v-038", productId: "prod-005", size: "M", color: "BLACK", stockQuantity: 22, priceAdjustment: 0 },
+      { id: "v-039", productId: "prod-005", size: "L", color: "BLACK", stockQuantity: 18, priceAdjustment: 0 },
+      { id: "v-040", productId: "prod-005", size: "XL", color: "BLACK", stockQuantity: 12, priceAdjustment: 0 },
+      { id: "v-041", productId: "prod-005", size: "XXL", color: "BLACK", stockQuantity: 5, priceAdjustment: 50 },
+      { id: "v-042", productId: "prod-005", size: "S", color: "WHITE", stockQuantity: 8, priceAdjustment: 0 },
+      { id: "v-043", productId: "prod-005", size: "M", color: "WHITE", stockQuantity: 20, priceAdjustment: 0 },
+      { id: "v-044", productId: "prod-005", size: "L", color: "WHITE", stockQuantity: 15, priceAdjustment: 0 },
+      { id: "v-045", productId: "prod-005", size: "XL", color: "WHITE", stockQuantity: 10, priceAdjustment: 0 },
+      { id: "v-046", productId: "prod-005", size: "XXL", color: "WHITE", stockQuantity: 4, priceAdjustment: 50 },
+    ],
+  },
+  {
+    id: "prod-006",
+    name: "Pocket Tee",
+    slug: "pocket-tee",
+    description:
+      "Classic pocket tee with a clean chest pocket detail. 210gsm cotton with a slightly relaxed fit. A wardrobe staple, elevated.",
+    basePrice: 979,
+    thumbnail: ".../public/plain-black-t-shirt.png",
+    isFeatured: false,
+    variants: [
+      { id: "v-047", productId: "prod-006", size: "S", color: "BLACK", stockQuantity: 20, priceAdjustment: 0 },
+      { id: "v-048", productId: "prod-006", size: "M", color: "BLACK", stockQuantity: 35, priceAdjustment: 0 },
+      { id: "v-049", productId: "prod-006", size: "L", color: "BLACK", stockQuantity: 28, priceAdjustment: 0 },
+      { id: "v-050", productId: "prod-006", size: "XL", color: "BLACK", stockQuantity: 15, priceAdjustment: 0 },
+      { id: "v-051", productId: "prod-006", size: "S", color: "WHITE", stockQuantity: 18, priceAdjustment: 0 },
+      { id: "v-052", productId: "prod-006", size: "M", color: "WHITE", stockQuantity: 32, priceAdjustment: 0 },
+      { id: "v-053", productId: "prod-006", size: "L", color: "WHITE", stockQuantity: 25, priceAdjustment: 0 },
+      { id: "v-054", productId: "prod-006", size: "XL", color: "WHITE", stockQuantity: 12, priceAdjustment: 0 },
+    ],
+  },
+];
+
+export const templates: TemplateDesign[] = [
+  { id: "tpl-001", name: "Abstract Lines", imageUrl: "/templates/abstract-lines.png", category: "Abstract" },
+  { id: "tpl-002", name: "Mountain Range", imageUrl: "/templates/mountain.png", category: "Minimal" },
+  { id: "tpl-003", name: "Bold Statement", imageUrl: "/templates/bold-text.png", category: "Typography" },
+  { id: "tpl-004", name: "Geometric Shape", imageUrl: "/templates/geometric.png", category: "Graphic" },
+  { id: "tpl-005", name: "Wave Pattern", imageUrl: "/templates/wave.png", category: "Abstract" },
+  { id: "tpl-006", name: "Streetwear Logo", imageUrl: "/templates/streetwear.png", category: "Streetwear" },
+  { id: "tpl-007", name: "Minimal Line Art", imageUrl: "/templates/line-art.png", category: "Minimal" },
+  { id: "tpl-008", name: "Vintage Type", imageUrl: "/templates/vintage-type.png", category: "Typography" },
+];
+
+export const templateCategories = ["All", "Minimal", "Typography", "Graphic", "Abstract", "Streetwear"] as const;
+
+============================================================
+FILE: theme-store\src\features\admin\actions.ts
+============================================================
+"use server";
+
+import { db } from "@/lib/db";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+
+// ─── Guard ──────────────────────────────────────────────────────────────────
+
+async function requireAdmin() {
+  const { userId: clerkId } = await auth();
+  if (!clerkId) redirect("/sign-in");
+  const user = await db.user.findUnique({ where: { clerkId }, select: { role: true } });
+  if (!user || user.role !== "ADMIN") redirect("/");
+}
+
+// ─── Products ────────────────────────────────────────────────────────────────
+
+export async function createProduct(formData: FormData) {
+  await requireAdmin();
+
+  const name = formData.get("name") as string;
+  const slug = name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+  const description = formData.get("description") as string;
+  const basePrice = parseFloat(formData.get("basePrice") as string);
+  const thumbnail = (formData.get("thumbnail") as string) || null;
+  const isFeatured = formData.get("isFeatured") === "true";
+
+  const product = await db.product.create({
+    data: { name, slug, description, basePrice, thumbnail, isFeatured },
+  });
+
+  // Create all size/color variants with 0 stock by default
+  const sizes = ["S", "M", "L", "XL", "XXL"] as const;
+  const colors = ["BLACK", "WHITE"] as const;
+
+  await db.productVariant.createMany({
+    data: sizes.flatMap((size) =>
+      colors.map((color) => ({
+        productId: product.id,
+        size,
+        color,
+        stockQuantity: 0,
+        priceAdjustment: 0,
+      }))
+    ),
+  });
+
+  revalidatePath("/admin/products");
+  redirect("/admin/products");
+}
+
+export async function updateProduct(id: string, formData: FormData) {
+  await requireAdmin();
+
+  const name = formData.get("name") as string;
+  const slug = name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+  const description = formData.get("description") as string;
+  const basePrice = parseFloat(formData.get("basePrice") as string);
+  const thumbnail = (formData.get("thumbnail") as string) || null;
+  const isFeatured = formData.get("isFeatured") === "true";
+
+  await db.product.update({
+    where: { id },
+    data: { name, slug, description, basePrice, thumbnail, isFeatured },
+  });
+
+  revalidatePath("/admin/products");
+  revalidatePath(`/shop/${slug}`);
+  redirect("/admin/products");
+}
+
+export async function deleteProduct(id: string) {
+  await requireAdmin();
+
+  // Delete related records first
+  const variants = await db.productVariant.findMany({ where: { productId: id } });
+  if (variants.length > 0) {
+    await db.productVariant.deleteMany({ where: { productId: id } });
+  }
+
+  await db.product.delete({ where: { id } });
+
+  revalidatePath("/admin/products");
+  revalidatePath("/shop");
+}
+
+export async function updateVariantStock(variantId: string, stock: number) {
+  await requireAdmin();
+  await db.productVariant.update({
+    where: { id: variantId },
+    data: { stockQuantity: stock },
+  });
+  revalidatePath("/admin/products");
+}
+
+// ─── Orders ──────────────────────────────────────────────────────────────────
+
+export async function updateOrderStatus(orderId: string, formData: FormData) {
+  await requireAdmin();
+
+  const orderStatus = formData.get("orderStatus") as string;
+  const trackingId = (formData.get("trackingId") as string) || null;
+
+  await db.order.update({
+    where: { id: orderId },
+    data: {
+      orderStatus: orderStatus as
+        | "PROCESSING"
+        | "PRINTING"
+        | "SHIPPED"
+        | "DELIVERED"
+        | "CANCELLED",
+      ...(trackingId ? { trackingId } : {}),
+    },
+  });
+
+  revalidatePath(`/admin/orders/${orderId}`);
+  revalidatePath("/admin/orders");
+}
+
+============================================================
+FILE: theme-store\src\lib\db.ts
+============================================================
 import { PrismaClient } from "@/generated/prisma/client";
 
 const globalForPrisma = globalThis as unknown as {
@@ -2007,5 +4145,99 @@ export const db = globalForPrisma.prisma ?? new PrismaClient();
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = db;
+}
+
+============================================================
+FILE: theme-store\src\lib\utils.ts
+============================================================
+export function formatPrice(price: number): string {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(price);
+}
+
+export function cn(...classes: (string | boolean | undefined | null)[]): string {
+  return classes.filter(Boolean).join(" ");
+}
+
+============================================================
+FILE: theme-store\src\middleware.ts
+============================================================
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+const isProtectedRoute = createRouteMatcher([
+  "/checkout(.*)",
+  "/orders(.*)",
+  "/profile(.*)",
+  "/admin(.*)",
+]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
+});
+
+export const config = {
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/(api|trpc)(.*)",
+  ],
+};
+
+============================================================
+FILE: theme-store\src\types\index.ts
+============================================================
+// src/types/index.ts
+
+export type Size = "S" | "M" | "L" | "XL" | "XXL";
+export type Color = "BLACK" | "WHITE";
+
+export interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  basePrice: number;
+  thumbnail: string | null;
+  isFeatured: boolean;
+  variants: ProductVariant[];
+}
+
+export interface ProductVariant {
+  id: string;
+  productId: string;
+  size: Size;
+  color: Color;
+  stockQuantity: number;
+  priceAdjustment: number;
+}
+
+export interface TemplateDesign {
+  id: string;
+  name: string;
+  imageUrl: string;
+  category: string;
+}
+
+export interface DesignPosition {
+  x: number;
+  y: number;
+  scale: number;
+}
+
+export interface CustomDesignState {
+  productId: string;
+  selectedColor: Color;
+  selectedSize: Size;
+  view: "front" | "back";
+  frontDesign: string | null;
+  backDesign: string | null;
+  frontPosition: DesignPosition;
+  backPosition: DesignPosition;
+  activeSide: "front" | "back";
 }
 
