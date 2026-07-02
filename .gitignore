@@ -42,7 +42,7 @@ next-env.d.ts
 
 
 
-# /src/generated/prisma
+/src/generated/
 
 
-theme-store-export.txt
+./theme-store-export.txt
