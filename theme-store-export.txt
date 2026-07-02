@@ -1,5 +1,611 @@
+================================================================================
+FILE: shirt-store/Architecture.md
+================================================================================
 
-===== FILE: .gitignore =====
+Tech Stack
+
+Frontend
+- Next.js 15
+- TypeScript
+- Tailwind v4
+- shadcn/ui
+- Framer Motion
+
+Backend
+- Route Handlers
+- Server Actions
+
+Auth
+- Clerk
+
+Database
+- Supabase + Prisma
+
+Storage
+- Cloudinary
+
+Deployment
+- Vercel
+- Cloudflare
+
+Folder Structure
+
+app/
+components/
+features/
+services/
+lib/
+hooks/
+types/
+
+API Flow
+
+Client
+→ Route Handler
+→ Prisma
+→ Database
+
+================================================================================
+FILE: shirt-store/DB_schema.md
+================================================================================
+
+# DB_SCHEMA.md
+
+## User
+
+* id
+* clerkId
+* name
+* email
+* imageUrl
+* role (USER | ADMIN)
+* createdAt
+* updatedAt
+
+---
+
+## Product
+
+Represents a T-shirt product.
+
+* id
+* name
+* slug
+* description
+* basePrice
+* thumbnail
+* isFeatured
+* createdAt
+* updatedAt
+
+---
+
+## ProductVariant
+
+Represents available options.
+
+* id
+* productId
+* size
+* color
+* stockQuantity
+* priceAdjustment
+
+Allowed values:
+
+Size:
+
+* S
+* M
+* L
+* XL
+* XXL
+
+Color:
+
+* BLACK
+* WHITE
+
+---
+
+## TemplateDesign
+
+Pre-designed templates.
+
+* id
+* name
+* imageUrl
+* category
+* createdAt
+
+---
+
+## CustomDesign
+
+Stores user customization.
+
+* id
+* userId
+* templateId (nullable)
+* uploadedImageUrl
+* frontDesignUrl
+* backDesignUrl
+* selectedColor
+* selectedSize
+* createdAt
+
+Rules:
+
+Only one source:
+
+* uploadedImageUrl
+  OR
+* templateId
+
+---
+
+## Cart
+
+* id
+* userId
+* createdAt
+
+---
+
+## CartItem
+
+* id
+* cartId
+* productId
+* customDesignId
+* quantity
+* unitPrice
+
+---
+
+## Order
+
+* id
+* userId
+* subtotal
+* totalAmount
+* paymentStatus
+* orderStatus
+* shippingAddress
+* trackingId
+* createdAt
+
+Payment Status:
+
+* PENDING
+* PAID
+* FAILED
+
+Order Status:
+
+* PROCESSING
+* PRINTING
+* SHIPPED
+* DELIVERED
+* CANCELLED
+
+---
+
+## OrderItem
+
+* id
+* orderId
+* productId
+* customDesignId
+* quantity
+* price
+
+---
+
+## Relationships
+
+User
+↓
+Cart
+↓
+CartItems
+
+User
+↓
+Orders
+↓
+OrderItems
+
+Product
+↓
+ProductVariants
+
+User
+↓
+CustomDesign
+
+
+================================================================================
+FILE: shirt-store/PRD.md
+================================================================================
+
+# PRD — Shirt Store
+
+## Project Name
+
+Shirt Store (temporary name)
+
+## Goal
+
+Build an e-commerce platform for custom printed T-shirts where users can either upload their own designs or select from pre-designed templates.
+
+The initial version supports only:
+
+* Black T-shirts
+* White T-shirts
+
+The objective is to provide a simple, fast, and highly customizable ordering experience with minimal operational complexity.
+
+---
+
+## Problem Statement
+
+Users often want personalized T-shirts for personal use, gifts, events, or branding, but existing customization platforms can be complicated and overwhelming.
+
+The platform should make custom T-shirt creation simple:
+
+Choose → Customize → Preview → Order
+
+---
+
+## Target Users
+
+* People wanting personalized T-shirts
+* College students
+* Small creators and influencers
+* Event organizers
+* Users purchasing gifts
+
+---
+
+## Goals
+
+* Allow users to upload custom designs
+* Allow users to select pre-designed templates
+* Enable front and back design previews
+* Provide a frictionless checkout flow
+* Enable users to track order status
+* Keep platform maintenance low
+
+---
+
+## Non-Goals (V1)
+
+Not included in first release:
+
+* Multiple apparel types
+* Multiple T-shirt materials
+* Wishlist functionality
+* Coupon system
+* Reviews and ratings
+* Multi-vendor support
+* AI-generated designs
+* Inventory management system
+* International payments
+* Bulk ordering tools
+
+---
+
+## Core Features
+
+### User Features
+
+* Authentication
+* Product browsing
+* Product search
+* Select pre-designed T-shirts
+* Custom T-shirt editor
+* Cart
+* Checkout
+* Order tracking
+
+### Admin Features
+
+* Admin dashboard
+* Product management
+* Pre-designed template management
+* Order management
+* User management
+
+---
+
+## User Stories
+
+### Authentication
+
+* User can create an account
+* User can log in
+* User can log out
+* User can delete account
+
+### Product Discovery
+
+* User can browse products
+* User can search products
+
+### T-Shirt Customization
+
+* User can upload a design
+* User can select a pre-designed template
+* User can choose black or white T-shirt
+* User can customize front side
+* User can customize back side
+* User can preview final design
+
+### Purchasing
+
+* User can add products to cart
+* User can place an order
+* User can pay using Razorpay
+* User can track order status
+
+### Admin
+
+* Admin can add products
+* Admin can upload templates
+* Admin can update order status
+* Admin can edit products
+* Admin can access dashboard with total sales ,profit etc.
+
+---
+
+## Business Rules
+
+* Maximum upload size: 5MB
+* Supported formats:
+
+  * PNG
+  * JPG
+  * SVG
+* Payments handled using Razorpay
+* T-shirt colors limited to:
+
+  * Black
+  * White
+* Design preview required before checkout
+* Authentication required before checkout
+
+---
+
+## Assumptions
+
+* Print production handled outside the application
+* Shipping provider integration may be added later
+* Initial traffic expected to be low to moderate
+
+---
+
+## User Flow
+
+Landing Page
+↓
+Browse Products
+↓
+Select Shirt
+↓
+Upload or Choose Design
+↓
+Customize Front/Back
+↓
+Preview
+↓
+Add to Cart
+↓
+Checkout
+↓
+Payment
+↓
+Order Tracking
+
+---
+
+## Success Metrics
+
+Technical:
+
+* Page load < 3 seconds
+* Checkout completion > 60%
+* Uptime > 99%
+
+Business:
+
+* First 100 orders
+* Cart abandonment < 50%
+* Returning users > 20%
+
+User Experience:
+
+* Design upload success > 95%
+* Checkout drop-off reduced
+
+
+================================================================================
+FILE: shirt-store/prd2.md
+================================================================================
+
+
+
+================================================================================
+FILE: shirt-store/Rules.md
+================================================================================
+
+# RULES.md
+
+## General Rules
+
+Use TypeScript everywhere
+
+Never use "any"
+
+Strict typing enabled
+
+Reusable components only
+
+Feature-based architecture
+
+---
+
+## Next.js Rules
+
+Use App Router
+
+Use Server Components by default
+
+Use Client Components only when needed
+
+Use Server Actions where possible
+
+Use Route Handlers for external APIs only
+
+---
+
+## Styling Rules
+
+Use Tailwind only
+
+No inline CSS
+
+Use shadcn components
+
+Use cn utility for class merging
+
+---
+
+## Validation Rules
+
+Use Zod everywhere
+
+Validate:
+
+* forms
+* APIs
+* environment variables
+
+---
+
+## Error Handling
+
+Every API requires:
+
+* try/catch
+* typed responses
+* error messages
+
+Every page requires:
+
+* loading state
+* error state
+* empty state
+
+---
+
+## Performance Rules
+
+Optimize images
+
+Lazy-load heavy components
+
+Avoid unnecessary rerenders
+
+Use React Query cache
+
+---
+
+## Database Rules
+
+All database access through Prisma
+
+No raw SQL unless required
+
+Use transactions where needed
+
+---
+
+## Security Rules
+
+Protect admin routes
+
+Protect webhooks
+
+Validate uploads
+
+Sanitize user input
+
+Never expose secrets
+
+Use environment variables only
+
+
+================================================================================
+FILE: shirt-store/stack.md
+================================================================================
+
+Frontend
+├── Next.js 15
+├── TypeScript
+├── Tailwind v4
+├── shadcn/ui
+├── Framer Motion
+
+State
+├── Zustand
+└── TanStack Query
+
+Backend
+├── Next Route Handlers
+└── Server Actions
+
+Auth
+└── Clerk
+
+Database
+├── Supabase PostgreSQL
+└── Prisma
+
+Storage
+└── Cloudinary
+
+Payments
+└── Razorpay
+
+Emails
+└── Resend
+
+Analytics
+├── Google Analytics
+└── PostHog
+
+Monitoring
+└── Sentry
+
+DevOps
+├── Vercel
+└── Cloudflare
+
+Later
+├── Upstash Redis
+├── Inngest
+└── AI APIs
+
+================================================================================
+FILE: shirt-store/UI_UX.md
+================================================================================
+
+Design a world-class premium ecommerce website UI for a men's custom t-shirt brand. IMPORTANT: This task is ONLY for visual design, user experience, interaction design, layout design, motion design, and frontend presentation. Do NOT focus on backend, database, authentication, APIs, or implementation details. The objective is to create a memorable luxury-fashion ecommerce experience that feels significantly more premium than typical Shopify stores. --- ## BRAND CONCEPT A premium men's t-shirt brand. Products: * Black T-Shirts * White T-Shirts Only two color variants exist. Customers can: * Upload their own design * Select pre-designed graphics * Print on front * Print on back * Print on both sides The website should feel like: Luxury Fashion Brand + Modern Design Studio + Premium Product Customizer The overall aesthetic should communicate: * Confidence * Simplicity * Premium quality * Modern craftsmanship * Minimalism The website must feel expensive, curated, and highly intentional. --- ## DESIGN DIRECTION Design Style: Luxury Minimalism Keywords: * Editorial * Fashion-forward * Premium * Elegant * Sophisticated * Refined * Clean * Spacious * Timeless Avoid: * Generic ecommerce layouts * Template-like sections * Bright colors * Neon effects * Visual clutter * Cheap-looking gradients * Overly rounded playful designs The experience should feel closer to a premium fashion label than a typical online store. --- ## COLOR SYSTEM(aureliam theme)  Background: Warm soft beige #F5F1EA Secondary Surface: #EEE7DD Card Surface: #FAF7F2 Primary Text: #111111 Secondary Text: #666666 Accent: #0F0F0F Border: rgba(0,0,0,0.08) The background should never be pure white. The overall visual tone should feel warm, premium, and comfortable for long browsing sessions. --- ## TYPOGRAPHY Typography is a major design element. Use a luxury editorial style. Headings: Inter Tight Body: Inter Characteristics: * Large dramatic headlines * Strong hierarchy * Elegant spacing * High readability * Fashion magazine feeling Hero headings should feel bold and memorable. Typography should carry much of the visual identity. --- ## LAYOUT PHILOSOPHY Use generous whitespace. Every section should breathe. Create a feeling of confidence through simplicity. Avoid overcrowding. Content width: 1280px Max layout width: 1440px Grid system: Modern editorial grid Balance imagery and typography carefully. --- ## MOTION DESIGN Motion should feel premium. Use subtle cinematic interactions. Animations should feel intentional. Allowed effects: * Smooth fade-up reveals * Blur reveals * Text reveal animations * Staggered content entrances * Parallax image movement * Hover image zoom * Elegant page transitions * Smooth section reveals Avoid flashy effects. Avoid excessive movement. The website should feel calm and sophisticated. --- ## NAVIGATION Design a premium navigation bar. Features: * Transparent initially * Soft blurred background on scroll * Elegant hover states * Refined active indicators Navigation Items: Shop Collections Customize Gallery About Contact Actions: Search Account Cart The navigation should feel lightweight and unobtrusive. --- ## HOMEPAGE EXPERIENCE SECTION 1 Hero Create a visually striking luxury hero section. Headline: Wear Your Design. Subheadline: Premium black and white t-shirts customized by you. CTA Buttons: Start Customizing Explore Designs Visual Area: A large premium t-shirt presentation. The shirt should feel like a product advertisement from a luxury fashion campaign. Use layered depth and subtle motion. The hero must create an immediate emotional impact. --- SECTION 2 Featured Collections Present collections using an editorial layout. Collections: Black Collection White Collection Minimal Collection Typography Collection Graphic Collection Use large photography. Minimal text. Strong visual storytelling. --- SECTION 3 Customization Journey Visually explain the customization process. Show: Choose Shirt Choose Print Side Upload Design Preview Checkout Use elegant progression visuals. Avoid boring step indicators. Make the process feel exciting and premium. --- SECTION 4 Featured Designs Create a visually engaging gallery. Categories: Minimal Streetwear Typography Graphic Abstract Use an editorial gallery layout. Hover interactions should feel premium. --- SECTION 5 Design Studio Showcase Create a large centerpiece section. Show a realistic customization experience. Include: Front View Back View Both Views Visual controls for: Upload Resize Rotate Position This section should feel like a luxury creative studio. Think Apple-level product presentation. --- SECTION 6 Brand Value Section Present: Premium Fabric High Quality Printing Long Lasting Designs Fast Shipping Made For Men Secure Checkout Use elegant iconography and refined cards. --- SECTION 7 Customer Gallery Display customer-created t-shirts. Use a premium masonry layout. The gallery should feel aspirational. --- SECTION 8 Testimonials Create a sophisticated review experience. Minimal cards. Smooth motion. Elegant typography. --- SECTION 9 FAQ Design a refined accordion experience. Simple. Elegant. Easy to scan. --- SECTION 10 Final CTA Create a powerful conversion section. Headline: Your Design Deserves Better Than Ordinary. CTA: Create Your Tee This should feel emotionally compelling. --- ## PRODUCT PAGE DESIGN The product page should feel premium and immersive. Include: Large imagery Front View Back View Detail Shots Zoom Experience Minimal information hierarchy Size Selection Color Selection Print Position Selection Related Products Sticky purchase actions The focus should remain on product presentation. --- ## CUSTOMIZATION PAGE DESIGN This is the signature experience. Create a modern design studio interface. Visual layout: Large t-shirt canvas Front/Back switcher Design controls Placement guides Interactive preview The experience should feel professional, intuitive, and satisfying. Not technical. Not overwhelming. --- ## CART DESIGN Minimal luxury checkout preparation. Use: Clean product summaries Elegant quantity controls Order overview Smooth drawer interactions Trust-building design patterns --- ## CHECKOUT DESIGN Create a premium checkout experience. Focus on: Trust Clarity Simplicity Visual hierarchy Reduce anxiety. Make the process feel seamless. --- ## MICRO INTERACTIONS Buttons: Subtle lift Soft shadow transitions Cards: Image zoom Hover elevation Navigation: Smooth underline motion Gallery: Preview interactions Forms: Elegant focus states Loading: Premium skeleton screens Every interaction should feel polished. --- ## IMAGERY DIRECTION Use photography styles inspired by: Luxury fashion campaigns Minimal product photography Studio lighting Editorial shoots Monochrome aesthetics Focus on: Black T-Shirts White T-Shirts Fabric texture Print quality Details Craftsmanship --- ## OVERALL GOAL Design a website that feels like the intersection of: Luxury Fashion Brand + Creative Design Studio + Premium Ecommerce Experience The final design should feel modern, memorable, premium, highly polished, visually elegant, and significantly above the quality of typical ecommerce websites.
+
+================================================================================
+FILE: theme-store/.gitignore
+================================================================================
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -45,8 +651,12 @@ next-env.d.ts
 
 
 
+/src/generated/prisma
 
-===== FILE: DESIGN.md =====
+
+================================================================================
+FILE: theme-store/DESIGN.md
+================================================================================
 
 ---
 name: Aurelian Thread
@@ -212,7 +822,9 @@ The shape language is **Architectural and Precise**.
 - **Lists**: Clean horizontal dividers (1px) with generous vertical padding. Use `Inter` Medium for list items to ensure they feel structured.
 - **Product Tiles**: Focus on the image first. The price and title should appear in a refined `body-md` or `label-caps` below the image, with significant whitespace between the image and the metadata.
 
-===== FILE: eslint.config.mjs =====
+================================================================================
+FILE: theme-store/eslint.config.mjs
+================================================================================
 
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
@@ -234,7 +846,9 @@ const eslintConfig = defineConfig([
 export default eslintConfig;
 
 
-===== FILE: next-env.d.ts =====
+================================================================================
+FILE: theme-store/next-env.d.ts
+================================================================================
 
 /// <reference types="next" />
 /// <reference types="next/image-types/global" />
@@ -244,7 +858,9 @@ import "./.next/dev/types/routes.d.ts";
 // see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
 
 
-===== FILE: next.config.ts =====
+================================================================================
+FILE: theme-store/next.config.ts
+================================================================================
 
 import type { NextConfig } from "next";
 
@@ -255,7 +871,9 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 
 
-===== FILE: package.json =====
+================================================================================
+FILE: theme-store/package.json
+================================================================================
 
 {
   "name": "theme-store",
@@ -265,16 +883,22 @@ export default nextConfig;
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "postinstall": "prisma generate",
     "lint": "eslint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.5.11",
     "@deemlol/next-icons": "^0.2.7",
     "@fortawesome/free-brands-svg-icons": "^7.3.0",
     "@fortawesome/free-solid-svg-icons": "^7.3.0",
     "@fortawesome/react-fontawesome": "^3.3.1",
+    "@prisma/client": "^6.19.3",
+    "@vercel/analytics": "^2.0.1",
+    "dotenv": "^17.4.2",
     "next": "16.2.9",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "svix": "^1.96.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -283,13 +907,16 @@ export default nextConfig;
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
 }
 
 
-===== FILE: postcss.config.mjs =====
+================================================================================
+FILE: theme-store/postcss.config.mjs
+================================================================================
 
 const config = {
   plugins: {
@@ -300,47 +927,27 @@ const config = {
 export default config;
 
 
-===== FILE: README.md =====
+================================================================================
+FILE: theme-store/prisma.config.ts
+================================================================================
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+import "dotenv/config";
+import { defineConfig } from "prisma/config";
 
-## Getting Started
+export default defineConfig({
+  schema: "prisma/schema.prisma",
+  migrations: {
+    path: "prisma/migrations",
+  },
+  datasource: {
+    url: process.env["DATABASE_URL"]!,
+    directUrl: process.env["DIRECT_URL"],  // add this
+  },
+});
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-
-===== FILE: tsconfig.json =====
+================================================================================
+FILE: theme-store/tsconfig.json
+================================================================================
 
 {
   "compilerOptions": {
@@ -378,7 +985,408 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 }
 
 
-===== FILE: src\app\globals.css =====
+================================================================================
+FILE: theme-store/prisma/schema.prisma
+================================================================================
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider      = "prisma-client-js"
+  output         = "../src/generated/prisma"
+  binaryTargets  = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+
+model User {
+  id        String   @id @default(uuid())
+  clerkId   String   @unique
+  name      String
+  email     String   @unique
+  imageUrl  String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customDesigns CustomDesign[]
+  cart          Cart?
+  orders        Order[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String
+  basePrice   Float
+  thumbnail   String?
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  variants      ProductVariant[]
+  customDesigns CustomDesign[]
+  cartItems     CartItem[]     
+  orderItems    OrderItem[]     
+}
+
+model ProductVariant{
+  
+ id                 String  @id @default(uuid())
+ productId          String
+ product            Product @relation(fields: [productId], references: [id])
+ size               Size
+ color              Color
+ stockQuantity      Int
+ priceAdjustment    Float
+
+ @@unique([productId, size, color])
+}
+enum Size {
+  S
+  M
+  L
+  XL
+  XXL
+}
+
+enum Color {
+  BLACK
+  WHITE
+}
+
+
+model TemplateDesign {
+  id        String   @id @default(uuid())
+  name      String
+  imageUrl  String
+  category  String
+  createdAt DateTime @default(now())
+
+  customDesigns CustomDesign[]
+}
+
+model CustomDesign {
+  id               String          @id @default(uuid())
+  userId           String
+  user             User            @relation(fields: [userId], references: [id])
+  productId        String
+  product          Product         @relation(fields: [productId], references: [id])
+  templateId       String?
+  template         TemplateDesign? @relation(fields: [templateId], references: [id])
+  uploadedImageUrl String?
+  frontDesignUrl   String?
+  backDesignUrl    String?
+  selectedColor    Color
+  selectedSize     Size
+  createdAt        DateTime        @default(now())
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+}
+
+model Cart {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  items CartItem[]
+}
+
+model CartItem {
+  id             String        @id @default(uuid())
+  cartId         String
+  cart           Cart          @relation(fields: [cartId], references: [id])
+  productId      String
+  product        Product       @relation(fields: [productId], references: [id])
+  customDesignId String?
+  customDesign   CustomDesign? @relation(fields: [customDesignId], references: [id])
+  quantity       Int           @default(1)
+  unitPrice      Float
+}
+
+model Order {
+  id              String        @id @default(uuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+  subtotal        Float
+  totalAmount     Float
+  paymentStatus   PaymentStatus @default(PENDING)
+  orderStatus     OrderStatus   @default(PROCESSING)
+  shippingAddress String
+  trackingId      String?
+  createdAt       DateTime      @default(now())
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id             String        @id @default(uuid())
+  orderId        String
+  order          Order         @relation(fields: [orderId], references: [id])
+  productId      String
+  product        Product       @relation(fields: [productId], references: [id])
+  customDesignId String?
+  customDesign   CustomDesign? @relation(fields: [customDesignId], references: [id])
+  quantity       Int
+  price          Float
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum OrderStatus {
+  PROCESSING
+  PRINTING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+================================================================================
+FILE: theme-store/prisma/migrations/migration_lock.toml
+================================================================================
+
+# Please do not edit this file manually
+# It should be added in your version-control system (e.g., Git)
+provider = "postgresql"
+
+
+================================================================================
+FILE: theme-store/prisma/migrations/20260701072714_init/migration.sql
+================================================================================
+
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
+
+-- CreateEnum
+CREATE TYPE "Size" AS ENUM ('S', 'M', 'L', 'XL', 'XXL');
+
+-- CreateEnum
+CREATE TYPE "Color" AS ENUM ('BLACK', 'WHITE');
+
+-- CreateEnum
+CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'PAID', 'FAILED');
+
+-- CreateEnum
+CREATE TYPE "OrderStatus" AS ENUM ('PROCESSING', 'PRINTING', 'SHIPPED', 'DELIVERED', 'CANCELLED');
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "clerkId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "imageUrl" TEXT,
+    "role" "Role" NOT NULL DEFAULT 'USER',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Product" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "basePrice" DOUBLE PRECISION NOT NULL,
+    "thumbnail" TEXT,
+    "isFeatured" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ProductVariant" (
+    "id" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "size" "Size" NOT NULL,
+    "color" "Color" NOT NULL,
+    "stockQuantity" INTEGER NOT NULL,
+    "priceAdjustment" DOUBLE PRECISION NOT NULL,
+
+    CONSTRAINT "ProductVariant_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TemplateDesign" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "TemplateDesign_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CustomDesign" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "templateId" TEXT,
+    "uploadedImageUrl" TEXT,
+    "frontDesignUrl" TEXT,
+    "backDesignUrl" TEXT,
+    "selectedColor" "Color" NOT NULL,
+    "selectedSize" "Size" NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "CustomDesign_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Cart" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Cart_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CartItem" (
+    "id" TEXT NOT NULL,
+    "cartId" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "customDesignId" TEXT,
+    "quantity" INTEGER NOT NULL DEFAULT 1,
+    "unitPrice" DOUBLE PRECISION NOT NULL,
+
+    CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Order" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "subtotal" DOUBLE PRECISION NOT NULL,
+    "totalAmount" DOUBLE PRECISION NOT NULL,
+    "paymentStatus" "PaymentStatus" NOT NULL DEFAULT 'PENDING',
+    "orderStatus" "OrderStatus" NOT NULL DEFAULT 'PROCESSING',
+    "shippingAddress" TEXT NOT NULL,
+    "trackingId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "OrderItem" (
+    "id" TEXT NOT NULL,
+    "orderId" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "customDesignId" TEXT,
+    "quantity" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+
+    CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_clerkId_key" ON "User"("clerkId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Product_slug_key" ON "Product"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ProductVariant_productId_size_color_key" ON "ProductVariant"("productId", "size", "color");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Cart_userId_key" ON "Cart"("userId");
+
+-- AddForeignKey
+ALTER TABLE "ProductVariant" ADD CONSTRAINT "ProductVariant_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CustomDesign" ADD CONSTRAINT "CustomDesign_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CustomDesign" ADD CONSTRAINT "CustomDesign_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CustomDesign" ADD CONSTRAINT "CustomDesign_templateId_fkey" FOREIGN KEY ("templateId") REFERENCES "TemplateDesign"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Cart" ADD CONSTRAINT "Cart_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_customDesignId_fkey" FOREIGN KEY ("customDesignId") REFERENCES "CustomDesign"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_customDesignId_fkey" FOREIGN KEY ("customDesignId") REFERENCES "CustomDesign"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+
+================================================================================
+FILE: theme-store/src/middleware.ts
+================================================================================
+
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+const isProtectedRoute = createRouteMatcher([
+  "/checkout(.*)",
+  "/orders(.*)",
+  "/profile(.*)",
+  "/admin(.*)",
+]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
+});
+
+export const config = {
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/(api|trpc)(.*)",
+  ],
+};
+
+================================================================================
+FILE: theme-store/src/app/globals.css
+================================================================================
 
 @import "tailwindcss";
 
@@ -553,8 +1561,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 }
 
 
-===== FILE: src\app\layout.tsx =====
+================================================================================
+FILE: theme-store/src/app/layout.tsx
+================================================================================
 
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
@@ -581,18 +1592,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider>
     <html lang="en" className={`${inter.variable} ${interTight.variable}`}>
       <body>
         <Navbar />
         {children}
       </body>
     </html>
+    </ClerkProvider>
   );
 }
 
-===== FILE: src\app\page.tsx =====
+================================================================================
+FILE: theme-store/src/app/page.tsx
+================================================================================
 
 import Image from "next/image";
+// import { Analyics } from "@vercel/analytics/next"
 
 export default function HomePage() {
   return (
@@ -633,6 +1649,7 @@ export default function HomePage() {
                 src="/home-t-shirt.png"
                 alt="Premium t-shirt"
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-contain drop-shadow-2xl"
                 priority
               />
@@ -685,19 +1702,110 @@ export default function HomePage() {
   );
 }
 
-===== FILE: src\app\(auth)\register\page.tsx =====
+================================================================================
+FILE: theme-store/src/app/(auth)/layout.tsx
+================================================================================
 
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#F5F1EA]">
+      {children}
+    </div>
+  );
+}
 
-===== FILE: src\app\(auth)\Signin\page.tsx =====
+================================================================================
+FILE: theme-store/src/app/(auth)/sign-in/page.tsx
+================================================================================
 
+import { SignIn } from "@clerk/nextjs";
 
-===== FILE: src\components\Navbar.tsx =====
+export default function SignInPage() {
+  return <SignIn />;
+}
+
+================================================================================
+FILE: theme-store/src/app/(auth)/sign-up/page.tsx
+================================================================================
+
+import { SignUp } from "@clerk/nextjs";
+
+export default function SignUpPage() {
+  return <SignUp />;
+}
+
+================================================================================
+FILE: theme-store/src/app/api/webhooks/clerk/route.ts
+================================================================================
+
+import { Webhook } from "svix";
+import { headers } from "next/headers";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { db } from "@/lib/db";
+
+export async function POST(req: Request) {
+  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+  if (!WEBHOOK_SECRET) throw new Error("Missing CLERK_WEBHOOK_SECRET");
+
+  const headerPayload = await headers();
+  const svix_id = headerPayload.get("svix-id");
+  const svix_timestamp = headerPayload.get("svix-timestamp");
+  const svix_signature = headerPayload.get("svix-signature");
+
+  if (!svix_id || !svix_timestamp || !svix_signature) {
+    return new Response("Missing svix headers", { status: 400 });
+  }
+
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
+
+  const wh = new Webhook(WEBHOOK_SECRET);
+  let evt: WebhookEvent;
+
+  try {
+    evt = wh.verify(body, {
+      "svix-id": svix_id,
+      "svix-timestamp": svix_timestamp,
+      "svix-signature": svix_signature,
+    }) as WebhookEvent;
+  } catch {
+    return new Response("Invalid signature", { status: 400 });
+  }
+
+  if (evt.type === "user.created") {
+    const { id, email_addresses, first_name, last_name, image_url } = evt.data;
+    await db.user.create({
+      data: {
+        clerkId: id,
+        email: email_addresses[0].email_address,
+        name: `${first_name ?? ""} ${last_name ?? ""}`.trim(),
+        imageUrl: image_url,
+      },
+    });
+  }
+
+  if (evt.type === "user.deleted") {
+    const { id } = evt.data;
+    await db.user.delete({ where: { clerkId: id as string } });
+  }
+
+  return new Response("OK", { status: 200 });
+}
+
+================================================================================
+FILE: theme-store/src/components/Navbar.tsx
+================================================================================
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faUser, faBagShopping, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 
 const navLinks = [
   { label: "Shop", href: "#" },
@@ -708,6 +1816,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isSignedIn } = useUser();
 
   return (
     <>
@@ -747,10 +1856,18 @@ export default function Navbar() {
             />
           </div>
 
-          <a href="#" className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
-            <FontAwesomeIcon icon={faUser} className="text-sm transition-transform duration-200 group-hover:scale-110" />
-            <span className="hidden font-body text-sm md:flex">Profile</span>
-          </a>
+          <div className="relative">
+            {isSignedIn ? (
+              <ProfileDropdown />
+            ) : (
+              <SignInButton mode="modal">
+                <button className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
+                  <FontAwesomeIcon icon={faUser} className="text-sm transition-transform duration-200 group-hover:scale-110" />
+                  <span className="hidden font-body text-sm md:flex">Sign In</span>
+                </button>
+              </SignInButton>
+            )}
+          </div>
 
           <a href="#" className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
             <FontAwesomeIcon icon={faBagShopping} className="text-sm transition-transform duration-200 group-hover:scale-110" />
@@ -804,8 +1921,55 @@ export default function Navbar() {
   );
 }
 
+function ProfileDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const { signOut } = useClerk();
 
-===== FILE: src\constants\products.ts =====
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex  "
+      >
+        <FontAwesomeIcon icon={faUser} className="text-sm transition-transform duration-200 group-hover:scale-110 " />
+
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-full mt-2 w-36 rounded-md border border-white/20 bg-black/80 py-1 shadow-lg backdrop-blur-sm">
+          <button
+            className="flex w-full items-center gap-2 px-4 py-2 text-sm text-white-600 transition-colors hover:bg-white/10"
+          >
+            Profile
+          </button>
+
+          <button
+            onClick={() => signOut({ redirectUrl: "/" })}
+            className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 transition-colors hover:bg-white/10"
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+================================================================================
+FILE: theme-store/src/constants/products.ts
+================================================================================
 
 export const products = [
   {
@@ -828,3 +1992,20 @@ export const products = [
     sizes: ["M", "L"],
   }
 ];
+
+================================================================================
+FILE: theme-store/src/lib/db.ts
+================================================================================
+
+import { PrismaClient } from "@/generated/prisma/client";
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+export const db = globalForPrisma.prisma ?? new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = db;
+}
+
