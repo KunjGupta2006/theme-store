@@ -1,7 +1,6 @@
 // src/data/products.ts
 
 import { Product, TemplateDesign } from "@/types";
-
 export const products: Product[] = [
   {
     id: "prod-001",
@@ -10,7 +9,7 @@ export const products: Product[] = [
     description:
       "Our signature heavyweight cotton tee. 220gsm premium fabric with a relaxed fit that drapes perfectly. Double-stitched seams for durability.",
     basePrice: 899,
-    thumbnail: "/products/essential-black.png",
+    thumbnail: ".../public/plain-white-t-shirt.png",
     isFeatured: true,
     variants: [
       { id: "v-001", productId: "prod-001", size: "S", color: "BLACK", stockQuantity: 24, priceAdjustment: 0 },
@@ -32,7 +31,7 @@ export const products: Product[] = [
     description:
       "A modern oversized silhouette with dropped shoulders and extended length. 240gsm cotton for substantial weight and structure.",
     basePrice: 1099,
-    thumbnail: "/products/oversized-white.png",
+    thumbnail: ".../public/plain-black-t-shirt.png",
     isFeatured: true,
     variants: [
       { id: "v-011", productId: "prod-002", size: "S", color: "BLACK", stockQuantity: 15, priceAdjustment: 0 },
@@ -54,7 +53,7 @@ export const products: Product[] = [
     description:
       "Tailored fit with side seams for a clean, structured look. 200gsm fine-gauge cotton with a smooth hand feel.",
     basePrice: 949,
-    thumbnail: "/products/fitted-black.png",
+    thumbnail: ".../public/plain-white-t-shirt.png",
     isFeatured: false,
     variants: [
       { id: "v-021", productId: "prod-003", size: "S", color: "BLACK", stockQuantity: 30, priceAdjustment: 0 },
@@ -74,7 +73,7 @@ export const products: Product[] = [
     description:
       "A square-cut silhouette inspired by vintage workwear. Roomy through the body with a straight hem. 230gsm cotton.",
     basePrice: 999,
-    thumbnail: "/products/boxy-white.png",
+    thumbnail: ".../public/plain-white-t-shirt.png",
     isFeatured: true,
     variants: [
       { id: "v-029", productId: "prod-004", size: "S", color: "BLACK", stockQuantity: 18, priceAdjustment: 0 },
@@ -94,7 +93,7 @@ export const products: Product[] = [
     description:
       "Our heaviest fabric at 280gsm. Substantial, structured, and built to last. Pre-shrunk for consistent fit wash after wash.",
     basePrice: 1299,
-    thumbnail: "/products/heavy-black.png",
+    thumbnail: ".../public/plain-black-t-shirt.png",
     isFeatured: false,
     variants: [
       { id: "v-037", productId: "prod-005", size: "S", color: "BLACK", stockQuantity: 10, priceAdjustment: 0 },
@@ -116,7 +115,7 @@ export const products: Product[] = [
     description:
       "Classic pocket tee with a clean chest pocket detail. 210gsm cotton with a slightly relaxed fit. A wardrobe staple, elevated.",
     basePrice: 979,
-    thumbnail: "/products/pocket-white.png",
+    thumbnail: ".../public/plain-black-t-shirt.png",
     isFeatured: false,
     variants: [
       { id: "v-047", productId: "prod-006", size: "S", color: "BLACK", stockQuantity: 20, priceAdjustment: 0 },
