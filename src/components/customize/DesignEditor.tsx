@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useCartStore } from "@/store/cart";
 import { saveDesign, uploadToCloudinary } from "@/features/customize/actions";
-import type { DesignElement, DesignCanvasApi, Side } from "./DesignCanvas";
+import type { DesignElement, DesignCanvasApi, Side, ToolType } from "./DesignCanvas";
 import { PRINT_X, PRINT_Y, PRINT_W, PRINT_H } from "./DesignCanvas";
 
 const DesignCanvas = dynamic(() => import("./DesignCanvas"), { ssr: false });
@@ -52,6 +52,12 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
   const [elements, setElements] = useState<DesignElement[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showTemplates, setShowTemplates] = useState(false);
+  const [tool, setTool] = useState<ToolType>("select");
+  const [brushColor, setBrushColor] = useState("#ffffff");
+  const [brushSize, setBrushSize] = useState(4);
+  const [brushOpacity, setBrushOpacity] = useState(100);
+  const [fillShapes, setFillShapes] = useState(false);
+  const [shapeDash, setShapeDash] = useState(false);
 
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -76,7 +82,8 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
       {
         id, type: "image", side, src,
         x: PRINT_X + 20, y: PRINT_Y + 20, width: 120, height: 120, baseWidth: 120, baseHeight: 120,
-        rotation: 0, visible: true, name: `Image ${prev.filter((e) => e.type === "image").length + 1}`,
+        rotation: 0, visible: true, opacity: 100,
+        name: `Image ${prev.filter((e) => e.type === "image").length + 1}`,
       },
     ]);
     setSelectedId(id);
@@ -91,12 +98,16 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
       {
         id, type: "text", side, text,
         x: PRINT_X + 10, y: PRINT_Y + PRINT_H / 2, width: 140, height: 30, baseWidth: 140, baseHeight: 30,
-        fontSize: 22, baseFontSize: 22, fill: color === "BLACK" ? "#ffffff" : "#111111",
-        rotation: 0, visible: true, name: text,
+        fontSize: 22, baseFontSize: 22, fontColor: color === "BLACK" ? "#ffffff" : "#111111",
+        rotation: 0, visible: true, opacity: 100, name: text,
       },
     ]);
     setSelectedId(id);
   };
+
+  const handleAddElement = useCallback((el: DesignElement) => {
+    setElements((prev) => [...prev, el]);
+  }, []);
 
   const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -340,10 +351,22 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
         <div className="flex-1 flex items-center justify-center overflow-auto relative">
           <div style={{ transform: `scale(${zoom})`, transition: "transform 0.15s ease" }} className="relative">
             <div style={{ display: side === "front" ? "block" : "none" }}>
-              <DesignCanvas color={color} side="front" elements={elements} selectedId={selectedId} onSelect={setSelectedId} onChange={updateElement} active={side === "front"} onReady={(api) => { frontApi.current = api; }} />
+              <DesignCanvas
+                color={color} side="front" elements={elements} selectedId={selectedId}
+                tool={tool} brushColor={brushColor} brushSize={brushSize} brushOpacity={brushOpacity}
+                fillShapes={fillShapes} shapeDash={shapeDash}
+                onSelect={setSelectedId} onChange={updateElement} onAdd={handleAddElement}
+                active={side === "front"} onReady={(api) => { frontApi.current = api; }}
+              />
             </div>
             <div style={{ display: side === "back" ? "block" : "none" }}>
-              <DesignCanvas color={color} side="back" elements={elements} selectedId={selectedId} onSelect={setSelectedId} onChange={updateElement} active={side === "back"} onReady={(api) => { backApi.current = api; }} />
+              <DesignCanvas
+                color={color} side="back" elements={elements} selectedId={selectedId}
+                tool={tool} brushColor={brushColor} brushSize={brushSize} brushOpacity={brushOpacity}
+                fillShapes={fillShapes} shapeDash={shapeDash}
+                onSelect={setSelectedId} onChange={updateElement} onAdd={handleAddElement}
+                active={side === "back"} onReady={(api) => { backApi.current = api; }}
+              />
             </div>
           </div>
         </div>

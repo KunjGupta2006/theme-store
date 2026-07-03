@@ -14,7 +14,6 @@ const CUSTOM_BASE_PRODUCTS = [
     basePrice: 150,
     thumbnail: "/mockup/tshirt-white-front.png",
     isFeatured: true,
-    isCustomBase: true,
   },
   {
     name: "Plain Black T-Shirt",
@@ -23,7 +22,6 @@ const CUSTOM_BASE_PRODUCTS = [
     basePrice: 150,
     thumbnail: "/mockup/tshirt-black-front.png",
     isFeatured: true,
-    isCustomBase: true,
   },
 ];
 
