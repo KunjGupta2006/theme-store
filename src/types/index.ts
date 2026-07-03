@@ -6,8 +6,8 @@ export type Color = "BLACK" | "WHITE";
 export interface Product {
   id: string;
   name: string;
+  description: string | null ;
   slug: string;
-  description: string;
   basePrice: number;
   thumbnail: string | null;
   isFeatured: boolean;

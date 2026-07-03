@@ -40,6 +40,7 @@ export default async function CustomizePage({ searchParams }: CustomizePageProps
         product={{
           id: product.id,
           name: product.name,
+          // description: product.description ,
           slug: product.slug,
           basePrice: product.basePrice,
           thumbnail: product.thumbnail,

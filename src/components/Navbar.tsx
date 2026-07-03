@@ -6,6 +6,7 @@ import { faMagnifyingGlass, faUser, faBagShopping, faBars, faXmark } from "@fort
 import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 import { CartButton } from "@/components/cart/CartButton";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { label: "Shop", href: "/shop" },
@@ -16,10 +17,19 @@ const navLinks = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isSignedIn } = useUser();
+  const pathname = usePathname();
+  const transparent = pathname === "/"; // only the hero page gets the overlay treatment
+
 
   return (
     <>
-      <nav className="absolute left-0 right-0 top-0 z-100 flex h-16 w-full items-center justify-between bg-transparent px-6 text-white">
+      <nav
+        className={`left-0 right-0 top-0 z-100 flex h-16 w-full items-center justify-between px-6 transition-colors ${
+          transparent
+            ? "absolute bg-transparent text-white"
+            : "sticky bg-[#F5F1EA]/90 backdrop-blur-sm border-b border-black/6 text-[#111111]"
+        }`}
+      >
         <div className="font-display text-3xl font-semibold tracking-tight">
           Atelier
         </div>

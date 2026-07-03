@@ -1,66 +1,59 @@
 import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
-
 const products = [
   {
-    name: "Structured Heavyweight Tee",
-    slug: "structured-heavyweight-tee",
+    name: "Plain Round Neck Tee",
+    slug: "plain-round-neck-tee",
     description:
-      "230gsm combed cotton. Pre-shrunk. Reinforced collar. Built to hold its shape through repeated wear.",
-    basePrice: 899,
-    thumbnail:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80",
+      "Classic plain round-neck cotton t-shirt. Soft premium fabric with a clean everyday fit. 220gsm heavyweight cotton.",
+    basePrice: 249,
+    thumbnail: "/plain-white-t-shirt.png",
     isFeatured: true,
   },
   {
-    name: "Relaxed Drop Shoulder Tee",
-    slug: "relaxed-drop-shoulder-tee",
+    name: "Premium Cotton Tee",
+    slug: "premium-cotton-tee",
     description:
-      "Oversized silhouette with a dropped shoulder seam. 200gsm jersey. Lived-in feel from day one.",
-    basePrice: 799,
-    thumbnail:
-      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80",
+      "Minimal plain t-shirt built for comfort and durability. Structured fit with premium cotton texture. 220gsm.",
+    basePrice: 229,
+    thumbnail: "/plain-black-t-shirt.png",
     isFeatured: true,
   },
   {
-    name: "Classic Fitted Crew",
-    slug: "classic-fitted-crew",
+    name: "Essential Plain Tee",
+    slug: "essential-plain-tee",
     description:
-      "180gsm ringspun cotton. Clean lines, zero distraction. The foundation of any wardrobe.",
-    basePrice: 699,
-    thumbnail:
-      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&q=80",
+      "Clean everyday plain round-neck t-shirt with soft-touch cotton fabric. 200gsm mid-heavy fabric.",
+    basePrice: 199,
+    thumbnail: "/plain-white-t-shirt.png",
     isFeatured: true,
   },
   {
-    name: "Boxy Oversized Tee",
-    slug: "boxy-oversized-tee",
+    name: "Classic Basic Tee",
+    slug: "classic-basic-tee",
     description:
-      "Wide box cut. 220gsm cotton-blend. Designed for custom prints — maximum canvas, minimum distraction.",
-    basePrice: 849,
-    thumbnail:
-      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&q=80",
+      "Timeless plain t-shirt design with a comfortable regular fit. Made with durable cotton fabric. 210gsm.",
+    basePrice: 239,
+    thumbnail: "/plain-black-t-shirt.png",
     isFeatured: false,
   },
   {
-    name: "Slim Tapered Tee",
-    slug: "slim-tapered-tee",
+    name: "Minimal Everyday Tee",
+    slug: "minimal-everyday-tee",
     description:
-      "Slightly tapered through the waist. 190gsm combed cotton. A cleaner line without being restrictive.",
-    basePrice: 749,
-    thumbnail:
-      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&q=80",
+      "Simple premium cotton t-shirt designed for daily wear. Lightweight feel with clean stitching. 200gsm.",
+    basePrice: 209,
+    thumbnail: "/plain-white-t-shirt.png",
     isFeatured: false,
   },
   {
-    name: "Longline Extended Tee",
-    slug: "longline-extended-tee",
+    name: "Signature Plain Tee",
+    slug: "signature-plain-tee",
     description:
-      "Extended hem, 3 inches longer than standard. 210gsm cotton. Works layered or standalone.",
-    basePrice: 849,
-    thumbnail:
-      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80",
+      "Premium round-neck plain cotton t-shirt with a modern fit and soft finish. 220gsm cotton.",
+    basePrice: 219,
+    thumbnail: "/plain-black-t-shirt.png",
     isFeatured: false,
   },
 ];
