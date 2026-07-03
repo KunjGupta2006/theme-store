@@ -20,12 +20,15 @@
     "@fortawesome/react-fontawesome": "^3.3.1",
     "@prisma/client": "^6.19.3",
     "@vercel/analytics": "^2.0.1",
+    "cloudinary": "^2.10.0",
     "dotenv": "^17.4.2",
     "next": "16.2.9",
+    "next-cloudinary": "^6.17.5",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "recharts": "^3.9.1",
-    "svix": "^1.96.1"
+    "svix": "^1.96.1",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
