@@ -5,8 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
-// ─── Guard ──────────────────────────────────────────────────────────────────
-
+// ─── Guard ─────────────────────────────────────────────────────────────
 async function requireAdmin() {
   const { userId: clerkId } = await auth();
   if (!clerkId) redirect("/sign-in");
@@ -14,11 +13,9 @@ async function requireAdmin() {
   if (!user || user.role !== "ADMIN") redirect("/");
 }
 
-// ─── Products ────────────────────────────────────────────────────────────────
-
+// ─── Products ──────────────────────────────────────────────────────────
 export async function createProduct(formData: FormData) {
   await requireAdmin();
-
   const name = formData.get("name") as string;
   const slug = name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
   const description = formData.get("description") as string;
@@ -30,10 +27,8 @@ export async function createProduct(formData: FormData) {
     data: { name, slug, description, basePrice, thumbnail, isFeatured },
   });
 
-  // Create all size/color variants with 0 stock by default
   const sizes = ["S", "M", "L", "XL", "XXL"] as const;
   const colors = ["BLACK", "WHITE"] as const;
-
   await db.productVariant.createMany({
     data: sizes.flatMap((size) =>
       colors.map((color) => ({
@@ -52,7 +47,6 @@ export async function createProduct(formData: FormData) {
 
 export async function updateProduct(id: string, formData: FormData) {
   await requireAdmin();
-
   const name = formData.get("name") as string;
   const slug = name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
   const description = formData.get("description") as string;
@@ -66,42 +60,42 @@ export async function updateProduct(id: string, formData: FormData) {
   });
 
   revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${id}/edit`);
   revalidatePath(`/shop/${slug}`);
   redirect("/admin/products");
 }
 
 export async function deleteProduct(id: string) {
   await requireAdmin();
-
-  // Delete related records first
   const variants = await db.productVariant.findMany({ where: { productId: id } });
   if (variants.length > 0) {
     await db.productVariant.deleteMany({ where: { productId: id } });
   }
-
   await db.product.delete({ where: { id } });
-
   revalidatePath("/admin/products");
   revalidatePath("/shop");
 }
 
-export async function updateVariantStock(variantId: string, stock: number) {
+export async function updateVariantStock(variantId: string, formData: FormData) {
   await requireAdmin();
-  await db.productVariant.update({
+  const stock = parseInt(formData.get("stockQuantity") as string, 10);
+  const priceAdjustment = parseFloat(formData.get("priceAdjustment") as string);
+  const variant = await db.productVariant.update({
     where: { id: variantId },
-    data: { stockQuantity: stock },
+    data: {
+      stockQuantity: Number.isFinite(stock) ? stock : 0,
+      priceAdjustment: Number.isFinite(priceAdjustment) ? priceAdjustment : 0,
+    },
   });
+  revalidatePath(`/admin/products/${variant.productId}/edit`);
   revalidatePath("/admin/products");
 }
 
-// ─── Orders ──────────────────────────────────────────────────────────────────
-
+// ─── Orders ────────────────────────────────────────────────────────────
 export async function updateOrderStatus(orderId: string, formData: FormData) {
   await requireAdmin();
-
   const orderStatus = formData.get("orderStatus") as string;
   const trackingId = (formData.get("trackingId") as string) || null;
-
   await db.order.update({
     where: { id: orderId },
     data: {
@@ -114,7 +108,49 @@ export async function updateOrderStatus(orderId: string, formData: FormData) {
       ...(trackingId ? { trackingId } : {}),
     },
   });
-
   revalidatePath(`/admin/orders/${orderId}`);
   revalidatePath("/admin/orders");
+}
+
+// ─── Users ─────────────────────────────────────────────────────────────
+export async function updateUserRole(userId: string, formData: FormData) {
+  await requireAdmin();
+  const role = formData.get("role") as "USER" | "ADMIN";
+  await db.user.update({ where: { id: userId }, data: { role } });
+  revalidatePath("/admin/users");
+}
+
+// ─── Store settings (pricing) ─────────────────────────────────────────
+export async function updateStoreSettings(formData: FormData) {
+  await requireAdmin();
+  const customShirtBasePrice = parseFloat(formData.get("customShirtBasePrice") as string);
+  const printChargePerSide = parseFloat(formData.get("printChargePerSide") as string);
+
+  await db.storeSettings.upsert({
+    where: { id: "singleton" },
+    update: { customShirtBasePrice, printChargePerSide },
+    create: { id: "singleton", customShirtBasePrice, printChargePerSide },
+  });
+
+  revalidatePath("/admin/settings");
+  revalidatePath("/customize");
+}
+
+// ─── Template designs (used in the customize canvas) ──────────────────
+export async function createTemplateDesign(formData: FormData) {
+  await requireAdmin();
+  const name = formData.get("name") as string;
+  const imageUrl = formData.get("imageUrl") as string;
+  const category = (formData.get("category") as string) || "General";
+
+  await db.templateDesign.create({ data: { name, imageUrl, category } });
+  revalidatePath("/admin/templates");
+  revalidatePath("/customize");
+}
+
+export async function deleteTemplateDesign(id: string) {
+  await requireAdmin();
+  await db.templateDesign.delete({ where: { id } });
+  revalidatePath("/admin/templates");
+  revalidatePath("/customize");
 }

@@ -1,11 +1,10 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
   provider      = "prisma-client-js"
- binaryTargets = ["native", "rhel-openssl-3.0.x"]
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -13,8 +12,6 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-
-
 
 model User {
   id        String   @id @default(uuid())
@@ -49,22 +46,22 @@ model Product {
 
   variants      ProductVariant[]
   customDesigns CustomDesign[]
-  cartItems     CartItem[]     
-  orderItems    OrderItem[]     
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
 }
 
-model ProductVariant{
-  
- id                 String  @id @default(uuid())
- productId          String
- product            Product @relation(fields: [productId], references: [id])
- size               Size
- color              Color
- stockQuantity      Int
- priceAdjustment    Float
+model ProductVariant {
+  id              String  @id @default(uuid())
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  size            Size
+  color           Color
+  stockQuantity   Int
+  priceAdjustment Float
 
- @@unique([productId, size, color])
+  @@unique([productId, size, color])
 }
+
 enum Size {
   S
   M
@@ -77,7 +74,6 @@ enum Color {
   BLACK
   WHITE
 }
-
 
 model TemplateDesign {
   id        String   @id @default(uuid())
@@ -168,4 +164,13 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+// Singleton row holding store-wide, admin-editable pricing.
+// Used for plain custom-printed shirts: basePrice + (printChargePerSide * sides printed).
+model StoreSettings {
+  id                   String   @id @default("singleton")
+  customShirtBasePrice Float    @default(150)
+  printChargePerSide   Float    @default(15)
+  updatedAt            DateTime @updatedAt
 }

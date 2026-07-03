@@ -12,43 +12,27 @@ interface EditProductPageProps {
 
 export default async function EditProductPage({ params }: EditProductPageProps) {
   const { id } = await params;
-
   const product = await db.product.findUnique({
     where: { id },
-    include: {
-      variants: { orderBy: [{ color: "asc" }, { size: "asc" }] },
-    },
+    include: { variants: { orderBy: [{ color: "asc" }, { size: "asc" }] } },
   });
-
   if (!product) notFound();
 
-  const updateWithId = updateProduct.bind(null, id);
+  const updateProductWithId = updateProduct.bind(null, product.id);
 
   return (
     <div className="max-w-2xl space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-3">
-        <Link
-          href="/admin/products"
-          className="text-sm text-[#666666] hover:text-[#111111] transition-colors"
-        >
+        <Link href="/admin/products" className="text-sm text-[#666666] hover:text-[#111111] transition-colors">
           ← Products
         </Link>
         <span className="text-[#666666]">/</span>
-        <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">
-          Edit Product
-        </h1>
+        <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">Edit Product</h1>
       </div>
 
-      {/* Product form */}
-      <form
-        action={updateWithId}
-        className="bg-[#FAF7F2] border border-black/6 rounded p-6 space-y-5"
-      >
+      <form action={updateProductWithId} className="bg-[#FAF7F2] border border-black/6 rounded p-6 space-y-5">
         <div className="space-y-1.5">
-          <label className="text-xs text-[#666666] tracking-widest uppercase">
-            Product Name
-          </label>
+          <label className="text-xs text-[#666666] tracking-widest uppercase">Product Name</label>
           <input
             name="name"
             required
@@ -56,11 +40,8 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
             className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
           />
         </div>
-
         <div className="space-y-1.5">
-          <label className="text-xs text-[#666666] tracking-widest uppercase">
-            Description
-          </label>
+          <label className="text-xs text-[#666666] tracking-widest uppercase">Description</label>
           <textarea
             name="description"
             required
@@ -69,12 +50,9 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
             className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded resize-none"
           />
         </div>
-
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <label className="text-xs text-[#666666] tracking-widest uppercase">
-              Base Price (₹)
-            </label>
+            <label className="text-xs text-[#666666] tracking-widest uppercase">Base Price (₹)</label>
             <input
               name="basePrice"
               type="number"
@@ -85,11 +63,8 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
               className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
             />
           </div>
-
           <div className="space-y-1.5">
-            <label className="text-xs text-[#666666] tracking-widest uppercase">
-              Featured
-            </label>
+            <label className="text-xs text-[#666666] tracking-widest uppercase">Featured</label>
             <select
               name="isFeatured"
               defaultValue={product.isFeatured ? "true" : "false"}
@@ -100,11 +75,8 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
             </select>
           </div>
         </div>
-
         <div className="space-y-1.5">
-          <label className="text-xs text-[#666666] tracking-widest uppercase">
-            Thumbnail URL
-          </label>
+          <label className="text-xs text-[#666666] tracking-widest uppercase">Thumbnail URL</label>
           <input
             name="thumbnail"
             type="url"
@@ -112,7 +84,6 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
             className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
           />
         </div>
-
         <div className="flex items-center gap-3 pt-2">
           <button
             type="submit"
@@ -120,54 +91,64 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
           >
             Save Changes
           </button>
-          <Link
-            href="/admin/products"
-            className="text-xs text-[#666666] hover:text-[#111111] transition-colors"
-          >
+          <Link href="/admin/products" className="text-xs text-[#666666] hover:text-[#111111] transition-colors">
             Cancel
           </Link>
         </div>
       </form>
 
-      {/* Variant stock management */}
+      {/* Variant stock & price adjustment */}
       <div className="bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
         <div className="px-6 py-4 border-b border-black/6">
-          <h2 className="text-sm font-medium text-[#111111]">Stock by Variant</h2>
-          <p className="text-xs text-[#666666] mt-0.5">
-            Update stock for each size/color combination
-          </p>
+          <h2 className="text-sm font-medium text-[#111111]">Variants</h2>
+          <p className="text-xs text-[#666666] mt-0.5">Update stock and per-variant price adjustment</p>
         </div>
-        <div className="divide-y divide-black/4">
-          {product.variants.map((variant) => (
-            <form
-              key={variant.id}
-              action={async (formData) => {
-                "use server";
-                const stock = parseInt(formData.get("stock") as string, 10);
-                await updateVariantStock(variant.id, stock);
-              }}
-              className="flex items-center gap-4 px-6 py-3"
-            >
-              <span className="text-xs font-medium text-[#111111] w-12">
-                {variant.color}
-              </span>
-              <span className="text-xs text-[#666666] w-10">{variant.size}</span>
-              <input
-                name="stock"
-                type="number"
-                min={0}
-                defaultValue={variant.stockQuantity}
-                className="w-20 bg-white border border-black/8 px-3 py-1.5 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded text-center"
-              />
-              <button
-                type="submit"
-                className="text-xs text-[#666666] hover:text-[#111111] transition-colors underline"
-              >
-                Save
-              </button>
-            </form>
-          ))}
-        </div>
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-black/6">
+              {["Color", "Size", "Stock", "Price Adj. (₹)", ""].map((h) => (
+                <th key={h} className="text-left text-[10px] text-[#666666] tracking-widest uppercase px-6 py-3 font-normal">
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {product.variants.map((v) => {
+              const updateVariant = updateVariantStock.bind(null, v.id);
+              return (
+                <tr key={v.id} className="border-b border-black/4">
+                  <td className="px-6 py-3 text-sm text-[#111111]">{v.color}</td>
+                  <td className="px-6 py-3 text-sm text-[#111111]">{v.size}</td>
+                  <td colSpan={3} className="px-6 py-3">
+                    <form action={updateVariant} className="flex items-center gap-3">
+                      <input
+                        name="stockQuantity"
+                        type="number"
+                        min={0}
+                        defaultValue={v.stockQuantity}
+                        className="w-24 bg-white border border-black/8 px-3 py-2 text-sm rounded"
+                      />
+                      <input
+                        name="priceAdjustment"
+                        type="number"
+                        step={0.01}
+                        defaultValue={v.priceAdjustment}
+                        className="w-24 bg-white border border-black/8 px-3 py-2 text-sm rounded"
+                      />
+                      <button
+                        type="submit"
+                        className="text-xs text-[#666666] hover:text-[#111111] underline transition-colors"
+                      >
+                        Update
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
