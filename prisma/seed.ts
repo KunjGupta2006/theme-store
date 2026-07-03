@@ -1,94 +1,118 @@
 import { PrismaClient } from "@prisma/client";
+import { readdirSync, existsSync } from "fs";
+import { join } from "path";
 
 const db = new PrismaClient();
-const products = [
+
+// ─── Products ───────────────────────────────────────────────────────────────
+// Plain base tshirts for custom printing (isCustomBase: true)
+const CUSTOM_BASE_PRODUCTS = [
   {
-    name: "Plain Round Neck Tee",
-    slug: "plain-round-neck-tee",
-    description:
-      "Classic plain round-neck cotton t-shirt. Soft premium fabric with a clean everyday fit. 220gsm heavyweight cotton.",
-    basePrice: 249,
-    thumbnail: "/plain-white-t-shirt.png",
+    name: "Plain White T-Shirt",
+    slug: "plain-white-tshirt",
+    description: "Premium 220gsm combed cotton. Pre-shrunk, reinforced collar. The perfect blank canvas for your custom design.",
+    basePrice: 150,
+    thumbnail: "/mockup/tshirt-white-front.png",
     isFeatured: true,
+    isCustomBase: true,
   },
   {
-    name: "Premium Cotton Tee",
-    slug: "premium-cotton-tee",
-    description:
-      "Minimal plain t-shirt built for comfort and durability. Structured fit with premium cotton texture. 220gsm.",
-    basePrice: 229,
-    thumbnail: "/plain-black-t-shirt.png",
+    name: "Plain Black T-Shirt",
+    slug: "plain-black-tshirt",
+    description: "Premium 220gsm combed cotton. Pre-shrunk, reinforced collar. Deep black fabric built for bold prints.",
+    basePrice: 150,
+    thumbnail: "/mockup/tshirt-black-front.png",
     isFeatured: true,
-  },
-  {
-    name: "Essential Plain Tee",
-    slug: "essential-plain-tee",
-    description:
-      "Clean everyday plain round-neck t-shirt with soft-touch cotton fabric. 200gsm mid-heavy fabric.",
-    basePrice: 199,
-    thumbnail: "/plain-white-t-shirt.png",
-    isFeatured: true,
-  },
-  {
-    name: "Classic Basic Tee",
-    slug: "classic-basic-tee",
-    description:
-      "Timeless plain t-shirt design with a comfortable regular fit. Made with durable cotton fabric. 210gsm.",
-    basePrice: 239,
-    thumbnail: "/plain-black-t-shirt.png",
-    isFeatured: false,
-  },
-  {
-    name: "Minimal Everyday Tee",
-    slug: "minimal-everyday-tee",
-    description:
-      "Simple premium cotton t-shirt designed for daily wear. Lightweight feel with clean stitching. 200gsm.",
-    basePrice: 209,
-    thumbnail: "/plain-white-t-shirt.png",
-    isFeatured: false,
-  },
-  {
-    name: "Signature Plain Tee",
-    slug: "signature-plain-tee",
-    description:
-      "Premium round-neck plain cotton t-shirt with a modern fit and soft finish. 220gsm cotton.",
-    basePrice: 219,
-    thumbnail: "/plain-black-t-shirt.png",
-    isFeatured: false,
+    isCustomBase: true,
   },
 ];
 
 const sizes = ["S", "M", "L", "XL", "XXL"] as const;
 const colors = ["BLACK", "WHITE"] as const;
 
-async function main() {
-  console.log("🌱 Seeding database...");
 
-  // Clear existing
-  await db.productVariant.deleteMany();
-  await db.product.deleteMany();
+// ─── Templates from public/templates ─────────────────────────────────────────
+function getTemplateFiles(): { name: string; imageUrl: string; category: string }[] {
+  const templatesDir = join(process.cwd(), "public", "templates");
 
-  for (const product of products) {
-    const created = await db.product.create({
-      data: product,
-    });
-
-    const variants = sizes.flatMap((size) =>
-      colors.map((color) => ({
-        productId: created.id,
-        size,
-        color,
-        stockQuantity: Math.floor(Math.random() * 50) + 10,
-        priceAdjustment: 0,
-      }))
-    );
-
-    await db.productVariant.createMany({ data: variants });
-
-    console.log(`✅ Created: ${product.name}`);
+  if (!existsSync(templatesDir)) {
+    console.log("⚠️  public/templates/ folder not found, skipping templates.");
+    return [];
   }
 
-  console.log("✅ Seed complete.");
+  const files = readdirSync(templatesDir).filter((f) =>
+    /\.(png|jpg|jpeg|svg|webp)$/i.test(f)
+  );
+
+  if (files.length === 0) {
+    console.log("⚠️  No image files found in public/templates/, skipping templates.");
+    return [];
+  }
+
+  // Derive category from filename prefix before first dash/underscore
+  // e.g. "streetwear-dragon.png" → category "Streetwear"
+  return files.map((file) => {
+    const base = file.replace(/\.[^.]+$/, "");
+    const parts = base.split(/[-_]/);
+    const category =
+      parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+    const name = parts
+      .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+      .join(" ");
+    return {
+      name,
+      imageUrl: `/templates/${file}`,
+      category,
+    };
+  });
+}
+
+// ─── Main ────────────────────────────────────────────────────────────────────
+async function main() {
+  console.log("🌱 Seeding database...\n");
+
+  // Clear in correct FK order
+  await db.orderItem.deleteMany();
+  await db.order.deleteMany();
+  await db.cartItem.deleteMany();
+  await db.cart.deleteMany();
+  await db.customDesign.deleteMany();
+  await db.productVariant.deleteMany();
+  await db.product.deleteMany();
+  await db.templateDesign.deleteMany();
+
+  // ── Products ──
+  console.log("📦 Creating products...");
+  for (const p of CUSTOM_BASE_PRODUCTS) {
+    const product = await db.product.create({ data: p });
+
+    // Create all size × color variants
+    await db.productVariant.createMany({
+      data: sizes.flatMap((size) =>
+        colors.map((color) => ({
+          productId: product.id,
+          size,
+          color,
+          stockQuantity: 50,
+          priceAdjustment: 0,
+        }))
+      ),
+    });
+
+    console.log(`  ✅ ${product.name}`);
+  }
+
+  // ── Templates ──
+  const templates = getTemplateFiles();
+  if (templates.length > 0) {
+    console.log(`\n🎨 Seeding ${templates.length} template designs...`);
+    for (const t of templates) {
+      await db.templateDesign.create({ data: { ...t, isActive: true } });
+      console.log(`  ✅ ${t.name} (${t.category})`);
+    }
+  }
+
+  console.log("\n✅ Seed complete.");
 }
 
 main()
@@ -96,6 +120,4 @@ main()
     console.error(e);
     process.exit(1);
   })
-  .finally(async () => {
-    await db.$disconnect();
-  });
+  .finally(() => db.$disconnect());
