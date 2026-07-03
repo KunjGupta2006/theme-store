@@ -125,10 +125,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
             {/* Options (client component) */}
             <ProductOptions
-              productId={product.id}
-              slug={product.slug}
-              basePrice={product.basePrice}
-              variants={product.variants}
+                productId={product.id}
+                name={product.name}          
+                slug={product.slug}
+                thumbnail={product.thumbnail}
+                basePrice={product.basePrice}
+                variants={product.variants}
             />
 
             {/* Product details */}

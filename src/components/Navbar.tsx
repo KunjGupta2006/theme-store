@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faUser, faBagShopping, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
+import { CartButton } from "@/components/cart/CartButton";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 const navLinks = [
   { label: "Shop", href: "/shop" },
-  { label: "Collections", href: "#" },
-  { label: "Customize", href: "#" },
-  { label: "About", href: "#" },
+  { label: "Customize", href: "/customize" },
+  { label: "About", href: "#about" },
 ];
 
 export default function Navbar() {
@@ -68,7 +69,7 @@ export default function Navbar() {
           </div>
 
           <a href="#" className="group flex items-center gap-1.5 transition-all duration-200 hover:scale-105 hover:text-white/70 sm:flex">
-            <FontAwesomeIcon icon={faBagShopping} className="text-sm transition-transform duration-200 group-hover:scale-110" />
+            <CartButton />
             <span className="hidden font-body text-sm md:flex">Bag</span>
           </a>
         </div>
@@ -115,6 +116,7 @@ export default function Navbar() {
 
         </aside>
       </div>
+      <CartDrawer />
     </>
   );
 }
