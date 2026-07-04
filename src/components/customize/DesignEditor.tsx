@@ -98,22 +98,21 @@ export function DesignEditor({ product , initialColor, initialSize, pricing }: D
     setTool("select");
   };
 
-  const addTextElement = () => {
-    const text = window.prompt("Enter your text", "Your Text");
-    if (!text) return;
-    const id = crypto.randomUUID();
-    setElements((prev) => [
-      ...prev,
-      {
-        id, type: "text", side, text,
-        x: PRINT_X + 10, y: PRINT_Y + PRINT_H / 2, width: 140, height: 30, baseWidth: 140, baseHeight: 30,
-        fontSize: 22, baseFontSize: 22, fill: color === "BLACK" ? "#ffffff" : "#111111",
-        rotation: 0, visible: true, name: text,
-      },
-    ]);
-    setSelectedId(id);
-    setTool("select");
-  };
+const addTextElement = () => {
+  const id = crypto.randomUUID();
+  setElements((prev) => [
+    ...prev,
+    {
+      id, type: "text", side, text: "", // starts blank — DesignCanvas auto-opens inline editing for it
+      x: PRINT_X + 10, y: PRINT_Y + PRINT_H / 2, width: 140, height: 30, baseWidth: 140, baseHeight: 30,
+      fontSize: 22, baseFontSize: 22, fontFamily: "Inter Tight", fontStyle: "normal",
+      fill: color === "BLACK" ? "#ffffff" : "#111111",
+      rotation: 0, visible: true, name: "Text",
+    },
+  ]);
+  setSelectedId(id);
+  setTool("select");
+};
 
   const addPathElement = useCallback((points: number[]) => {
     const xs = points.filter((_, i) => i % 2 === 0);
@@ -135,29 +134,30 @@ export function DesignEditor({ product , initialColor, initialSize, pricing }: D
     setSelectedId(id);
   }, [side, brushColor, brushSize]);
 
-  const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { setError("File must be under 5MB"); return; }
-    if (!["image/png", "image/jpeg", "image/svg+xml"].includes(file.type)) { setError("Only PNG, JPG, and SVG files allowed"); return; }
-    setError(null);
-    setUploading(true);
-    try {
-      const base64 = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-      const url = await uploadToCloudinary(base64);
-      addImageElement(url);
-    } catch {
-      setError("Upload failed. Please try again.");
-    } finally {
-      setUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
-  }, [side, color]);
+const MAX_DESIGN_UPLOAD = 4.5 * 1024 * 1024; // 4.5MB
+
+const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  if (file.size > MAX_DESIGN_UPLOAD) { setError("File must be under 4.5MB"); return; }
+  if (!["image/png", "image/jpeg", "image/svg+xml"].includes(file.type)) { setError("Only PNG, JPG, and SVG files allowed"); return; }
+  setError(null);
+  setUploading(true);
+  try {
+    const body = new FormData();
+    body.append("file", file);
+    body.append("folder", "custom-designs");
+    const res = await fetch("/api/upload", { method: "POST", body });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Upload failed");
+    addImageElement(data.url);
+  } catch (err) {
+    setError(err instanceof Error ? err.message : "Upload failed. Please try again.");
+  } finally {
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+}, [side, color]);
 
   const deleteSelected = () => {
     if (!selected) return;
@@ -343,6 +343,56 @@ export function DesignEditor({ product , initialColor, initialSize, pricing }: D
                   <button onClick={alignRight} className="border border-black/10 rounded py-2 flex items-center justify-center hover:border-black/30 text-[#111111]"><AlignRightIcon /></button>
                   <button onClick={deleteSelected} className="border border-black/10 rounded py-2 flex items-center justify-center hover:border-red-300 text-red-500"><TrashIcon /></button>
                 </div>
+
+                {selected.type === "text" && (
+                  <div className="space-y-3 pt-1 border-t border-black/6 mt-3">
+                    <div className="space-y-1.5 pt-3">
+                      <span className="text-xs text-[#666666]">Font</span>
+                      <select
+                        value={selected.fontFamily ?? "Inter Tight"}
+                        onChange={(e) => updateElement(selected.id, { fontFamily: e.target.value })}
+                        className="w-full bg-white border border-black/10 rounded px-2 py-1.5 text-sm text-[#111111]"
+                      >
+                        {["Inter Tight", "Inter", "Georgia", "Arial", "Times New Roman", "Courier New"].map((f) => (
+                          <option key={f} value={f} style={{ fontFamily: f }}>{f}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-[#666666]">Style</span>
+                      <div className="flex gap-1">
+                        {([
+                          { v: "normal", l: "Reg" },
+                          { v: "bold", l: "B" },
+                          { v: "italic", l: "I" },
+                          { v: "italic bold", l: "B+I" },
+                        ] as const).map(({ v, l }) => (
+                          <button
+                            key={v}
+                            onClick={() => updateElement(selected.id, { fontStyle: v })}
+                            className={`px-2 py-1 text-[10px] border rounded transition-colors ${
+                              (selected.fontStyle ?? "normal") === v
+                                ? "border-[#111111] bg-[#111111] text-white"
+                                : "border-black/10 text-[#111111] hover:border-black/30"
+                            }`}
+                          >
+                            {l}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-[#666666]">Color</span>
+                      <input
+                        type="color"
+                        value={selected.fill ?? "#111111"}
+                        onChange={(e) => updateElement(selected.id, { fill: e.target.value })}
+                        className="w-8 h-8 rounded border border-black/10 cursor-pointer bg-white"
+                      />
+                    </div>
+                    <p className="text-[11px] text-[#999999]">Double-click the text on the canvas to edit its wording.</p>
+                  </div>
+                )}
               </div>
             )}
           </div>

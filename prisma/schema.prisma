@@ -41,8 +41,6 @@ model Product {
   basePrice      Float
   thumbnail      String?
   isFeatured     Boolean  @default(false)
-  // true = the plain shirt used by the customize canvas (base + per-side print charge from StoreSettings)
-  // false = a template-design shirt sold at a fixed basePrice, no customize step
   isCustomizable Boolean  @default(false)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -51,6 +49,18 @@ model Product {
   customDesigns CustomDesign[]
   cartItems     CartItem[]
   orderItems    OrderItem[]
+  images        ProductImage[]
+}
+
+model ProductImage {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
 }
 
 model ProductVariant {

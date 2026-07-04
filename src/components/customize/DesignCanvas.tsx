@@ -21,11 +21,12 @@ export interface DesignElement {
   src?: string;
   text?: string;
   fontSize?: number;
+  fontFamily?: string;
+  fontStyle?: string; // "normal" | "bold" | "italic" | "italic bold"
   fill?: string;
   baseWidth: number;
   baseHeight: number;
   baseFontSize?: number;
-  // path (paint stroke) fields
   points?: number[];
   stroke?: string;
   strokeWidth?: number;
@@ -44,7 +45,6 @@ interface DesignCanvasProps {
   onChange: (id: string, attrs: Partial<DesignElement>) => void;
   active: boolean;
   onReady?: (api: DesignCanvasApi) => void;
-  // paint tool
   paintMode?: boolean;
   brushColor?: string;
   brushSize?: number;
@@ -106,8 +106,11 @@ function ImageLayer({
 }
 
 function TextLayer({
-  el, isSelected, onSelect, onChange,
-}: { el: DesignElement; isSelected: boolean; onSelect: () => void; onChange: (a: Partial<DesignElement>) => void }) {
+  el, isSelected, onSelect, onChange, onDblEdit,
+}: {
+  el: DesignElement; isSelected: boolean; onSelect: () => void;
+  onChange: (a: Partial<DesignElement>) => void; onDblEdit: () => void;
+}) {
   const shapeRef = useRef<Konva.Text>(null);
   const trRef = useRef<Konva.Transformer>(null);
   useEffect(() => {
@@ -121,16 +124,20 @@ function TextLayer({
     <>
       <KonvaText
         ref={shapeRef}
-        text={el.text ?? "Your Text"}
+        text={el.text || "Double-click to edit"}
         x={el.x} y={el.y} width={el.width}
         fontSize={el.fontSize ?? 24}
-        fontFamily="Inter Tight"
+        fontFamily={el.fontFamily ?? "Inter Tight"}
+        fontStyle={el.fontStyle ?? "normal"}
         fill={el.fill ?? "#ffffff"}
+        opacity={el.text ? 1 : 0.45}
         rotation={el.rotation}
         align="center"
         draggable
         onClick={onSelect}
         onTap={onSelect}
+        onDblClick={onDblEdit}
+        onDblTap={onDblEdit}
         onDragEnd={(e) => onChange({ x: e.target.x(), y: e.target.y() })}
         onTransformEnd={() => {
           const node = shapeRef.current!;
@@ -213,6 +220,42 @@ export default function DesignCanvas({
   const [livePoints, setLivePoints] = useState<number[]>([]);
   const drawingRef = useRef(false);
 
+  // ─── Inline text editing (replaces window.prompt) ───────────────────
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const editingValueRef = useRef("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const startEditingText = useCallback((el: DesignElement) => {
+    editingValueRef.current = el.text ?? "";
+    setEditingId(el.id);
+    onSelect(el.id);
+  }, [onSelect]);
+
+  const commitEditingText = useCallback(() => {
+    setEditingId((currentId) => {
+      if (currentId) {
+        onChange(currentId, { text: editingValueRef.current.trim() });
+      }
+      return null;
+    });
+  }, [onChange]);
+
+  useEffect(() => {
+    if (editingId && textareaRef.current) {
+      textareaRef.current.focus();
+      textareaRef.current.select();
+    }
+  }, [editingId]);
+
+  // Auto-enter edit mode for a freshly-created, still-empty text element on this side.
+  useEffect(() => {
+    const blank = elements.find((e) => e.side === side && e.type === "text" && !e.text);
+    if (blank && editingId !== blank.id) {
+      // avoid sync setState inside effect — defer to next tick to prevent cascading renders
+      setTimeout(() => startEditingText(blank), 0);
+    }
+  }, [elements, side, editingId, startEditingText]);
+
   useEffect(() => {
     onReady?.({
       exportDesign: () => {
@@ -263,6 +306,7 @@ export default function DesignCanvas({
   }, [paintMode, onPathComplete]);
 
   const sideElements = elements.filter((e) => e.side === side);
+  const editingEl = editingId ? sideElements.find((e) => e.id === editingId) : null;
 
   return (
     <div
@@ -302,11 +346,21 @@ export default function DesignCanvas({
         </Layer>
         <Layer listening={!paintMode}>
           {sideElements.map((el) => {
+            if (el.id === editingId) return null; // hidden while the HTML overlay is active
             if (el.type === "image") {
               return <ImageLayer key={el.id} el={el} isSelected={el.id === selectedId} onSelect={() => onSelect(el.id)} onChange={(a) => onChange(el.id, a)} />;
             }
             if (el.type === "text") {
-              return <TextLayer key={el.id} el={el} isSelected={el.id === selectedId} onSelect={() => onSelect(el.id)} onChange={(a) => onChange(el.id, a)} />;
+              return (
+                <TextLayer
+                  key={el.id}
+                  el={el}
+                  isSelected={el.id === selectedId}
+                  onSelect={() => onSelect(el.id)}
+                  onChange={(a) => onChange(el.id, a)}
+                  onDblEdit={() => startEditingText(el)}
+                />
+              );
             }
             return <PathLayer key={el.id} el={el} isSelected={el.id === selectedId} onSelect={() => onSelect(el.id)} onChange={(a) => onChange(el.id, a)} />;
           })}
@@ -319,6 +373,44 @@ export default function DesignCanvas({
           </Layer>
         )}
       </Stage>
+
+      {/* Inline text-edit overlay — replaces window.prompt() */}
+      {editingEl && (
+        <textarea
+          ref={textareaRef}
+          defaultValue={editingEl.text ?? ""}
+          onFocus={(e) => e.target.select()}
+          onChange={(e) => { editingValueRef.current = e.target.value; }}
+          onBlur={commitEditingText}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); commitEditingText(); }
+            if (e.key === "Escape") { e.preventDefault(); setEditingId(null); }
+          }}
+          rows={1}
+          style={{
+            position: "absolute",
+            left: editingEl.x,
+            top: editingEl.y,
+            width: editingEl.width,
+            minHeight: (editingEl.fontSize ?? 24) * 1.4,
+            fontSize: editingEl.fontSize ?? 24,
+            fontFamily: editingEl.fontFamily ?? "Inter Tight",
+            fontStyle: (editingEl.fontStyle ?? "normal").includes("italic") ? "italic" : "normal",
+            fontWeight: (editingEl.fontStyle ?? "normal").includes("bold") ? 700 : 400,
+            color: editingEl.fill ?? "#111111",
+            textAlign: "center",
+            background: "rgba(255,255,255,0.18)",
+            border: "1px dashed rgba(0,0,0,0.45)",
+            outline: "none",
+            resize: "none",
+            overflow: "hidden",
+            lineHeight: 1.2,
+            padding: 0,
+            transform: `rotate(${editingEl.rotation}deg)`,
+            transformOrigin: "top left",
+          }}
+        />
+      )}
     </div>
   );
 }

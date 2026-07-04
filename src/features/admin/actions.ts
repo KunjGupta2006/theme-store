@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { uploadImage } from "@/lib/cloudinary";
+
 
 // ─── Guard ─────────────────────────────────────────────────────────────
 async function requireAdmin() {
@@ -12,15 +12,6 @@ async function requireAdmin() {
   if (!clerkId) redirect("/sign-in");
   const user = await db.user.findUnique({ where: { clerkId }, select: { role: true } });
   if (!user || user.role !== "ADMIN") redirect("/");
-}
-
-// ─── Image uploads (products / templates) ─────────────────────────────
-export async function uploadAdminImage(
-  base64: string,
-  folder: "products" | "templates" = "products"
-): Promise<string> {
-  await requireAdmin();
-  return uploadImage(base64, folder);
 }
 
 // ─── Products ──────────────────────────────────────────────────────────
@@ -101,6 +92,25 @@ export async function updateVariantStock(variantId: string, formData: FormData) 
   });
   revalidatePath(`/admin/products/${variant.productId}/edit`);
   revalidatePath("/admin/products");
+}
+
+export async function addProductImages(productId: string, urls: string[]) {
+  await requireAdmin();
+  const existingCount = await db.productImage.count({ where: { productId } });
+  await db.productImage.createMany({
+    data: urls.map((url, i) => ({ productId, url, position: existingCount + i })),
+  });
+  const product = await db.product.findUnique({ where: { id: productId }, select: { slug: true } });
+  revalidatePath(`/admin/products/${productId}/edit`);
+  if (product) revalidatePath(`/shop/${product.slug}`);
+}
+
+export async function deleteProductImage(imageId: string) {
+  await requireAdmin();
+  const image = await db.productImage.delete({ where: { id: imageId } });
+  const product = await db.product.findUnique({ where: { id: image.productId }, select: { slug: true } });
+  revalidatePath(`/admin/products/${image.productId}/edit`);
+  if (product) revalidatePath(`/shop/${product.slug}`);
 }
 
 // ─── Orders ────────────────────────────────────────────────────────────

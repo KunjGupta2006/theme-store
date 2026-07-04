@@ -39,3 +39,27 @@ export async function deleteImage(publicId: string): Promise<void> {
   ensureConfigured();
   await cloudinary.uploader.destroy(publicId);
 }
+
+
+export const UPLOAD_LIMITS = {
+  product: 5 * 1024 * 1024,        // admin product/template images — 5MB
+  customDesign: 4.5 * 1024 * 1024, // user-uploaded design artwork — 4.5MB
+} as const;
+
+/** Uploads a raw file buffer straight from a multipart/form-data request — no base64 overhead. */
+export async function uploadBuffer(
+  buffer: Buffer,
+  folder: "custom-designs" | "products" | "templates" = "custom-designs"
+): Promise<string> {
+  ensureConfigured();
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder, resource_type: "image" },
+      (err, result) => {
+        if (err || !result) return reject(err ?? new Error("Cloudinary upload failed"));
+        resolve(result.secure_url);
+      }
+    );
+    stream.end(buffer);
+  });
+}

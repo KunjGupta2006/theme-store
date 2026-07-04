@@ -1,11 +1,11 @@
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { ProductOptions } from "@/components/products/ProductOptions";
 import { ProductCard } from "@/components/products/ProductCard";
 import type { Metadata } from "next";
 import { getStoreSettings } from "@/lib/settings";
+import { ProductGallery } from "@/components/products/ProductGallery";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -24,27 +24,26 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
 
-  const product = await db.product.findUnique({
-    where: { slug },
-    include: {
-      variants: {
-        orderBy: [{ color: "asc" }, { size: "asc" }],
-      },
-    },
-  });
+const product = await db.product.findUnique({
+  where: { slug },
+  include: {
+    variants: { orderBy: [{ color: "asc" }, { size: "asc" }] },
+    images: { orderBy: { position: "asc" } },
+  },
 
-  if (!product) notFound();
+});
+if (!product) notFound();
+
+const galleryImages = [
+  ...(product.thumbnail ? [product.thumbnail] : []),
+  ...((product.images as { url: string }[]) ?? []).map((img) => img.url),
+];
 
 const [related, settings] = await Promise.all([
   db.product.findMany({
     where: { id: { not: product.id } },
     take: 3,
-    include: {
-      variants: {
-        select: { color: true },
-        distinct: ["color"],
-      },
-    },
+    include: { variants: { select: { id: true, color: true, size: true, stockQuantity: true, priceAdjustment: true } } },
   }),
   getStoreSettings(),
 ]);
@@ -69,47 +68,8 @@ const [related, settings] = await Promise.all([
       <section className="max-w-7xl mx-auto px-6 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Images */}
-          <div className="space-y-3">
-            {/* Main image */}
-            <div className="relative aspect-4/5 bg-[#EEE7DD] overflow-hidden">
-              {product.thumbnail ? (
-                <Image
-                  src={product.thumbnail}
-                  alt={product.name}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#999999] text-sm">
-                  No image
-                </div>
-              )}
-            </div>
 
-            {/* Thumbnail row — placeholder for multiple images later */}
-            <div className="grid grid-cols-3 gap-3">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className={`aspect-square bg-[#EEE7DD] overflow-hidden cursor-pointer ${
-                    i === 1 ? "ring-1 ring-[#111111]" : "opacity-50 hover:opacity-80 transition-opacity"
-                  }`}
-                >
-                  {product.thumbnail && (
-                    <Image
-                      src={product.thumbnail}
-                      alt={`${product.name} view ${i}`}
-                      width={200}
-                      height={200}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+          <ProductGallery images={galleryImages} name={product.name} />
 
           {/* Product info */}
           <div className="lg:pt-6">
@@ -187,15 +147,12 @@ const [related, settings] = await Promise.all([
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
               {related.map((p) => (
-                <ProductCard
-                  key={p.id}
-                  id={p.id}
-                  name={p.name}
-                  slug={p.slug}
-                  basePrice={p.basePrice}
-                  thumbnail={p.thumbnail}
-                  colors={p.variants.map((v) => v.color)}
-                />
+              <ProductCard
+                key={product.id}
+                id={product.id} name={product.name} slug={product.slug}
+                basePrice={product.basePrice} thumbnail={product.thumbnail}
+                variants={product.variants} isCustomizable={product.isCustomizable}
+              />
               ))}
             </div>
           </div>

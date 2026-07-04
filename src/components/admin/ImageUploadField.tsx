@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { uploadAdminImage } from "@/features/admin/actions";
 
 interface ImageUploadFieldProps {
   name: string;
@@ -16,27 +15,27 @@ export function ImageUploadField({ name, label, defaultValue, folder = "products
   const [url, setUrl] = useState(defaultValue ?? "");
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > MAX_SIZE) {
       setError("File must be under 5MB");
       return;
     }
     setError(null);
     setUploading(true);
     try {
-      const base64 = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-      const secureUrl = await uploadAdminImage(base64, folder);
-      setUrl(secureUrl);
-    } catch {
-      setError("Upload failed. Check Cloudinary env vars, then try again.");
+      const body = new FormData();
+      body.append("file", file);
+      body.append("folder", folder);
+      const res = await fetch("/api/upload", { method: "POST", body });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Upload failed");
+      setUrl(data.url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed. Check Cloudinary env vars, then try again.");
     } finally {
       setUploading(false);
       if (inputRef.current) inputRef.current.value = "";

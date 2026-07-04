@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { updateProduct, updateVariantStock } from "@/features/admin/actions";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { MultiImageUploadField } from "@/components/admin/MultiImageUploadField";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Edit Product — Admin" };
@@ -13,10 +14,13 @@ interface EditProductPageProps {
 
 export default async function EditProductPage({ params }: EditProductPageProps) {
   const { id } = await params;
-  const product = await db.product.findUnique({
-    where: { id },
-    include: { variants: { orderBy: [{ color: "asc" }, { size: "asc" }] } },
-  });
+const product = await db.product.findUnique({
+  where: { id },
+  include: {
+    variants: { orderBy: [{ color: "asc" }, { size: "asc" }] },
+    images: { orderBy: { position: "asc" } },
+  },
+});
   if (!product) notFound();
 
   const updateProductWithId = updateProduct.bind(null, product.id);
@@ -87,7 +91,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
             <option value="true">Yes — plain shirt, priced via Settings (base + per-side print charge)</option>
           </select>
         </div>
-        <ImageUploadField name="thumbnail" label="Thumbnail" defaultValue={product.thumbnail} folder="products" />
+<ImageUploadField name="thumbnail" label="Thumbnail" defaultValue={product.thumbnail} folder="products" />
         <div className="flex items-center gap-3 pt-2">
           <button
             type="submit"
@@ -100,6 +104,9 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
           </Link>
         </div>
       </form>
+      <div className="bg-[#FAF7F2] border border-black/6 rounded p-6">
+        <MultiImageUploadField productId={product.id} images={product.images} />
+      </div>
 
       {/* Variant stock & price adjustment */}
       <div className="bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">

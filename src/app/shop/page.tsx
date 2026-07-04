@@ -38,12 +38,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           }
         : {}),
     },
-    include: {
-      variants: {
-        select: { color: true },
-        distinct: ["color"],
-      },
-    },
+include: { variants: { select: { id: true, color: true, size: true, stockQuantity: true, priceAdjustment: true } } },
     orderBy:
       sort === "price_asc"
         ? { basePrice: "asc" }
@@ -95,12 +90,9 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             {products.map((product) => (
               <ProductCard
                 key={product.id}
-                id={product.id}
-                name={product.name}
-                slug={product.slug}
-                basePrice={product.basePrice}
-                thumbnail={product.thumbnail}
-                colors={product.variants.map((v) => v.color)}
+                id={product.id} name={product.name} slug={product.slug}
+                basePrice={product.basePrice} thumbnail={product.thumbnail}
+                variants={product.variants} isCustomizable={product.isCustomizable}
               />
             ))}
           </div>
