@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { uploadImage } from "@/lib/cloudinary";
 
 // ─── Guard ─────────────────────────────────────────────────────────────
 async function requireAdmin() {
@@ -11,6 +12,15 @@ async function requireAdmin() {
   if (!clerkId) redirect("/sign-in");
   const user = await db.user.findUnique({ where: { clerkId }, select: { role: true } });
   if (!user || user.role !== "ADMIN") redirect("/");
+}
+
+// ─── Image uploads (products / templates) ─────────────────────────────
+export async function uploadAdminImage(
+  base64: string,
+  folder: "products" | "templates" = "products"
+): Promise<string> {
+  await requireAdmin();
+  return uploadImage(base64, folder);
 }
 
 // ─── Products ──────────────────────────────────────────────────────────
@@ -22,9 +32,10 @@ export async function createProduct(formData: FormData) {
   const basePrice = parseFloat(formData.get("basePrice") as string);
   const thumbnail = (formData.get("thumbnail") as string) || null;
   const isFeatured = formData.get("isFeatured") === "true";
+  const isCustomizable = formData.get("isCustomizable") === "true";
 
   const product = await db.product.create({
-    data: { name, slug, description, basePrice, thumbnail, isFeatured },
+    data: { name, slug, description, basePrice, thumbnail, isFeatured, isCustomizable },
   });
 
   const sizes = ["S", "M", "L", "XL", "XXL"] as const;
@@ -53,10 +64,11 @@ export async function updateProduct(id: string, formData: FormData) {
   const basePrice = parseFloat(formData.get("basePrice") as string);
   const thumbnail = (formData.get("thumbnail") as string) || null;
   const isFeatured = formData.get("isFeatured") === "true";
+  const isCustomizable = formData.get("isCustomizable") === "true";
 
   await db.product.update({
     where: { id },
-    data: { name, slug, description, basePrice, thumbnail, isFeatured },
+    data: { name, slug, description, basePrice, thumbnail, isFeatured, isCustomizable },
   });
 
   revalidatePath("/admin/products");
@@ -133,24 +145,5 @@ export async function updateStoreSettings(formData: FormData) {
   });
 
   revalidatePath("/admin/settings");
-  revalidatePath("/customize");
-}
-
-// ─── Template designs (used in the customize canvas) ──────────────────
-export async function createTemplateDesign(formData: FormData) {
-  await requireAdmin();
-  const name = formData.get("name") as string;
-  const imageUrl = formData.get("imageUrl") as string;
-  const category = (formData.get("category") as string) || "General";
-
-  await db.templateDesign.create({ data: { name, imageUrl, category } });
-  revalidatePath("/admin/templates");
-  revalidatePath("/customize");
-}
-
-export async function deleteTemplateDesign(id: string) {
-  await requireAdmin();
-  await db.templateDesign.delete({ where: { id } });
-  revalidatePath("/admin/templates");
   revalidatePath("/customize");
 }

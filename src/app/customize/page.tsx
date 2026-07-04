@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { notFound, redirect } from "next/navigation";
 import { DesignEditor } from "@/components/customize/DesignEditor";
+import { getStoreSettings } from "@/lib/settings";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Customize Your Shirt" };
@@ -14,10 +15,9 @@ export default async function CustomizePage({ searchParams }: CustomizePageProps
   const productId = params.product;
   const initialColor = (params.color as "BLACK" | "WHITE") ?? "BLACK";
   const initialSize = params.size as string | undefined;
-
   if (!productId) redirect("/shop");
 
-  const [product, templates] = await Promise.all([
+const [product, settings] = await Promise.all([
     db.product.findUnique({
       where: { id: productId },
       include: {
@@ -27,11 +27,8 @@ export default async function CustomizePage({ searchParams }: CustomizePageProps
         },
       },
     }),
-    db.templateDesign.findMany({
-      orderBy: { createdAt: "desc" },
-    }),
+    getStoreSettings(),
   ]);
-
   if (!product) notFound();
 
   return (
@@ -40,15 +37,18 @@ export default async function CustomizePage({ searchParams }: CustomizePageProps
         product={{
           id: product.id,
           name: product.name,
-          // description: product.description ,
           slug: product.slug,
           basePrice: product.basePrice,
           thumbnail: product.thumbnail,
+          isCustomizable: product.isCustomizable,
           variants: product.variants,
         }}
-        templates={templates}
         initialColor={initialColor}
         initialSize={initialSize}
+        pricing={{
+          customShirtBasePrice: settings.customShirtBasePrice,
+          printChargePerSide: settings.printChargePerSide,
+        }}
       />
     </main>
   );

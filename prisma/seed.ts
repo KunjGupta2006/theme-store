@@ -1,116 +1,129 @@
 import { PrismaClient } from "@prisma/client";
-import { readdirSync, existsSync } from "fs";
-import { join } from "path";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "node:fs";
+import path from "node:path";
 
 const db = new PrismaClient();
 
-// ─── Products ───────────────────────────────────────────────────────────────
-// Plain base tshirts for custom printing (isCustomBase: true)
-const CUSTOM_BASE_PRODUCTS = [
-  {
-    name: "Plain White T-Shirt",
-    slug: "plain-white-tshirt",
-    description: "Premium 220gsm combed cotton. Pre-shrunk, reinforced collar. The perfect blank canvas for your custom design.",
-    basePrice: 150,
-    thumbnail: "/mockup/tshirt-white-front.png",
-    isFeatured: true,
-  },
-  {
-    name: "Plain Black T-Shirt",
-    slug: "plain-black-tshirt",
-    description: "Premium 220gsm combed cotton. Pre-shrunk, reinforced collar. Deep black fabric built for bold prints.",
-    basePrice: 150,
-    thumbnail: "/mockup/tshirt-black-front.png",
-    isFeatured: true,
-  },
-];
+const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+const apiKey = process.env.CLOUDINARY_API_KEY;
+const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+if (!cloudName || !apiKey || !apiSecret) {
+  console.error(
+    "❌ Cloudinary env vars missing. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET before seeding."
+  );
+  process.exit(1);
+}
+cloudinary.config({ cloud_name: cloudName, api_key: apiKey, api_secret: apiSecret });
+
+const TEMPLATES_DIR = path.join(process.cwd(), "public", "templates");
+const IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp"];
+const DEFAULT_TEMPLATE_SHIRT_PRICE = 499; // admin can edit per-product after seeding
 
 const sizes = ["S", "M", "L", "XL", "XXL"] as const;
 const colors = ["BLACK", "WHITE"] as const;
 
+function titleCase(filename: string) {
+  const base = filename.replace(path.extname(filename), "");
+  return base
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
 
-// ─── Templates from public/templates ─────────────────────────────────────────
-function getTemplateFiles(): { name: string; imageUrl: string; category: string }[] {
-  const templatesDir = join(process.cwd(), "public", "templates");
+function slugify(name: string, suffix: string) {
+  return `${name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}-${suffix}`;
+}
 
-  if (!existsSync(templatesDir)) {
-    console.log("⚠️  public/templates/ folder not found, skipping templates.");
-    return [];
-  }
-
-  const files = readdirSync(templatesDir).filter((f) =>
-    /\.(png|jpg|jpeg|svg|webp)$/i.test(f)
-  );
-
-  if (files.length === 0) {
-    console.log("⚠️  No image files found in public/templates/, skipping templates.");
-    return [];
-  }
-
-  // Derive category from filename prefix before first dash/underscore
-  // e.g. "streetwear-dragon.png" → category "Streetwear"
-  return files.map((file) => {
-    const base = file.replace(/\.[^.]+$/, "");
-    const parts = base.split(/[-_]/);
-    const category =
-      parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-    const name = parts
-      .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
-      .join(" ");
-    return {
-      name,
-      imageUrl: `/templates/${file}`,
-      category,
-    };
+async function createVariants(productId: string, stockPerVariant: number) {
+  await db.productVariant.createMany({
+    data: sizes.flatMap((size) =>
+      colors.map((color) => ({
+        productId,
+        size,
+        color,
+        stockQuantity: stockPerVariant,
+        priceAdjustment: 0,
+      }))
+    ),
   });
 }
 
-// ─── Main ────────────────────────────────────────────────────────────────────
 async function main() {
-  console.log("🌱 Seeding database...\n");
+  console.log("🌱 Seeding database...");
 
-  // Clear in correct FK order
-  await db.orderItem.deleteMany();
-  await db.order.deleteMany();
-  await db.cartItem.deleteMany();
-  await db.cart.deleteMany();
+  // Clear existing catalog data (keeps users/orders intact)
   await db.customDesign.deleteMany();
+  await db.cartItem.deleteMany();
   await db.productVariant.deleteMany();
   await db.product.deleteMany();
-  await db.templateDesign.deleteMany();
 
-  // ── Products ──
-  console.log("📦 Creating products...");
-  for (const p of CUSTOM_BASE_PRODUCTS) {
-    const product = await db.product.create({ data: p });
+  // ── Store-wide pricing defaults (base + per-side print charge) ──────
+  await db.storeSettings.upsert({
+    where: { id: "singleton" },
+    update: {},
+    create: { id: "singleton", customShirtBasePrice: 150, printChargePerSide: 15 },
+  });
+  console.log("✅ Store settings ready (₹150 base + ₹15/side)");
 
-    // Create all size × color variants
-    await db.productVariant.createMany({
-      data: sizes.flatMap((size) =>
-        colors.map((color) => ({
-          productId: product.id,
-          size,
-          color,
-          stockQuantity: 50,
-          priceAdjustment: 0,
-        }))
-      ),
-    });
+  // ── The one customizable plain shirt (priced via StoreSettings) ─────
+  const plainShirt = await db.product.create({
+    data: {
+      name: "Custom Plain Shirt",
+      slug: "custom-plain-shirt",
+      description:
+        "A blank canvas. Pick a color, then design your own print in the studio — upload art, add text, or paint freehand.",
+      basePrice: 150,
+      thumbnail: "/mockup/white-front.png",
+      isFeatured: true,
+      isCustomizable: true,
+    },
+  });
+  await createVariants(plainShirt.id, 100);
+  console.log("✅ Created customizable plain shirt");
 
-    console.log(`  ✅ ${product.name}`);
-  }
+  // ── Template-design shirts from public/templates ─────────────────────
+  if (!fs.existsSync(TEMPLATES_DIR)) {
+    console.warn(`⚠️  ${TEMPLATES_DIR} not found — skipping template-design shirts.`);
+  } else {
+    const files = fs
+      .readdirSync(TEMPLATES_DIR)
+      .filter((f) => IMAGE_EXTENSIONS.includes(path.extname(f).toLowerCase()));
 
-  // ── Templates ──
-  const templates = getTemplateFiles();
-  if (templates.length > 0) {
-    console.log(`\n🎨 Seeding ${templates.length} template designs...`);
-    for (const t of templates) {
-      await db.templateDesign.create({ data: { ...t, isActive: true } });
-      console.log(`  ✅ ${t.name} (${t.category})`);
+    if (files.length === 0) {
+      console.warn("⚠️  No images found in public/templates.");
+    }
+
+    for (const file of files) {
+      const name = titleCase(file);
+      const filePath = path.join(TEMPLATES_DIR, file);
+
+      const upload = await cloudinary.uploader.upload(filePath, { folder: "templates" });
+      const imageUrl = upload.secure_url;
+
+      // Sellable, fixed-price, pre-made design shirt — no customization step
+      const product = await db.product.create({
+        data: {
+          name: `${name} Tee`,
+          slug: slugify(name, "tee"),
+          description: `Pre-printed ${name.toLowerCase()} design on a premium cotton tee.`,
+          basePrice: DEFAULT_TEMPLATE_SHIRT_PRICE,
+          thumbnail: imageUrl,
+          isFeatured: false,
+          isCustomizable: false,
+        },
+      });
+      await createVariants(product.id, 30);
+
+      console.log(`✅ Created: ${name} Tee`);
     }
   }
 
-  console.log("\n✅ Seed complete.");
+  console.log("✅ Seed complete.");
 }
 
 main()
@@ -118,4 +131,6 @@ main()
     console.error(e);
     process.exit(1);
   })
-  .finally(() => db.$disconnect());
+  .finally(async () => {
+    await db.$disconnect();
+  });

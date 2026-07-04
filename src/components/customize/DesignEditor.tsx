@@ -1,43 +1,46 @@
 "use client";
-
-import { useState, useRef, useCallback, type ChangeEvent } from "react";
-import Image from "next/image";
+import { useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useCartStore } from "@/store/cart";
 import { saveDesign, uploadToCloudinary } from "@/features/customize/actions";
-import type { DesignElement, DesignCanvasApi, Side, ToolType } from "./DesignCanvas";
+import type { DesignElement, DesignCanvasApi, Side } from "./DesignCanvas";
 import { PRINT_X, PRINT_Y, PRINT_W, PRINT_H } from "./DesignCanvas";
 
 const DesignCanvas = dynamic(() => import("./DesignCanvas"), { ssr: false });
 
 type Color = "BLACK" | "WHITE";
 type Size = "S" | "M" | "L" | "XL" | "XXL";
+type Tool = "select" | "upload" | "text" | "paint";
 
 interface Variant { id: string; size: Size; color: Color; stockQuantity: number; priceAdjustment: number; }
-interface Template { id: string; name: string; imageUrl: string; category: string; }
-interface Product { id: string; name: string; slug: string; basePrice: number; thumbnail: string | null; variants: Variant[]; }
-
+interface Product {
+  id: string; name: string; slug: string; basePrice: number; thumbnail: string | null;
+  isCustomizable: boolean; variants: Variant[];
+}
+interface Pricing { customShirtBasePrice: number; printChargePerSide: number; }
 interface DesignEditorProps {
   product: Product;
-  templates: Template[];
   initialColor: Color;
   initialSize?: string;
+  pricing: Pricing;
 }
 
 const SIZE_ORDER: Size[] = ["S", "M", "L", "XL", "XXL"];
+const BRUSH_COLORS = ["#111111", "#ffffff", "#e11d48", "#2563eb", "#16a34a", "#f59e0b"];
 
 const AlignLeftIcon = () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path d="M4 3v18M8 8h10M8 16h6" strokeLinecap="round" /></svg>);
 const AlignCenterIcon = () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path d="M12 3v18M6 8h12M8 16h8" strokeLinecap="round" /></svg>);
 const AlignRightIcon = () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path d="M20 3v18M6 8h10M10 16h6" strokeLinecap="round" /></svg>);
 const TrashIcon = () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path d="M6 7h12M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0l1 13h8l1-13" strokeLinecap="round" strokeLinejoin="round" /></svg>);
+const PaintIcon = () => (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>);
 const EyeIcon = ({ open }: { open: boolean }) => open ? (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z" /><circle cx="12" cy="12" r="3" /></svg>
 ) : (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path d="M3 3l18 18M10.6 10.6a3 3 0 004.2 4.2M6.5 6.7C4 8.3 2 12 2 12s4 7 10 7c1.6 0 3-.4 4.3-1.1M17.6 17.4C20 15.7 22 12 22 12s-1-1.8-2.7-3.5" strokeLinecap="round" /></svg>
 );
 
-export function DesignEditor({ product, templates, initialColor, initialSize }: DesignEditorProps) {
+export function DesignEditor({ product , initialColor, initialSize, pricing }: DesignEditorProps) {
   const router = useRouter();
   const addItem = useCartStore((s) => s.addItem);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,16 +51,8 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
   const [size, setSize] = useState<Size | null>(SIZE_ORDER.includes(initialSize as Size) ? (initialSize as Size) : null);
   const [side, setSide] = useState<Side>("front");
   const [zoom, setZoom] = useState(1);
-
   const [elements, setElements] = useState<DesignElement[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [showTemplates, setShowTemplates] = useState(false);
-  const [tool, setTool] = useState<ToolType>("select");
-  const [brushColor, setBrushColor] = useState("#ffffff");
-  const [brushSize, setBrushSize] = useState(4);
-  const [brushOpacity, setBrushOpacity] = useState(100);
-  const [fillShapes, setFillShapes] = useState(false);
-  const [shapeDash, setShapeDash] = useState(false);
 
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -65,9 +60,23 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
   const [draftSaved, setDraftSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // paint tool state
+  const [tool, setTool] = useState<Tool>("select");
+  const [brushColor, setBrushColor] = useState("#111111");
+  const [brushSize, setBrushSize] = useState(8);
+
   const availableSizes = product.variants.filter((v) => v.color === color && v.stockQuantity > 0).map((v) => v.size);
   const selectedVariant = product.variants.find((v) => v.color === color && v.size === size);
-  const finalPrice = product.basePrice + (selectedVariant?.priceAdjustment ?? 0);
+
+  // Pricing: customizable plain shirts use base + per-printed-side charge from Settings.
+  // Non-customizable (template-design) products use their fixed basePrice.
+  const frontHasDesign = elements.some((e) => e.side === "front" && e.visible);
+  const backHasDesign = elements.some((e) => e.side === "back" && e.visible);
+  const sidesPrinted = (frontHasDesign ? 1 : 0) + (backHasDesign ? 1 : 0);
+  const finalPrice = product.isCustomizable
+    ? pricing.customShirtBasePrice + pricing.printChargePerSide * sidesPrinted
+    : product.basePrice + (selectedVariant?.priceAdjustment ?? 0);
+
   const selected = elements.find((e) => e.id === selectedId) ?? null;
   const sideElements = elements.filter((e) => e.side === side);
 
@@ -82,11 +91,11 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
       {
         id, type: "image", side, src,
         x: PRINT_X + 20, y: PRINT_Y + 20, width: 120, height: 120, baseWidth: 120, baseHeight: 120,
-        rotation: 0, visible: true, opacity: 100,
-        name: `Image ${prev.filter((e) => e.type === "image").length + 1}`,
+        rotation: 0, visible: true, name: `Image ${prev.filter((e) => e.type === "image").length + 1}`,
       },
     ]);
     setSelectedId(id);
+    setTool("select");
   };
 
   const addTextElement = () => {
@@ -98,16 +107,33 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
       {
         id, type: "text", side, text,
         x: PRINT_X + 10, y: PRINT_Y + PRINT_H / 2, width: 140, height: 30, baseWidth: 140, baseHeight: 30,
-        fontSize: 22, baseFontSize: 22, fontColor: color === "BLACK" ? "#ffffff" : "#111111",
-        rotation: 0, visible: true, opacity: 100, name: text,
+        fontSize: 22, baseFontSize: 22, fill: color === "BLACK" ? "#ffffff" : "#111111",
+        rotation: 0, visible: true, name: text,
       },
     ]);
     setSelectedId(id);
+    setTool("select");
   };
 
-  const handleAddElement = useCallback((el: DesignElement) => {
-    setElements((prev) => [...prev, el]);
-  }, []);
+  const addPathElement = useCallback((points: number[]) => {
+    const xs = points.filter((_, i) => i % 2 === 0);
+    const ys = points.filter((_, i) => i % 2 === 1);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+    const id = crypto.randomUUID();
+    setElements((prev) => [
+      ...prev,
+      {
+        id, type: "path", side,
+        x: 0, y: 0,
+        width: Math.max(1, maxX - minX), height: Math.max(1, maxY - minY),
+        baseWidth: Math.max(1, maxX - minX), baseHeight: Math.max(1, maxY - minY),
+        rotation: 0, visible: true, name: `Paint ${prev.filter((e) => e.type === "path").length + 1}`,
+        points, stroke: brushColor, strokeWidth: brushSize,
+      },
+    ]);
+    setSelectedId(id);
+  }, [side, brushColor, brushSize]);
 
   const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -140,10 +166,18 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
   };
 
   const scalePercent = selected ? Math.round((selected.width / selected.baseWidth) * 100) : 100;
-
   const handleScale = (pct: number) => {
     if (!selected) return;
     const ratio = pct / 100;
+    if (selected.type === "path") {
+      const baseRatio = ratio / ((selected.width || 1) / (selected.baseWidth || 1));
+      updateElement(selected.id, {
+        width: selected.baseWidth * ratio,
+        height: selected.baseHeight * ratio,
+        points: (selected.points ?? []).map((p) => p * baseRatio),
+      });
+      return;
+    }
     updateElement(selected.id, {
       width: selected.baseWidth * ratio,
       height: selected.baseHeight * ratio,
@@ -218,12 +252,11 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
           <h2 className="font-['Inter_Tight'] text-lg font-bold text-[#111111]">Studio Editor</h2>
           <p className="text-xs text-[#666666] mt-0.5">Design your bespoke piece.</p>
         </div>
-
         <div className="flex-1 overflow-y-auto p-5 space-y-6">
           {/* Add Elements */}
           <div className="space-y-3">
             <span className="text-xs text-[#666666] tracking-widest uppercase">Add Elements</span>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <input ref={fileInputRef} type="file" accept=".png,.jpg,.jpeg,.svg" className="hidden" onChange={handleFileUpload} />
               <button
                 onClick={() => fileInputRef.current?.click()}
@@ -242,30 +275,54 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
                 <span className="text-base font-['Inter_Tight'] font-bold">Aa</span>
                 <span className="text-xs">Text</span>
               </button>
-            </div>
-            {templates.length > 0 && (
-              <button onClick={() => setShowTemplates((v) => !v)} className="text-xs text-[#666666] hover:text-[#111111] underline">
-                {showTemplates ? "Hide templates" : "Browse templates"}
+              <button
+                onClick={() => { setTool((t) => (t === "paint" ? "select" : "paint")); setSelectedId(null); }}
+                className={`flex flex-col items-center gap-1.5 border rounded py-4 transition-colors ${
+                  tool === "paint" ? "border-[#111111] bg-[#111111] text-white" : "border-black/10 text-[#111111] hover:border-black/30"
+                }`}
+              >
+                <PaintIcon />
+                <span className="text-xs">Paint</span>
               </button>
-            )}
-            {showTemplates && (
-              <div className="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto">
-                {templates.map((t) => (
-                  <button key={t.id} onClick={() => { addImageElement(t.imageUrl); setShowTemplates(false); }} className="relative aspect-square bg-[#EEE7DD] rounded overflow-hidden border border-black/10 hover:border-black/30">
-                    <Image src={t.imageUrl} alt={t.name} fill className="object-cover" />
-                  </button>
-                ))}
+            </div>
+
+            {tool === "paint" && (
+              <div className="border border-black/10 rounded p-3 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-[#666666]">Brush</span>
+                  <span className="text-xs text-[#111111]">{brushSize}px</span>
+                </div>
+                <input type="range" min={2} max={30} value={brushSize} onChange={(e) => setBrushSize(Number(e.target.value))} className="w-full accent-[#111111]" />
+                <div className="flex items-center gap-2 flex-wrap">
+                  {BRUSH_COLORS.map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setBrushColor(c)}
+                      className={`w-6 h-6 rounded-full border-2 transition-all ${brushColor === c ? "border-[#111111] scale-110" : "border-black/10"}`}
+                      style={{ backgroundColor: c }}
+                    />
+                  ))}
+                  <input
+                    type="color"
+                    value={brushColor}
+                    onChange={(e) => setBrushColor(e.target.value)}
+                    className="w-6 h-6 rounded-full border border-black/10 cursor-pointer"
+                    title="Custom color"
+                  />
+                </div>
+                <p className="text-[11px] text-[#999999]">Draw directly on the shirt. Each stroke becomes its own layer you can move, scale, or delete.</p>
               </div>
             )}
+
           </div>
-
           <div className="h-px bg-black/6" />
-
           {/* Properties */}
           <div className="space-y-3">
             <span className="text-xs text-[#666666] tracking-widest uppercase">Properties</span>
             {!selected ? (
-              <p className="text-xs text-[#999999]">Select an element to edit it.</p>
+              <p className="text-xs text-[#999999]">
+                {tool === "paint" ? "Click and drag on the shirt to paint." : "Select an element to edit it."}
+              </p>
             ) : (
               <div className="space-y-4">
                 <div>
@@ -289,9 +346,7 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
               </div>
             )}
           </div>
-
           <div className="h-px bg-black/6" />
-
           {/* Layers */}
           <div className="space-y-2">
             <span className="text-xs text-[#666666] tracking-widest uppercase">Layers</span>
@@ -307,7 +362,7 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
                       el.id === selectedId ? "bg-[#111111] text-white" : "text-[#111111] hover:bg-[#EEE7DD]"
                     }`}
                   >
-                    <span className="text-xs shrink-0">{el.type === "image" ? "🖼" : "Aa"}</span>
+                    <span className="text-xs shrink-0">{el.type === "image" ? "🖼" : el.type === "text" ? "Aa" : "🖌"}</span>
                     <span className="flex-1 truncate text-xs">{el.name}</span>
                     <button onClick={(e) => { e.stopPropagation(); updateElement(el.id, { visible: !el.visible }); }} className="shrink-0 opacity-70 hover:opacity-100">
                       <EyeIcon open={el.visible} />
@@ -318,7 +373,6 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
             )}
           </div>
         </div>
-
         <div className="p-5 border-t border-black/6">
           <button
             onClick={handleFinishDesign}
@@ -329,7 +383,6 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
           </button>
         </div>
       </div>
-
       {/* Center — Canvas */}
       <div className="flex-1 flex flex-col bg-[#F5F1EA] overflow-hidden">
         <div className="flex items-center justify-center px-6 py-3 border-b border-black/6 bg-[#FAF7F2]">
@@ -347,37 +400,36 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
             ))}
           </div>
         </div>
-
         <div className="flex-1 flex items-center justify-center overflow-auto relative">
           <div style={{ transform: `scale(${zoom})`, transition: "transform 0.15s ease" }} className="relative">
             <div style={{ display: side === "front" ? "block" : "none" }}>
               <DesignCanvas
                 color={color} side="front" elements={elements} selectedId={selectedId}
-                tool={tool} brushColor={brushColor} brushSize={brushSize} brushOpacity={brushOpacity}
-                fillShapes={fillShapes} shapeDash={shapeDash}
-                onSelect={setSelectedId} onChange={updateElement} onAdd={handleAddElement}
-                active={side === "front"} onReady={(api) => { frontApi.current = api; }}
+                onSelect={setSelectedId} onChange={updateElement} active={side === "front"}
+                onReady={(api) => { frontApi.current = api; }}
+                paintMode={tool === "paint" && side === "front"}
+                brushColor={brushColor} brushSize={brushSize}
+                onPathComplete={addPathElement}
               />
             </div>
             <div style={{ display: side === "back" ? "block" : "none" }}>
               <DesignCanvas
                 color={color} side="back" elements={elements} selectedId={selectedId}
-                tool={tool} brushColor={brushColor} brushSize={brushSize} brushOpacity={brushOpacity}
-                fillShapes={fillShapes} shapeDash={shapeDash}
-                onSelect={setSelectedId} onChange={updateElement} onAdd={handleAddElement}
-                active={side === "back"} onReady={(api) => { backApi.current = api; }}
+                onSelect={setSelectedId} onChange={updateElement} active={side === "back"}
+                onReady={(api) => { backApi.current = api; }}
+                paintMode={tool === "paint" && side === "back"}
+                brushColor={brushColor} brushSize={brushSize}
+                onPathComplete={addPathElement}
               />
             </div>
           </div>
         </div>
-
         <div className="flex items-center justify-center gap-2 py-4">
           <button onClick={() => setZoom((z) => Math.max(0.5, z - 0.1))} className="w-9 h-9 rounded-full border border-black/10 bg-[#FAF7F2] flex items-center justify-center hover:border-black/30 text-[#111111]">−</button>
           <button onClick={() => setZoom((z) => Math.min(1.6, z + 0.1))} className="w-9 h-9 rounded-full border border-black/10 bg-[#FAF7F2] flex items-center justify-center hover:border-black/30 text-[#111111]">+</button>
           <button onClick={() => setZoom(1)} className="w-9 h-9 rounded-full border border-black/10 bg-[#FAF7F2] flex items-center justify-center hover:border-black/30 text-[#111111]" title="Reset zoom">↺</button>
         </div>
       </div>
-
       {/* Right — Product info */}
       <div className="w-80 bg-[#FAF7F2] border-l border-black/6 flex flex-col shrink-0">
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -385,7 +437,6 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
             <h2 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">{product.name}</h2>
             <p className="text-xs text-[#666666] mt-1">Crafted from premium cotton, featuring a structured, architectural drape.</p>
           </div>
-
           <div className="space-y-2">
             <span className="text-xs text-[#666666] tracking-widest uppercase">Base Color</span>
             <div className="flex gap-2">
@@ -399,7 +450,6 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
               ))}
             </div>
           </div>
-
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs text-[#666666] tracking-widest uppercase">Size</span>
@@ -423,13 +473,22 @@ export function DesignEditor({ product, templates, initialColor, initialSize }: 
               })}
             </div>
           </div>
-
+          {product.isCustomizable && (
+            <div className="bg-white border border-black/8 rounded p-3 space-y-1">
+              <div className="flex justify-between text-xs text-[#666666]">
+                <span>Base price</span><span>₹{pricing.customShirtBasePrice}</span>
+              </div>
+              <div className="flex justify-between text-xs text-[#666666]">
+                <span>Print charge ({sidesPrinted} {sidesPrinted === 1 ? "side" : "sides"})</span>
+                <span>₹{pricing.printChargePerSide * sidesPrinted}</span>
+              </div>
+            </div>
+          )}
           {error && <p className="text-xs text-red-500">{error}</p>}
         </div>
-
         <div className="p-6 border-t border-black/6 space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#666666] tracking-widest uppercase">Total Base Price</span>
+            <span className="text-xs text-[#666666] tracking-widest uppercase">Total Price</span>
             <span className="font-['Inter_Tight'] text-xl font-bold text-[#111111]">₹{finalPrice.toLocaleString("en-IN")}</span>
           </div>
           <button

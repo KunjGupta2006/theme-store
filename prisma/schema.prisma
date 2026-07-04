@@ -34,15 +34,18 @@ enum Role {
 }
 
 model Product {
-  id          String   @id @default(uuid())
-  name        String
-  slug        String   @unique
-  description String
-  basePrice   Float
-  thumbnail   String?
-  isFeatured  Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(uuid())
+  name           String
+  slug           String   @unique
+  description    String
+  basePrice      Float
+  thumbnail      String?
+  isFeatured     Boolean  @default(false)
+  // true = the plain shirt used by the customize canvas (base + per-side print charge from StoreSettings)
+  // false = a template-design shirt sold at a fixed basePrice, no customize step
+  isCustomizable Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   variants      ProductVariant[]
   customDesigns CustomDesign[]
@@ -75,15 +78,6 @@ enum Color {
   WHITE
 }
 
-model TemplateDesign {
-  id        String   @id @default(uuid())
-  name      String
-  imageUrl  String
-  category  String
-  createdAt DateTime @default(now())
-  isActive  Boolean @default(false)
-  customDesigns CustomDesign[]
-}
 
 model CustomDesign {
   id               String          @id @default(uuid())
@@ -91,8 +85,6 @@ model CustomDesign {
   user             User            @relation(fields: [userId], references: [id])
   productId        String
   product          Product         @relation(fields: [productId], references: [id])
-  templateId       String?
-  template         TemplateDesign? @relation(fields: [templateId], references: [id])
   uploadedImageUrl String?
   frontDesignUrl   String?
   backDesignUrl    String?

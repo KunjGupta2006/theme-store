@@ -1,27 +1,31 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart";
 
 type Color = "BLACK" | "WHITE";
 type Size = "S" | "M" | "L" | "XL" | "XXL";
-type Placement = "front" | "back" | "both";
-
 interface Variant { id: string; size: Size; color: Color; stockQuantity: number; priceAdjustment: number; }
-interface ProductOptionsProps { productId: string; name: string; slug: string; thumbnail: string | null; basePrice: number; variants: Variant[]; }
-
+interface ProductOptionsProps {
+  productId: string;
+  name: string;
+  slug: string;
+  thumbnail: string | null;
+  basePrice: number;
+  variants: Variant[];
+  isCustomizable?: boolean;
+  customShirtBasePrice?: number;
+}
 const SIZE_ORDER: Size[] = ["S", "M", "L", "XL", "XXL"];
 const SIZE_CHART: Record<Size, string> = { S: "36–38 in chest", M: "39–41 in chest", L: "42–44 in chest", XL: "45–47 in chest", XXL: "48–50 in chest" };
-const BOTH_SIDES_SURCHARGE = 100; // ₹, applied at customize time when printing both sides
 
-export function ProductOptions({ productId, name, slug, thumbnail, basePrice, variants }: ProductOptionsProps) {
+export function ProductOptions({
+  productId, name, slug, thumbnail, basePrice, variants, isCustomizable = false, customShirtBasePrice,
+}: ProductOptionsProps) {
   const router = useRouter();
   const addItem = useCartStore((s) => s.addItem);
-
   const [selectedColor, setSelectedColor] = useState<Color>("BLACK");
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
-  const [placement, setPlacement] = useState<Placement>("front");
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
@@ -30,7 +34,6 @@ export function ProductOptions({ productId, name, slug, thumbnail, basePrice, va
   const availableSizesForColor = variants.filter((v) => v.color === selectedColor && v.stockQuantity > 0).map((v) => v.size);
   const selectedVariant = variants.find((v) => v.color === selectedColor && v.size === selectedSize);
   const finalPrice = basePrice + (selectedVariant?.priceAdjustment ?? 0);
-  const previewPrice = finalPrice + (placement === "both" ? BOTH_SIDES_SURCHARGE : 0);
 
   const handleAddToCart = () => {
     if (!selectedSize) { setError("Please select a size"); return; }
@@ -41,13 +44,19 @@ export function ProductOptions({ productId, name, slug, thumbnail, basePrice, va
     setTimeout(() => setAdded(false), 2000);
   };
 
+  const goToStudio = () => {
+    router.push(`/customize?product=${productId}&color=${selectedColor}${selectedSize ? `&size=${selectedSize}` : ""}`);
+  };
+
   return (
     <div className="space-y-6">
       <div>
-        <span className="font-['Inter_Tight'] text-3xl font-bold text-[#111111]">₹{previewPrice.toLocaleString("en-IN")}</span>
+        <span className="font-['Inter_Tight'] text-3xl font-bold text-[#111111]">
+          {isCustomizable ? "From " : ""}₹{(isCustomizable ? customShirtBasePrice ?? basePrice : finalPrice).toLocaleString("en-IN")}
+        </span>
         <span className="text-sm text-[#666666] ml-2">incl. taxes</span>
+        {isCustomizable && <p className="text-xs text-[#666666] mt-1">Final price depends on prints added in the studio.</p>}
       </div>
-
       {/* Color */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
@@ -65,7 +74,6 @@ export function ProductOptions({ productId, name, slug, thumbnail, basePrice, va
           ))}
         </div>
       </div>
-
       {/* Size */}
       <div className="space-y-3">
         <div className="flex items-center justify-between relative">
@@ -99,41 +107,23 @@ export function ProductOptions({ productId, name, slug, thumbnail, basePrice, va
           })}
         </div>
       </div>
-
-      {/* Print Placement */}
-      <div className="space-y-3">
-        <span className="text-xs text-[#666666] tracking-[0.15em] uppercase">Print Placement</span>
-        <div className="grid grid-cols-3 border border-black/10">
-          {([["front", "Front"], ["back", "Back"], ["both", `Both (+₹${BOTH_SIDES_SURCHARGE})`]] as [Placement, string][]).map(([value, label], i) => (
-            <button
-              key={value}
-              onClick={() => setPlacement(value)}
-              className={`py-3 text-xs tracking-wide transition-all ${i > 0 ? "border-l border-black/10" : ""} ${
-                placement === value ? "bg-[#111111] text-white" : "text-[#666666] hover:text-[#111111]"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <p className="text-[11px] text-[#999999]">Applies once you start customizing this shirt.</p>
-      </div>
-
       {error && <p className="text-xs text-red-500">{error}</p>}
-
       <div className="flex flex-col gap-3 pt-2">
-        <button
-          onClick={handleAddToCart}
-          className={`w-full text-xs tracking-[0.15em] uppercase py-4 transition-all ${added ? "bg-green-600 text-white" : "bg-[#111111] text-white hover:opacity-80"}`}
-        >
-          {added ? "Added to Cart ✓" : "Add to Cart"}
-        </button>
-        <button
-          onClick={() => router.push(`/customize?product=${productId}&color=${selectedColor}${selectedSize ? `&size=${selectedSize}` : ""}&placement=${placement}`)}
-          className="w-full border border-[#111111] text-[#111111] text-xs tracking-[0.15em] uppercase py-4 hover:bg-[#111111] hover:text-white transition-all"
-        >
-          Customize This Design
-        </button>
+        {isCustomizable ? (
+          <button
+            onClick={goToStudio}
+            className="w-full bg-[#111111] text-white text-xs tracking-[0.15em] uppercase py-4 hover:opacity-80 transition-all"
+          >
+            Design Your Shirt
+          </button>
+        ) : (
+          <button
+            onClick={handleAddToCart}
+            className={`w-full text-xs tracking-[0.15em] uppercase py-4 transition-all ${added ? "bg-green-600 text-white" : "bg-[#111111] text-white hover:opacity-80"}`}
+          >
+            {added ? "Added to Cart ✓" : "Add to Cart"}
+          </button>
+        )}
       </div>
     </div>
   );

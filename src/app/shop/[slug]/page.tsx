@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ProductOptions } from "@/components/products/ProductOptions";
 import { ProductCard } from "@/components/products/ProductCard";
 import type { Metadata } from "next";
+import { getStoreSettings } from "@/lib/settings";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -34,11 +35,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
-  // Related products — same featured status, exclude current
-  const related = await db.product.findMany({
-    where: {
-      id: { not: product.id },
-    },
+const [related, settings] = await Promise.all([
+  db.product.findMany({
+    where: { id: { not: product.id } },
     take: 3,
     include: {
       variants: {
@@ -46,12 +45,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
         distinct: ["color"],
       },
     },
-  });
-
+  }),
+  getStoreSettings(),
+]);
   return (
     <main className="min-h-screen bg-[#F5F1EA]">
       {/* Breadcrumb */}
-      <div className="max-w-[1280px] mx-auto px-6 pt-24 pb-6">
+      <div className="max-w-7xl mx-auto px-6 pt-24 pb-6">
         <div className="flex items-center gap-2 text-xs text-[#666666]">
           <Link href="/" className="hover:text-[#111111] transition-colors">
             Home
@@ -66,12 +66,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
 
       {/* Product section */}
-      <section className="max-w-[1280px] mx-auto px-6 pb-24">
+      <section className="max-w-7xl mx-auto px-6 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Images */}
           <div className="space-y-3">
             {/* Main image */}
-            <div className="relative aspect-[4/5] bg-[#EEE7DD] overflow-hidden">
+            <div className="relative aspect-4/5 bg-[#EEE7DD] overflow-hidden">
               {product.thumbnail ? (
                 <Image
                   src={product.thumbnail}
@@ -131,10 +131,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 thumbnail={product.thumbnail}
                 basePrice={product.basePrice}
                 variants={product.variants}
+                isCustomizable={product.isCustomizable}
+                customShirtBasePrice={settings.customShirtBasePrice}
             />
 
             {/* Product details */}
-            <div className="mt-10 pt-8 border-t border-black/[0.08] space-y-4">
+            <div className="mt-10 pt-8 border-t border-black/8 space-y-4">
               <h3 className="text-xs text-[#666666] tracking-[0.15em] uppercase">
                 Product Details
               </h3>
@@ -155,7 +157,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
 
             {/* Shipping info */}
-            <div className="mt-6 pt-6 border-t border-black/[0.08]">
+            <div className="mt-6 pt-6 border-t border-black/8">
               <div className="grid grid-cols-2 gap-4">
                 {[
                   { label: "Production", value: "3–5 business days" },
@@ -178,8 +180,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
       {/* Related products */}
       {related.length > 0 && (
-        <section className="max-w-[1280px] mx-auto px-6 pb-24">
-          <div className="border-t border-black/[0.08] pt-16">
+        <section className="max-w-7xl mx-auto px-6 pb-24">
+          <div className="border-t border-black/8 pt-16">
             <h2 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111] mb-10">
               You Might Also Like
             </h2>

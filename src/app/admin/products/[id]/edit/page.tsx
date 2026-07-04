@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { updateProduct, updateVariantStock } from "@/features/admin/actions";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Edit Product — Admin" };
@@ -76,14 +77,17 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
           </div>
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs text-[#666666] tracking-widest uppercase">Thumbnail URL</label>
-          <input
-            name="thumbnail"
-            type="url"
-            defaultValue={product.thumbnail ?? ""}
+          <label className="text-xs text-[#666666] tracking-widest uppercase">Customizable</label>
+          <select
+            name="isCustomizable"
+            defaultValue={product.isCustomizable ? "true" : "false"}
             className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
-          />
+          >
+            <option value="false">No — sold as-is at Base Price (template design)</option>
+            <option value="true">Yes — plain shirt, priced via Settings (base + per-side print charge)</option>
+          </select>
         </div>
+        <ImageUploadField name="thumbnail" label="Thumbnail" defaultValue={product.thumbnail} folder="products" />
         <div className="flex items-center gap-3 pt-2">
           <button
             type="submit"
