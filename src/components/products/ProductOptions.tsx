@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart";
 
-type Color = "BLACK" | "WHITE";
 type Size = "S" | "M" | "L" | "XL" | "XXL";
-interface Variant { id: string; size: Size; color: Color; stockQuantity: number; priceAdjustment: number; }
+interface Variant { id: string; size: Size; color: string; stockQuantity: number; priceAdjustment: number; }
+interface ProductColorInfo { name: string; hex: string }
 interface ProductOptionsProps {
   productId: string;
   name: string;
@@ -13,31 +13,44 @@ interface ProductOptionsProps {
   thumbnail: string | null;
   basePrice: number;
   variants: Variant[];
+  colors: ProductColorInfo[];
   isCustomizable?: boolean;
   customShirtBasePrice?: number;
 }
 const SIZE_ORDER: Size[] = ["S", "M", "L", "XL", "XXL"];
-const SIZE_CHART: Record<Size, string> = { S: "36–38 in chest", M: "39–41 in chest", L: "42–44 in chest", XL: "45–47 in chest", XXL: "48–50 in chest" };
+const SIZE_CHART: Record<Size, string> = { S: "36 U+002d 38 in chest", M: "39 U+002d 41 in chest", L: "42 U+002d 44 in chest", XL: "45 U+002d 47 in chest", XXL: "48 U+002d 50 in chest" };
 
 export function ProductOptions({
-  productId, name, slug, thumbnail, basePrice, variants, isCustomizable = false, customShirtBasePrice,
+  productId, name, slug, thumbnail, basePrice, variants, colors, isCustomizable = false, customShirtBasePrice,
 }: ProductOptionsProps) {
   const router = useRouter();
   const addItem = useCartStore((s) => s.addItem);
-  const [selectedColor, setSelectedColor] = useState<Color>("BLACK");
+  const [selectedColor, setSelectedColor] = useState<string>(colors[0]?.name ?? "");
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
 
-  const availableColors = [...new Set(variants.map((v) => v.color))];
+  const colorsWithStock = new Set(variants.filter((v) => v.stockQuantity > 0).map((v) => v.color));
   const availableSizesForColor = variants.filter((v) => v.color === selectedColor && v.stockQuantity > 0).map((v) => v.size);
+  const colorFullyOutOfStock = selectedColor !== "" && !colorsWithStock.has(selectedColor);
   const selectedVariant = variants.find((v) => v.color === selectedColor && v.size === selectedSize);
   const finalPrice = basePrice + (selectedVariant?.priceAdjustment ?? 0);
+  const activeColorInfo = colors.find((c) => c.name === selectedColor);
+
+  // If the previously selected size doesn't exist in the newly selected color, clear it
+  // rather than silently keeping a size that's invalid for this color.
+  useEffect(() => {
+    if (selectedSize && !availableSizesForColor.includes(selectedSize)) {
+      setSelectedSize(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedColor]);
 
   const handleAddToCart = () => {
+    if (colorFullyOutOfStock) { setError(`${selectedColor} is currently out of stock`); return; }
     if (!selectedSize) { setError("Please select a size"); return; }
-    if (!selectedVariant || selectedVariant.stockQuantity === 0) { setError("Out of stock"); return; }
+    if (!selectedVariant || selectedVariant.stockQuantity === 0) { setError(`Size ${selectedSize} is out of stock in ${selectedColor}`); return; }
     setError(null);
     addItem({ id: selectedVariant.id, productId, name, slug, thumbnail, color: selectedColor, size: selectedSize, price: finalPrice, quantity: 1 });
     setAdded(true);
@@ -45,7 +58,7 @@ export function ProductOptions({
   };
 
   const goToStudio = () => {
-    router.push(`/customize?product=${productId}&color=${selectedColor}${selectedSize ? `&size=${selectedSize}` : ""}`);
+    router.push(`/customize?product=${productId}&color=${encodeURIComponent(selectedColor)}${selectedSize ? `&size=${selectedSize}` : ""}`);
   };
 
   return (
@@ -57,23 +70,40 @@ export function ProductOptions({
         <span className="text-sm text-[#666666] ml-2">incl. taxes</span>
         {isCustomizable && <p className="text-xs text-[#666666] mt-1">Final price depends on prints added in the studio.</p>}
       </div>
+
       {/* Color */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs text-[#666666] tracking-[0.15em] uppercase">Color</span>
-          <span className="text-xs font-medium text-[#111111]">{selectedColor === "BLACK" ? "Black" : "White"}</span>
+          <span className="text-xs font-medium text-[#111111]">{selectedColor}</span>
         </div>
-        <div className="flex gap-3">
-          {availableColors.map((color) => (
-            <button
-              key={color}
-              onClick={() => { setSelectedColor(color); setSelectedSize(null); setError(null); }}
-              className={`w-10 h-10 rounded-full border-2 transition-all ${selectedColor === color ? "border-[#111111] scale-110" : "border-transparent hover:border-black/20"}`}
-              style={{ backgroundColor: color === "BLACK" ? "#111111" : "#ffffff", boxShadow: color === "WHITE" ? "inset 0 0 0 1px rgba(0,0,0,0.12)" : "none" }}
-            />
-          ))}
+        <div className="flex gap-3 flex-wrap">
+          {colors.map((c) => {
+            const outOfStock = !colorsWithStock.has(c.name);
+            return (
+              <button
+                key={c.name}
+                onClick={() => { setSelectedColor(c.name); setError(null); }}
+                title={outOfStock ? `${c.name} — out of stock` : c.name}
+                className={`relative w-10 h-10 rounded-full border-2 transition-all ${
+                  selectedColor === c.name ? "border-[#111111] scale-110" : "border-transparent hover:border-black/20"
+                }`}
+                style={{ backgroundColor: c.hex, boxShadow: c.hex.toLowerCase() === "#ffffff" ? "inset 0 0 0 1px rgba(0,0,0,0.12)" : "none" }}
+              >
+                {outOfStock && (
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <span className="w-[140%] h-px bg-red-500 rotate-45" />
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
+        {colorFullyOutOfStock && (
+          <p className="text-xs text-red-500">{selectedColor} is currently out of stock in every size.</p>
+        )}
       </div>
+
       {/* Size */}
       <div className="space-y-3">
         <div className="flex items-center justify-between relative">
@@ -106,22 +136,28 @@ export function ProductOptions({
             );
           })}
         </div>
+        {!colorFullyOutOfStock && availableSizesForColor.length === 0 && (
+          <p className="text-xs text-[#999999]">No sizes available yet — check back soon.</p>
+        )}
       </div>
+
       {error && <p className="text-xs text-red-500">{error}</p>}
+
       <div className="flex flex-col gap-3 pt-2">
         {isCustomizable ? (
-          <button
-            onClick={goToStudio}
-            className="w-full bg-[#111111] text-white text-xs tracking-[0.15em] uppercase py-4 hover:opacity-80 transition-all"
-          >
+          <button onClick={goToStudio} className="w-full bg-[#111111] text-white text-xs tracking-[0.15em] uppercase py-4 hover:opacity-80 transition-all">
             Design Your Shirt
           </button>
         ) : (
           <button
             onClick={handleAddToCart}
-            className={`w-full text-xs tracking-[0.15em] uppercase py-4 transition-all ${added ? "bg-green-600 text-white" : "bg-[#111111] text-white hover:opacity-80"}`}
+            disabled={colorFullyOutOfStock}
+            className={`w-full text-xs tracking-[0.15em] uppercase py-4 transition-all ${
+              colorFullyOutOfStock ? "bg-black/30 text-white cursor-not-allowed"
+                : added ? "bg-green-600 text-white" : "bg-[#111111] text-white hover:opacity-80"
+            }`}
           >
-            {added ? "Added to Cart ✓" : "Add to Cart"}
+            {colorFullyOutOfStock ? "Out of Stock" : added ? "Added to Cart ✓" : "Add to Cart"}
           </button>
         )}
       </div>

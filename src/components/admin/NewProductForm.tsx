@@ -10,7 +10,7 @@ const initialState: { error?: string } = {};
 
 export function NewProductForm() {
   const [state, formAction, pending] = useActionState(createProduct, initialState);
-
+  // const initialColors={[]};
   useEffect(() => {
     if (state?.error) toast.error(state.error);
   }, [state]);
@@ -75,6 +75,9 @@ export function NewProductForm() {
           pre-made template-design shirts sold at a fixed price.
         </p>
       </div>
+
+
+
       <ImageUploadField name="thumbnail" label="Thumbnail" folder="products" />
       <div className="flex items-center gap-3 pt-2">
         <button

@@ -50,6 +50,44 @@ model Product {
   cartItems     CartItem[]
   orderItems    OrderItem[]
   images        ProductImage[]
+  colors ProductColor[]
+}
+
+
+model ProductVariant {
+  id              String  @id @default(uuid())
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  size            Size
+  color           String  // matches a ProductColor.name for this product — see note below
+  stockQuantity   Int
+  priceAdjustment Float
+
+  @@unique([productId, size, color])
+}
+
+enum Size { 
+  S
+  M
+  L
+  XL
+  XXL
+}
+// enum Color removed — colors are now admin-defined per product, see ProductColor
+
+model ProductColor {
+  id           String   @id @default(uuid())
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name         String   // e.g. "Black", "Forest Green" — free text, admin's choice
+  hex          String   // swatch color shown in the UI, e.g. "#111111"
+  frontMockup  String?  // studio blank-shirt front image — only used if product.isCustomizable
+  backMockup   String?  // studio blank-shirt back image — only used if product.isCustomizable
+  position     Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@unique([productId, name])
+  @@index([productId])
 }
 
 model ProductImage {
@@ -58,49 +96,24 @@ model ProductImage {
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   url       String
   position  Int      @default(0)
+  colorName String?  // tags this photo to one of the product's colors; null = shown for every color
   createdAt DateTime @default(now())
 
   @@index([productId])
 }
 
-model ProductVariant {
-  id              String  @id @default(uuid())
-  productId       String
-  product         Product @relation(fields: [productId], references: [id])
-  size            Size
-  color           Color
-  stockQuantity   Int
-  priceAdjustment Float
-
-  @@unique([productId, size, color])
-}
-
-enum Size {
-  S
-  M
-  L
-  XL
-  XXL
-}
-
-enum Color {
-  BLACK
-  WHITE
-}
-
-
 model CustomDesign {
-  id               String          @id @default(uuid())
+  id               String   @id @default(uuid())
   userId           String
-  user             User            @relation(fields: [userId], references: [id])
+  user             User     @relation(fields: [userId], references: [id])
   productId        String
-  product          Product         @relation(fields: [productId], references: [id])
+  product          Product  @relation(fields: [productId], references: [id])
   uploadedImageUrl String?
   frontDesignUrl   String?
   backDesignUrl    String?
-  selectedColor    Color
+  selectedColor    String   // was Color enum — now the ProductColor.name at time of order
   selectedSize     Size
-  createdAt        DateTime        @default(now())
+  createdAt        DateTime @default(now())
 
   cartItems  CartItem[]
   orderItems OrderItem[]

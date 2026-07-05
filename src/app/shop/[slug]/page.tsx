@@ -22,6 +22,7 @@ export default async function ProductPage({ params }: Props) {
     include: {
       variants: { orderBy: [{ color: "asc" }, { size: "asc" }] },
       images: { orderBy: { position: "asc" } },
+      colors: { orderBy: { position: "asc" } },
     },
   });
 
@@ -80,6 +81,7 @@ export default async function ProductPage({ params }: Props) {
               slug={product.slug}
               thumbnail={product.thumbnail}
               basePrice={product.basePrice}
+              colors={product.colors}
               variants={product.variants}
               isCustomizable={product.isCustomizable}
             />
