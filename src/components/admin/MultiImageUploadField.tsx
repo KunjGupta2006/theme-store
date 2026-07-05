@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { toast } from "@/lib/toast";
 import { addProductImages, deleteProductImage } from "@/features/admin/actions";
 
 interface GalleryImage {
@@ -45,8 +46,11 @@ export function MultiImageUploadField({
         urls.push(data.url);
       }
       await addProductImages(productId, urls);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed");
+      toast.success(urls.length > 1 ? `${urls.length} images added` : "Image added");
+ } catch (err) {
+      const message = err instanceof Error ? err.message : "Upload failed";
+      setError(message);
+      toast.error(message);
     } finally {
       setUploading(false);
       if (inputRef.current) inputRef.current.value = "";
@@ -57,11 +61,13 @@ export function MultiImageUploadField({
     setPending(id);
     try {
       await deleteProductImage(id);
+      toast.success("Image removed");
+    } catch {
+      toast.error("Failed to remove image");
     } finally {
       setPending(null);
     }
   }
-
   return (
     <div className="space-y-3">
       <label className="text-xs text-[#666666] tracking-widest uppercase">Gallery Images</label>

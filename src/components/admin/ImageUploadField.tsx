@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { toast } from "@/lib/toast";
 
 interface ImageUploadFieldProps {
   name: string;
@@ -34,8 +35,11 @@ export function ImageUploadField({ name, label, defaultValue, folder = "products
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Upload failed");
       setUrl(data.url);
+      toast.success("Image uploaded");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed. Check Cloudinary env vars, then try again.");
+      const message = err instanceof Error ? err.message : "Upload failed. Check Cloudinary env vars, then try again.";
+      setError(message);
+      toast.error(message);
     } finally {
       setUploading(false);
       if (inputRef.current) inputRef.current.value = "";

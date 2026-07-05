@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { updateOrderStatus } from "@/features/admin/actions";
+import { OrderStatusForm } from "@/components/admin/OrderStatusForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Order — Admin" };
@@ -40,7 +40,7 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
   });
   if (!order) notFound();
 
-  const updateStatus = updateOrderStatus.bind(null, order.id);
+
 
   return (
     <div className="max-w-4xl space-y-6">
@@ -110,36 +110,11 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
             </div>
           </div>
 
-          <form action={updateStatus} className="bg-[#FAF7F2] border border-black/6 rounded p-6 space-y-4">
-            <h2 className="text-sm font-medium text-[#111111]">Update Status</h2>
-            <div className="space-y-1.5">
-              <label className="text-xs text-[#666666] tracking-widest uppercase">Order Status</label>
-              <select
-                name="orderStatus"
-                defaultValue={order.orderStatus}
-                className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
-              >
-                {["PROCESSING", "PRINTING", "SHIPPED", "DELIVERED", "CANCELLED"].map((s) => (
-                  <option key={s} value={s}>{s}</option>
-                ))}
-              </select>
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-xs text-[#666666] tracking-widest uppercase">Tracking ID</label>
-              <input
-                name="trackingId"
-                defaultValue={order.trackingId ?? ""}
-                placeholder="Optional"
-                className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-[#111111] text-white text-xs tracking-widest uppercase px-6 py-3 hover:opacity-80 transition-opacity w-full"
-            >
-              Save
-            </button>
-          </form>
+          <OrderStatusForm
+            orderId={order.id}
+            currentStatus={order.orderStatus}
+            currentTrackingId={order.trackingId}
+          />
         </div>
       </div>
     </div>

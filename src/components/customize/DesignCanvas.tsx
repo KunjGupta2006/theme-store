@@ -34,6 +34,8 @@ export interface DesignElement {
 
 export interface DesignCanvasApi {
   exportDesign: () => string | null;
+  /** Forces any open inline text edit to save immediately — call before exporting. */
+  commitPendingEdit: () => void;
 }
 
 interface DesignCanvasProps {
@@ -251,9 +253,15 @@ export default function DesignCanvas({
   useEffect(() => {
     const blank = elements.find((e) => e.side === side && e.type === "text" && !e.text);
     if (blank && editingId !== blank.id) {
-      // avoid sync setState inside effect — defer to next tick to prevent cascading renders
-      setTimeout(() => startEditingText(blank), 0);
+      const elementToEdit = blank;
+      const timeoutId = window.setTimeout(() => {
+        startEditingText(elementToEdit);
+      }, 0);
+      return () => {
+        window.clearTimeout(timeoutId);
+      };
     }
+    return undefined;
   }, [elements, side, editingId, startEditingText]);
 
   useEffect(() => {
@@ -267,6 +275,9 @@ export default function DesignCanvas({
         guideLayerRef.current?.show();
         shirtLayerRef.current?.show();
         return dataUrl;
+      },
+      commitPendingEdit: () => {
+        if (editingId) commitEditingText();
       },
     });
   });
