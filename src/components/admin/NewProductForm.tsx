@@ -5,6 +5,7 @@ import Link from "next/link";
 import { toast } from "@/lib/toast";
 import { createProduct } from "@/features/admin/actions";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { ColorManagerField } from "@/components/admin/ColorMangerField";
 
 const initialState: { error?: string } = {};
 
@@ -76,7 +77,7 @@ export function NewProductForm() {
         </p>
       </div>
 
-
+      <ColorManagerField initialColors={[]} isCustomizable={false} />
 
       <ImageUploadField name="thumbnail" label="Thumbnail" folder="products" />
       <div className="flex items-center gap-3 pt-2">

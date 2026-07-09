@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { razorpay } from "@/lib/razorpay";
+import { getRazorpay } from "@/lib/razorpay";
 import { auth } from "@clerk/nextjs/server";
 
 interface CheckoutItem {
@@ -59,7 +59,7 @@ export async function createRazorpayOrder(items: CheckoutItem[], address: Addres
       },
     });
 
-    const razorpayOrder = await razorpay.orders.create({
+    const razorpayOrder = await getRazorpay().orders.create({
       amount: Math.round(totalAmount * 100), // paise
       currency: "INR",
       receipt: order.id,

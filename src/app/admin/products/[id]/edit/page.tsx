@@ -19,6 +19,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
     include: {
       variants: { orderBy: [{ color: "asc" }, { size: "asc" }] },
       images: { orderBy: { position: "asc" } },
+      colors: { orderBy: { position: "asc" } },
     },
   });
   if (!product) notFound();

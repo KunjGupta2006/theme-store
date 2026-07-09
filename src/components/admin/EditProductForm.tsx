@@ -5,6 +5,7 @@ import Link from "next/link";
 import { toast } from "@/lib/toast";
 import { updateProduct } from "@/features/admin/actions";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { ColorManagerField, type ColorEntry } from "@/components/admin/ColorMangerField";
 
 interface Product {
   id: string;
@@ -14,6 +15,7 @@ interface Product {
   thumbnail: string | null;
   isFeatured: boolean;
   isCustomizable: boolean;
+  colors: ColorEntry[];
 }
 
 const initialState: { error?: string } = {};
@@ -83,6 +85,7 @@ export function EditProductForm({ product }: { product: Product }) {
           <option value="true">Yes — plain shirt, priced via Settings (base + per-side print charge)</option>
         </select>
       </div>
+      <ColorManagerField initialColors={product.colors} isCustomizable={product.isCustomizable} />
       <ImageUploadField name="thumbnail" label="Thumbnail" defaultValue={product.thumbnail} folder="products" />
       <div className="flex items-center gap-3 pt-2">
         <button
