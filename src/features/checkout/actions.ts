@@ -40,7 +40,7 @@ export async function createRazorpayOrder(items: CheckoutItem[], address: Addres
       const price = variant.product.basePrice + variant.priceAdjustment;
       subtotal += price * item.quantity;
       validated.push({ variantId: variant.id, productId: variant.productId, quantity: item.quantity, price, customDesignId: item.customDesignId });
-    }
+    } 
 
     const shipping = subtotal >= 999 ? 0 : 79;
     const totalAmount = subtotal + shipping;

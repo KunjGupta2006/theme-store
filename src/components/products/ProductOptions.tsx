@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart";
 
@@ -35,18 +35,10 @@ export function ProductOptions({
   const colorsWithStock = new Set(variants.filter((v) => v.stockQuantity > 0).map((v) => v.color));
   const availableSizesForColor = variants.filter((v) => v.color === selectedColor && v.stockQuantity > 0).map((v) => v.size);
   const colorFullyOutOfStock = selectedColor !== "" && !colorsWithStock.has(selectedColor);
-  const selectedVariant = variants.find((v) => v.color === selectedColor && v.size === selectedSize);
+  const currentSelectedSize = selectedSize && availableSizesForColor.includes(selectedSize) ? selectedSize : null;
+  const selectedVariant = variants.find((v) => v.color === selectedColor && v.size === currentSelectedSize);
   const finalPrice = basePrice + (selectedVariant?.priceAdjustment ?? 0);
   const activeColorInfo = colors.find((c) => c.name === selectedColor);
-
-  // If the previously selected size doesn't exist in the newly selected color, clear it
-  // rather than silently keeping a size that's invalid for this color.
-  useEffect(() => {
-    if (selectedSize && !availableSizesForColor.includes(selectedSize)) {
-      setSelectedSize(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedColor]);
 
   const handleAddToCart = () => {
     if (colorFullyOutOfStock) { setError(`${selectedColor} is currently out of stock`); return; }
