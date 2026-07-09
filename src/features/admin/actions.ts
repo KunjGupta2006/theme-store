@@ -182,6 +182,57 @@ export async function updateVariantStock(variantId: string, formData: FormData):
   }
 }
 
+export async function addProductVariant(productId: string, formData: FormData): Promise<ActionResult> {
+  try {
+    await requireAdmin();
+    const size = formData.get("size") as string;
+    const color = formData.get("color") as string;
+    const stockQuantity = parseInt(formData.get("stockQuantity") as string, 10);
+    const priceAdjustment = parseFloat(formData.get("priceAdjustment") as string);
+
+    if (!size) return { error: "Size is required" };
+    if (!color) return { error: "Color is required" };
+
+    const validSizes = ["S", "M", "L", "XL", "XXL"];
+    if (!validSizes.includes(size)) return { error: "Invalid size" };
+
+    const existing = await db.productVariant.findUnique({
+      where: { productId_size_color: { productId, size: size as any, color } },
+    });
+    if (existing) return { error: "A variant with this size and color already exists" };
+
+    await db.productVariant.create({
+      data: {
+        productId,
+        size: size as any,
+        color,
+        stockQuantity: Number.isFinite(stockQuantity) ? stockQuantity : 0,
+        priceAdjustment: Number.isFinite(priceAdjustment) ? priceAdjustment : 0,
+      },
+    });
+
+    revalidatePath(`/admin/products/${productId}/edit`);
+    revalidatePath("/admin/products");
+    return { success: true };
+  } catch (err) {
+    console.error("addProductVariant failed:", err);
+    return { error: "Failed to add variant." };
+  }
+}
+
+export async function deleteProductVariant(variantId: string): Promise<ActionResult> {
+  try {
+    await requireAdmin();
+    const variant = await db.productVariant.delete({ where: { id: variantId } });
+    revalidatePath(`/admin/products/${variant.productId}/edit`);
+    revalidatePath("/admin/products");
+    return {};
+  } catch (err) {
+    console.error("deleteProductVariant failed:", err);
+    return { error: "Failed to delete variant. It may be referenced in existing orders." };
+  }
+}
+
 export async function addProductImages(productId: string, urls: string[]): Promise<ActionResult> {
   try {
     await requireAdmin();

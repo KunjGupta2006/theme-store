@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { EditProductForm } from "@/components/admin/EditProductForm";
 import { MultiImageUploadField } from "@/components/admin/MultiImageUploadField";
-import { VariantStockForm } from "@/components/admin/VariantStockForm";
+import { ProductVariantManager } from "@/components/admin/ProductVariantManager";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Edit Product — Admin" };
@@ -40,35 +40,11 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
         <MultiImageUploadField productId={product.id} images={product.images} />
       </div>
 
-      {/* Variant stock & price adjustment */}
-      <div className="bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
-        <div className="px-6 py-4 border-b border-black/6">
-          <h2 className="text-sm font-medium text-[#111111]">Variants</h2>
-          <p className="text-xs text-[#666666] mt-0.5">Update stock and per-variant price adjustment</p>
-        </div>
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-black/6">
-              {["Color", "Size", "Stock", "Price Adj. (₹)", ""].map((h) => (
-                <th key={h} className="text-left text-[10px] text-[#666666] tracking-widest uppercase px-6 py-3 font-normal">
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {product.variants.map((v) => (
-              <tr key={v.id} className="border-b border-black/4">
-                <td className="px-6 py-3 text-sm text-[#111111]">{v.color}</td>
-                <td className="px-6 py-3 text-sm text-[#111111]">{v.size}</td>
-                <td colSpan={3} className="px-6 py-3">
-                  <VariantStockForm variant={v} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ProductVariantManager
+        variants={product.variants}
+        colors={product.colors}
+        productId={product.id}
+      />
     </div>
   );
 }
