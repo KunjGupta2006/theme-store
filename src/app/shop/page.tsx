@@ -22,13 +22,19 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const size = typeof params.size === "string" ? params.size : undefined;
   const sort = typeof params.sort === "string" ? params.sort : "newest";
 
+  const availableColors = await db.productColor.findMany({
+    distinct: ["name", "hex"],
+    orderBy: { position: "asc" },
+    select: { name: true, hex: true },
+  });
+
   const products = await db.product.findMany({
     where: {
       ...(color || size
         ? {
             variants: {
               some: {
-                ...(color ? { color: color as "BLACK" | "WHITE" } : {}),
+                ...(color ? { color } : {}),
                 ...(size
                   ? { size: size as "S" | "M" | "L" | "XL" | "XXL" }
                   : {}),
@@ -38,7 +44,10 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           }
         : {}),
     },
-include: { variants: { select: { id: true, color: true, size: true, stockQuantity: true, priceAdjustment: true } } },
+include: {
+  variants: { select: { id: true, color: true, size: true, stockQuantity: true, priceAdjustment: true } },
+  colors: { orderBy: { position: "asc" } },
+},
     orderBy:
       sort === "price_asc"
         ? { basePrice: "asc" }
@@ -70,7 +79,7 @@ include: { variants: { select: { id: true, color: true, size: true, stockQuantit
       {/* Filters — Suspense required for useSearchParams */}
       <section className="max-w-[1280px] mx-auto px-6">
         <Suspense fallback={<div className="h-12 animate-pulse bg-[#EEE7DD] rounded" />}>
-          <ShopFilters />
+          <ShopFilters colors={availableColors} />
         </Suspense>
       </section>
 
@@ -93,6 +102,7 @@ include: { variants: { select: { id: true, color: true, size: true, stockQuantit
                 id={product.id} name={product.name} slug={product.slug}
                 basePrice={product.basePrice} thumbnail={product.thumbnail}
                 variants={product.variants} isCustomizable={product.isCustomizable}
+                colors={product.colors}
               />
             ))}
           </div>

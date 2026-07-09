@@ -4,18 +4,18 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCartStore } from "@/store/cart";
 
-type Color = "BLACK" | "WHITE";
 type Size = "S" | "M" | "L" | "XL" | "XXL";
-interface Variant { id: string; size: Size; color: Color; stockQuantity: number; priceAdjustment: number; }
+interface Variant { id: string; size: Size; color: string; stockQuantity: number; priceAdjustment: number; }
+interface ProductColorInfo { name: string; hex: string; }
 interface ProductCardProps {
   id: string; name: string; slug: string; basePrice: number;
   thumbnail: string | null; variants: Variant[]; isCustomizable: boolean;
+  colors: ProductColorInfo[];
 }
 
-export function ProductCard({ id, name, slug, basePrice, thumbnail, variants, isCustomizable }: ProductCardProps) {
+export function ProductCard({ id, name, slug, basePrice, thumbnail, variants, isCustomizable, colors }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem);
   const [added, setAdded] = useState(false);
-  const colors = [...new Set(variants.map((v) => v.color))];
   const inStock = variants.filter((v) => v.stockQuantity > 0);
 
   function handleQuickAdd(e: React.MouseEvent) {
@@ -72,20 +72,16 @@ export function ProductCard({ id, name, slug, basePrice, thumbnail, variants, is
           </h3>
 
           {/* Color dots */}
-          <div className="flex items-center gap-1.5 mt-2">
-            {colors.includes("BLACK") && (
-              <span
-                className="w-3 h-3 rounded-full border border-black/20 bg-[#111111]"
-                title="Black"
-              />
-            )}
-            {colors.includes("WHITE") && (
-              <span
-                className="w-3 h-3 rounded-full border border-black/20 bg-white"
-                title="White"
-              />
-            )}
-          </div>
+          {colors.length > 0 && (
+            <div className="flex items-center gap-1.5 mt-2">
+              {colors.slice(0, 4).map((c) => (
+                <span key={c.name} className="w-3 h-3 rounded-full border border-black/20" style={{ backgroundColor: c.hex }} title={c.name} />
+              ))}
+              {colors.length > 4 && (
+                <span className="text-[10px] text-[#999] font-medium ml-0.5">+{colors.length - 4}</span>
+              )}
+            </div>
+          )}
         </div>
 
         <p className="text-sm text-[#111111] font-medium shrink-0">

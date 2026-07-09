@@ -16,16 +16,17 @@ interface ProductOptionsProps {
   colors: ProductColorInfo[];
   isCustomizable?: boolean;
   customShirtBasePrice?: number;
+  selectedColor: string;
+  onColorChange: (color: string) => void;
 }
 const SIZE_ORDER: Size[] = ["S", "M", "L", "XL", "XXL"];
 const SIZE_CHART: Record<Size, string> = { S: "36–38 in chest", M: "39–41 in chest", L: "42–44 in chest", XL: "45–47 in chest", XXL: "48–50 in chest" };
 
 export function ProductOptions({
-  productId, name, slug, thumbnail, basePrice, variants, colors, isCustomizable = false, customShirtBasePrice,
+  productId, name, slug, thumbnail, basePrice, variants, colors, isCustomizable = false, customShirtBasePrice, selectedColor, onColorChange,
 }: ProductOptionsProps) {
   const router = useRouter();
   const addItem = useCartStore((s) => s.addItem);
-  const [selectedColor, setSelectedColor] = useState<string>(colors[0]?.name ?? "");
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -83,7 +84,7 @@ export function ProductOptions({
             return (
               <button
                 key={c.name}
-                onClick={() => { setSelectedColor(c.name); setError(null); }}
+                onClick={() => { onColorChange(c.name); setError(null); }}
                 title={outOfStock ? `${c.name} — out of stock` : c.name}
                 className={`relative w-10 h-10 rounded-full border-2 transition-all ${
                   selectedColor === c.name ? "border-[#111111] scale-110" : "border-transparent hover:border-black/20"

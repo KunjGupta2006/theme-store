@@ -10,15 +10,16 @@ import { PRINT_X, PRINT_Y, PRINT_W, PRINT_H, STAGE_WIDTH } from "./DesignCanvas"
 
 const DesignCanvas = dynamic(() => import("./DesignCanvas"), { ssr: false });
 
-type Color = "BLACK" | "WHITE";
+type Color = string ;
 type Size = "S" | "M" | "L" | "XL" | "XXL";
 type Tool = "select" | "upload" | "text" | "paint";
 type MobilePanel = "studio" | "canvas" | "details";
 
+interface ProductColorInfo { name: string; hex: string; frontMockup?: string | null; backMockup?: string | null; }
 interface Variant { id: string; size: Size; color: Color; stockQuantity: number; priceAdjustment: number; }
 interface Product {
   id: string; name: string; slug: string; basePrice: number; thumbnail: string | null;
-  isCustomizable: boolean; variants: Variant[];
+  isCustomizable: boolean; variants: Variant[]; colors: ProductColorInfo[];
 }
 interface Pricing { customShirtBasePrice: number; printChargePerSide: number; }
 interface DesignEditorProps {
@@ -60,7 +61,8 @@ export function DesignEditor({ product, initialColor, initialSize, pricing }: De
   const backApi = useRef<DesignCanvasApi | null>(null);
   const stageWrapRef = useRef<HTMLDivElement>(null);
 
-  const [color, setColor] = useState<Color>(initialColor);
+  const validInitialColor = product.colors.some((c) => c.name === initialColor) ? initialColor : (product.colors[0]?.name ?? "");
+  const [color, setColor] = useState<Color>(validInitialColor);
   const [size, setSize] = useState<Size | null>(SIZE_ORDER.includes(initialSize as Size) ? (initialSize as Size) : null);
   const [side, setSide] = useState<Side>("front");
   const [zoom, setZoom] = useState(1);
@@ -80,6 +82,19 @@ export function DesignEditor({ product, initialColor, initialSize, pricing }: De
 
   const availableSizes = product.variants.filter((v) => v.color === color && v.stockQuantity > 0).map((v) => v.size);
   const selectedVariant = product.variants.find((v) => v.color === color && v.size === size);
+
+  const currentColorInfo = product.colors.find((c) => c.name === color);
+  const colorHex = currentColorInfo?.hex ?? "#ffffff";
+  const frontMockupUrl = currentColorInfo?.frontMockup ?? product.thumbnail ?? undefined;
+  const backMockupUrl = currentColorInfo?.backMockup ?? product.thumbnail ?? undefined;
+
+  function isLightColor(hex: string): boolean {
+    const c = hex.replace("#", "");
+    const r = parseInt(c.substring(0, 2), 16);
+    const g = parseInt(c.substring(2, 4), 16);
+    const b = parseInt(c.substring(4, 6), 16);
+    return (r * 299 + g * 587 + b * 114) / 1000 > 128;
+  }
 
   const frontHasDesign = elements.some((e) => e.side === "front" && e.visible);
   const backHasDesign = elements.some((e) => e.side === "back" && e.visible);
@@ -131,7 +146,7 @@ export function DesignEditor({ product, initialColor, initialSize, pricing }: De
         id, type: "text", side, text: "", // starts blank — DesignCanvas auto-opens inline editing for it
         x: PRINT_X + 10, y: PRINT_Y + PRINT_H / 2, width: 140, height: 30, baseWidth: 140, baseHeight: 30,
         fontSize: 22, baseFontSize: 22, fontFamily: "Inter Tight", fontStyle: "normal",
-        fill: color === "BLACK" ? "#ffffff" : "#111111",
+        fill: isLightColor(colorHex) ? "#111111" : "#ffffff",
         rotation: 0, visible: true, name: "Text",
       },
     ]);
@@ -515,6 +530,7 @@ export function DesignEditor({ product, initialColor, initialSize, pricing }: De
                 paintMode={tool === "paint" && side === "front"}
                 brushColor={brushColor} brushSize={brushSize}
                 onPathComplete={addPathElement}
+                mockupUrl={frontMockupUrl}
               />
             </div>
             <div style={{ display: side === "back" ? "block" : "none" }}>
@@ -525,6 +541,7 @@ export function DesignEditor({ product, initialColor, initialSize, pricing }: De
                 paintMode={tool === "paint" && side === "back"}
                 brushColor={brushColor} brushSize={brushSize}
                 onPathComplete={addPathElement}
+                mockupUrl={backMockupUrl}
               />
             </div>
           </div>
@@ -546,12 +563,16 @@ export function DesignEditor({ product, initialColor, initialSize, pricing }: De
           <div className="space-y-2">
             <span className="text-xs text-[#666666] tracking-widest uppercase">Base Color</span>
             <div className="flex gap-2">
-              {(["BLACK", "WHITE"] as Color[]).map((c) => (
+              {product.colors.map((c) => (
                 <button
-                  key={c}
-                  onClick={() => { setColor(c); setSize(null); }}
-                  className={`w-8 h-8 rounded-full border-2 transition-all ${color === c ? "border-[#111111] scale-110" : "border-transparent"}`}
-                  style={{ backgroundColor: c === "BLACK" ? "#111111" : "#ffffff", boxShadow: c === "WHITE" ? "inset 0 0 0 1px rgba(0,0,0,0.15)" : "none" }}
+                  key={c.name}
+                  onClick={() => { setColor(c.name); setSize(null); }}
+                  title={c.name}
+                  className={`w-8 h-8 rounded-full border-2 transition-all ${color === c.name ? "border-[#111111] scale-110" : "border-transparent"}`}
+                  style={{
+                    backgroundColor: c.hex,
+                    boxShadow: c.hex.toLowerCase() === "#ffffff" ? "inset 0 0 0 1px rgba(0,0,0,0.15)" : "none",
+                  }}
                 />
               ))}
             </div>

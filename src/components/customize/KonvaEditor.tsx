@@ -5,14 +5,14 @@ import { Stage, Layer, Rect, Image as KonvaImage, Transformer, Group, Text } fro
 import useImage from "use-image";
 import type Konva from "konva";
 
-type Color = "BLACK" | "WHITE";
 type Side = "front" | "back";
 
 interface KonvaEditorProps {
-  color: Color;
+  color: string;
   side: Side;
   designUrl: string | null;
   onDesignChange?: (url: string | null) => void;
+  mockupUrl?: string | null;
 }
 
 const STAGE_WIDTH = 380;
@@ -96,14 +96,15 @@ function DesignImage({
   );
 }
 
-export default function KonvaEditor({ color, side, designUrl }: KonvaEditorProps) {
+export default function KonvaEditor({ color, side, designUrl, mockupUrl }: KonvaEditorProps) {
   const [selected, setSelected] = useState(true);
+  const [mockupImg] = useImage(mockupUrl ?? "", "anonymous");
 
-  const shirtBg = color === "BLACK" ? "#1a1a1a" : "#f5f5f5";
-  const shirtStroke = color === "BLACK" ? "#333" : "#ddd";
-  const printAreaColor = color === "BLACK" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)";
-  const printAreaStroke = color === "BLACK" ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)";
-  const labelColor = color === "BLACK" ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.25)";
+  const shirtBg = "#f5f5f5";
+  const shirtStroke = "#ddd";
+  const printAreaColor = "rgba(0,0,0,0.04)";
+  const printAreaStroke = "rgba(0,0,0,0.15)";
+  const labelColor = "rgba(0,0,0,0.25)";
 
   return (
     <div className="relative select-none shadow-2xl">
@@ -115,50 +116,16 @@ export default function KonvaEditor({ color, side, designUrl }: KonvaEditorProps
         }}
       >
         <Layer>
-          {/* T-shirt body */}
-          <Rect
-            x={60}
-            y={60}
-            width={260}
-            height={360}
-            fill={shirtBg}
-            stroke={shirtStroke}
-            strokeWidth={1}
-            cornerRadius={8}
-          />
-          {/* Collar */}
-          <Rect
-            x={155}
-            y={55}
-            width={70}
-            height={30}
-            fill={shirtBg}
-            stroke={shirtStroke}
-            strokeWidth={1}
-            cornerRadius={[0, 0, 12, 12]}
-          />
-          {/* Left sleeve */}
-          <Rect
-            x={20}
-            y={60}
-            width={55}
-            height={80}
-            fill={shirtBg}
-            stroke={shirtStroke}
-            strokeWidth={1}
-            cornerRadius={[4, 0, 0, 4]}
-          />
-          {/* Right sleeve */}
-          <Rect
-            x={305}
-            y={60}
-            width={55}
-            height={80}
-            fill={shirtBg}
-            stroke={shirtStroke}
-            strokeWidth={1}
-            cornerRadius={[0, 4, 4, 0]}
-          />
+          {mockupUrl && mockupImg ? (
+            <KonvaImage image={mockupImg} x={0} y={0} width={STAGE_WIDTH} height={STAGE_HEIGHT} />
+          ) : (
+            <>
+              <Rect x={60} y={60} width={260} height={360} fill={shirtBg} stroke={shirtStroke} strokeWidth={1} cornerRadius={8} />
+              <Rect x={155} y={55} width={70} height={30} fill={shirtBg} stroke={shirtStroke} strokeWidth={1} cornerRadius={[0, 0, 12, 12]} />
+              <Rect x={20} y={60} width={55} height={80} fill={shirtBg} stroke={shirtStroke} strokeWidth={1} cornerRadius={[4, 0, 0, 4]} />
+              <Rect x={305} y={60} width={55} height={80} fill={shirtBg} stroke={shirtStroke} strokeWidth={1} cornerRadius={[0, 4, 4, 0]} />
+            </>
+          )}
 
           {/* Print area */}
           <Rect

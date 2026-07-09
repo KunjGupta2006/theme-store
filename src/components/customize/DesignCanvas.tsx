@@ -39,7 +39,7 @@ export interface DesignCanvasApi {
 }
 
 interface DesignCanvasProps {
-  color: "BLACK" | "WHITE";
+  color: string;
   side: Side;
   elements: DesignElement[];
   selectedId: string | null;
@@ -51,6 +51,7 @@ interface DesignCanvasProps {
   brushColor?: string;
   brushSize?: number;
   onPathComplete?: (points: number[]) => void;
+  mockupUrl?: string | null;
 }
 
 export const STAGE_WIDTH = 440;
@@ -211,12 +212,13 @@ function PathLayer({
 
 export default function DesignCanvas({
   color, side, elements, selectedId, onSelect, onChange, active, onReady,
-  paintMode = false, brushColor = "#111111", brushSize = 6, onPathComplete,
+  paintMode = false, brushColor = "#111111", brushSize = 6, onPathComplete, mockupUrl,
 }: DesignCanvasProps) {
   const stageRef = useRef<Konva.Stage>(null);
   const guideLayerRef = useRef<Konva.Layer>(null);
   const shirtLayerRef = useRef<Konva.Layer>(null);
-  const [shirtImage] = useImage(`/mockup/${color.toLowerCase()}-${side}.png`, "anonymous");
+  const shirtUrl = mockupUrl ?? `/mockup/${color.toLowerCase()}-${side}.png`;
+  const [shirtImage] = useImage(shirtUrl, "anonymous");
 
   const [isDrawing, setIsDrawing] = useState(false);
   const [livePoints, setLivePoints] = useState<number[]>([]);
@@ -342,8 +344,8 @@ export default function DesignCanvas({
           ) : (
             <Rect
               x={40} y={40} width={STAGE_WIDTH - 80} height={STAGE_HEIGHT - 80}
-              fill={color === "BLACK" ? "#1a1a1a" : "#f5f5f5"}
-              stroke={color === "BLACK" ? "#333" : "#ddd"}
+              fill="#f5f5f5"
+              stroke="#ddd"
               cornerRadius={12}
             />
           )}
@@ -351,7 +353,7 @@ export default function DesignCanvas({
         <Layer ref={guideLayerRef} listening={false}>
           <Rect
             x={PRINT_X} y={PRINT_Y} width={PRINT_W} height={PRINT_H}
-            stroke={color === "BLACK" ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.25)"}
+            stroke="rgba(0,0,0,0.25)"
             dash={[4, 4]} cornerRadius={2}
           />
         </Layer>

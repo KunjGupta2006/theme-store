@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 
 export function ProductImageGallery({ images, name }: Props) {
   const [active, setActive] = useState(0);
+  useEffect(() => { setActive(0); }, [images]);
 
   if (images.length === 0) {
     return (

@@ -11,7 +11,11 @@ const SORT_OPTIONS = [
   { label: "Price: High to Low", value: "price_desc" },
 ];
 
-export function ShopFilters() {
+interface ShopFiltersProps {
+  colors: { name: string; hex: string }[];
+}
+
+export function ShopFilters({ colors }: ShopFiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -61,28 +65,20 @@ export function ShopFilters() {
         <span className="text-xs text-[#666666] tracking-[0.1em] uppercase">
           Color
         </span>
-        <button
-          onClick={() => setParam("color", "BLACK")}
-          className={`flex items-center gap-1.5 text-xs transition-all ${
-            activeColor === "BLACK"
-              ? "opacity-100 font-medium"
-              : "opacity-40 hover:opacity-70"
-          }`}
-        >
-          <span className="w-3.5 h-3.5 rounded-full bg-[#111111] border border-black/20 shrink-0" />
-          Black
-        </button>
-        <button
-          onClick={() => setParam("color", "WHITE")}
-          className={`flex items-center gap-1.5 text-xs transition-all ${
-            activeColor === "WHITE"
-              ? "opacity-100 font-medium"
-              : "opacity-40 hover:opacity-70"
-          }`}
-        >
-          <span className="w-3.5 h-3.5 rounded-full bg-white border border-black/20 shrink-0" />
-          White
-        </button>
+        {colors.map((c) => (
+          <button
+            key={c.name}
+            onClick={() => setParam("color", c.name)}
+            className={`flex items-center gap-1.5 text-xs transition-all ${
+              activeColor === c.name
+                ? "opacity-100 font-medium"
+                : "opacity-40 hover:opacity-70"
+            }`}
+          >
+            <span className="w-3.5 h-3.5 rounded-full border border-black/20 shrink-0" style={{ backgroundColor: c.hex }} />
+            {c.name}
+          </button>
+        ))}
       </div>
 
       {/* Divider */}

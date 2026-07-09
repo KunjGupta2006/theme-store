@@ -13,7 +13,7 @@ interface CustomizePageProps {
 export default async function CustomizePage({ searchParams }: CustomizePageProps) {
   const params = await searchParams;
   const productId = params.product;
-  const initialColor = (params.color as "BLACK" | "WHITE") ?? "BLACK";
+  const initialColor = (params.color as string) ?? "";
   const initialSize = params.size as string | undefined;
   if (!productId) redirect("/shop");
 
@@ -25,6 +25,7 @@ const [product, settings] = await Promise.all([
           where: { stockQuantity: { gt: 0 } },
           select: { id: true, size: true, color: true, stockQuantity: true, priceAdjustment: true },
         },
+        colors: { orderBy: { position: "asc" } },
       },
     }),
     getStoreSettings(),
@@ -42,6 +43,7 @@ const [product, settings] = await Promise.all([
           thumbnail: product.thumbnail,
           isCustomizable: product.isCustomizable,
           variants: product.variants,
+          colors: product.colors,
         }}
         initialColor={initialColor}
         initialSize={initialSize}
