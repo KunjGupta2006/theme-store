@@ -4,6 +4,7 @@ import { Inter, Inter_Tight } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
 const interTight = Inter_Tight({ subsets: ["latin"], variable: "--font-display" });
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <ClerkProvider>
       <html lang="en" className={`${inter.variable} ${interTight.variable}`}>
+        <SpeedInsights/>
         <body>
           <Navbar />
           {children}
