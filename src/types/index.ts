@@ -1,8 +1,12 @@
 // src/types/index.ts
 
 export type Size = "S" | "M" | "L" | "XL" | "XXL";
-export type Color = "BLACK" | "WHITE";
-
+export type Color = string;
+export type CartItem = {
+  productId: string;
+  size: "S" | "M" | "L" | "XL" | "XXL";
+  color: string; // remove BLACK | WHITE union
+};
 export interface Product {
   id: string;
   name: string;

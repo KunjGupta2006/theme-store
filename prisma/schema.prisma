@@ -62,6 +62,7 @@ model ProductVariant {
   color           String  // matches a ProductColor.name for this product — see note below
   stockQuantity   Int
   priceAdjustment Float
+  orderItems OrderItem[]
 
   @@unique([productId, size, color])
 }
@@ -139,18 +140,22 @@ model CartItem {
   quantity       Int           @default(1)
   unitPrice      Float
 }
-
 model Order {
-  id              String        @id @default(uuid())
-  userId          String
-  user            User          @relation(fields: [userId], references: [id])
-  subtotal        Float
-  totalAmount     Float
-  paymentStatus   PaymentStatus @default(PENDING)
-  orderStatus     OrderStatus   @default(PROCESSING)
-  shippingAddress String
-  trackingId      String?
-  createdAt       DateTime      @default(now())
+  id                String        @id @default(uuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id])
+  subtotal          Float
+  totalAmount       Float
+  paymentStatus     PaymentStatus @default(PENDING)
+  orderStatus       OrderStatus   @default(PROCESSING)
+  shippingAddress   String
+  customerName      String
+  customerPhone     String
+  trackingId        String?
+  razorpayOrderId   String?       @unique
+  razorpayPaymentId String?
+  razorpaySignature String?
+  createdAt         DateTime      @default(now())
 
   items OrderItem[]
 }
@@ -161,6 +166,8 @@ model OrderItem {
   order          Order         @relation(fields: [orderId], references: [id])
   productId      String
   product        Product       @relation(fields: [productId], references: [id])
+  variantId      String?
+  variant        ProductVariant? @relation(fields: [variantId], references: [id])
   customDesignId String?
   customDesign   CustomDesign? @relation(fields: [customDesignId], references: [id])
   quantity       Int

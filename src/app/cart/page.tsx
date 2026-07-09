@@ -29,7 +29,7 @@ export default function CartPage() {
 
   return (
     <main className="min-h-screen bg-[#F5F1EA]">
-      <div className="max-w-[1280px] mx-auto px-6 pt-24 pb-24">
+      <div className="max-w-7xl mx-auto px-6 pt-24 pb-24">
         {/* Header */}
         <div className="flex items-center justify-between mb-12">
           <h1 className="font-['Inter_Tight'] text-4xl font-bold text-[#111111]">
@@ -45,7 +45,7 @@ export default function CartPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Items */}
-          <div className="lg:col-span-2 space-y-0 divide-y divide-black/[0.06]">
+          <div className="lg:col-span-2 space-y-0 divide-y divide-black/6">
             {items.map((item) => (
               <div key={item.id} className="flex gap-6 py-6">
                 <div className="w-24 h-24 bg-[#EEE7DD] shrink-0 relative overflow-hidden">
@@ -78,7 +78,7 @@ export default function CartPage() {
                       )}
                     </div>
                     <p className="text-sm font-bold text-[#111111] shrink-0">
-                      ₹{(item.price * item.quantity).toLocaleString("en-IN")}
+                      {"\u20B9"}{(item.price * item.quantity).toLocaleString("en-IN")}
                     </p>
                   </div>
 
@@ -114,7 +114,7 @@ export default function CartPage() {
 
           {/* Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-[#FAF7F2] border border-black/[0.06] p-6 space-y-4 sticky top-24">
+            <div className="bg-[#FAF7F2] border border-black/6 p-6 space-y-4 sticky top-24">
               <h2 className="font-['Inter_Tight'] text-lg font-bold text-[#111111]">
                 Order Summary
               </h2>
@@ -122,7 +122,7 @@ export default function CartPage() {
               <div className="space-y-2 pt-2">
                 <div className="flex justify-between text-sm text-[#666666]">
                   <span>Subtotal</span>
-                  <span>₹{totalPrice().toLocaleString("en-IN")}</span>
+                  <span> {"\u20B9"} {totalPrice().toLocaleString("en-IN")}</span>
                 </div>
                 <div className="flex justify-between text-sm text-[#666666]">
                   <span>Shipping</span>
@@ -130,10 +130,10 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <div className="border-t border-black/[0.08] pt-4 flex justify-between">
+              <div className="border-t border-black/8 pt-4 flex justify-between">
                 <span className="font-medium text-[#111111]">Total</span>
-                <span className="font-['Inter_Tight'] text-xl font-bold text-[#111111]">
-                  ₹{totalPrice().toLocaleString("en-IN")}
+                  <span className="font-['Inter_Tight'] text-xl font-bold text-[#111111]">
+                  {"\u20B9"} {totalPrice().toLocaleString("en-IN")}
                 </span>
               </div>
 

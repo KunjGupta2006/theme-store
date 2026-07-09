@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart";
 
@@ -18,7 +18,7 @@ interface ProductOptionsProps {
   customShirtBasePrice?: number;
 }
 const SIZE_ORDER: Size[] = ["S", "M", "L", "XL", "XXL"];
-const SIZE_CHART: Record<Size, string> = { S: "36 U+002d 38 in chest", M: "39 U+002d 41 in chest", L: "42 U+002d 44 in chest", XL: "45 U+002d 47 in chest", XXL: "48 U+002d 50 in chest" };
+const SIZE_CHART: Record<Size, string> = { S: "36–38 in chest", M: "39–41 in chest", L: "42–44 in chest", XL: "45–47 in chest", XXL: "48–50 in chest" };
 
 export function ProductOptions({
   productId, name, slug, thumbnail, basePrice, variants, colors, isCustomizable = false, customShirtBasePrice,

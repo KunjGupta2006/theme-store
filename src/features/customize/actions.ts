@@ -9,9 +9,9 @@ interface SaveDesignInput {
   productId: string;
   templateId?: string;
   uploadedImageUrl?: string;
+  selectedColor: string;
   frontDesignUrl?: string;
   backDesignUrl?: string;
-  selectedColor: "BLACK" | "WHITE";
   selectedSize: "S" | "M" | "L" | "XL" | "XXL";
 }
 

@@ -7,7 +7,7 @@ export interface CartItem {
   name: string;
   slug: string;
   thumbnail: string | null;
-  color: "BLACK" | "WHITE";
+  color: string; 
   size: "S" | "M" | "L" | "XL" | "XXL";
   price: number;
   quantity: number;
