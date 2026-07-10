@@ -27,19 +27,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    if (order.paymentStatus !== "PAID") {
-      await db.$transaction(async (tx) => {
-        await tx.order.update({
-          where: { id: order.id },
-          data: { paymentStatus: "PAID", razorpayPaymentId: razorpay_payment_id, razorpaySignature: razorpay_signature },
-        });
+    await db.$transaction(async (tx) => {
+      // Atomic claim, mirrors the webhook route. Only proceeds if THIS call
+      // is the one that flips paymentStatus from non-PAID to PAID. If the
+      // webhook already won the race, count is 0 and we skip the decrement —
+      // prevents double-decrementing stock when both fire for the same payment.
+      const result = await tx.order.updateMany({
+        where: { id: order.id, paymentStatus: { not: "PAID" } },
+        data: { paymentStatus: "PAID", razorpayPaymentId: razorpay_payment_id, razorpaySignature: razorpay_signature },
+      });
+
+      if (result.count > 0) {
         for (const item of order.items) {
           if (item.variantId) {
-            await tx.productVariant.update({ where: { id: item.variantId }, data: { stockQuantity: { decrement: item.quantity } } });
+            await tx.productVariant.update({
+              where: { id: item.variantId },
+              data: { stockQuantity: { decrement: item.quantity } },
+            });
           }
         }
-      });
-    }
+      }
+    });
 
     return NextResponse.json({ orderId: order.id });
   } catch (err) {

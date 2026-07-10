@@ -14,18 +14,40 @@ export async function POST(req: NextRequest) {
   if (event.event === "payment.captured") {
     const payment = event.payload.payment.entity;
     const order = await db.order.findUnique({ where: { razorpayOrderId: payment.order_id }, include: { items: true } });
-    if (order && order.paymentStatus !== "PAID") {
+
+    if (order) {
       await db.$transaction(async (tx) => {
-        await tx.order.update({
-          where: { id: order.id },
+        // Atomic claim: only proceeds if THIS call is the one that flips
+        // paymentStatus from non-PAID to PAID. If /api/checkout/verify (client
+        // callback) already won the race, count is 0 and we skip the decrement
+        // entirely — prevents double-decrementing stock when both the client
+        // handler and this webhook fire for the same payment.
+        const result = await tx.order.updateMany({
+          where: { id: order.id, paymentStatus: { not: "PAID" } },
           data: { paymentStatus: "PAID", razorpayPaymentId: payment.id },
         });
-        for (const item of order.items) {
-          if (item.variantId) {
-            await tx.productVariant.update({ where: { id: item.variantId }, data: { stockQuantity: { decrement: item.quantity } } });
+
+        if (result.count > 0) {
+          for (const item of order.items) {
+            if (item.variantId) {
+              await tx.productVariant.update({
+                where: { id: item.variantId },
+                data: { stockQuantity: { decrement: item.quantity } },
+              });
+            }
           }
         }
       });
+    }
+  } else if (event.event === "payment.failed") {
+    const payment = event.payload.payment.entity;
+    const order = await db.order.findUnique({ where: { razorpayOrderId: payment.order_id } });
+
+    // Only downgrade a still-pending order. Never overwrite an order that's
+    // already PAID (e.g. a late/retried failed-webhook arriving after the
+    // client-side verify already confirmed success).
+    if (order && order.paymentStatus === "PENDING") {
+      await db.order.update({ where: { id: order.id }, data: { paymentStatus: "FAILED" } });
     }
   }
 

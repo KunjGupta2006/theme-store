@@ -19,7 +19,7 @@ export function CartDrawer() {
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/30 z-100 transition-opacity duration-300 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={closeCart}
@@ -32,7 +32,7 @@ export function CartDrawer() {
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-black/8">
+        <div className="flex items-center justify-between z-1000 px-6 py-5 border-b border-black/8">
           <h2 className="font-['Inter_Tight'] text-lg font-bold text-[#111111]">
             Cart ({items.length})
           </h2>

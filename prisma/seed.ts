@@ -39,28 +39,36 @@ function slugify(name: string, suffix: string) {
   return `${name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}-${suffix}`;
 }
 
-async function createVariants(productId: string, stockPerVariant: number) {
-  await db.productVariant.createMany({
-    data: sizes.flatMap((size) =>
-      colors.map((color) => ({
-        productId,
-        size,
-        color,
-        stockQuantity: stockPerVariant,
-        priceAdjustment: 0,
-      }))
-    ),
-  });
+/**
+ * Upserts every size/color combo for a product instead of delete+createMany.
+ * This is the key fix: ProductVariant.id is a random uuid() default, so any
+ * delete+recreate cycle assigns brand-new ids to every variant. Since carts
+ * are persisted client-side (zustand -> localStorage) and store variantId,
+ * a reseed would silently orphan every cart already in a browser, causing
+ * "One of the items in your cart no longer exists" at checkout even though
+ * nothing is actually wrong. Upserting on the (productId, size, color)
+ * unique constraint keeps existing variant ids stable across reseeds, and
+ * only assigns a new id the first time a combo is created.
+ */
+async function upsertVariants(productId: string, stockPerVariant: number) {
+  for (const size of sizes) {
+    for (const color of colors) {
+      await db.productVariant.upsert({
+        where: { productId_size_color: { productId, size, color } },
+        update: {}, // preserve any stock/price edits made later via the admin panel
+        create: { productId, size, color, stockQuantity: stockPerVariant, priceAdjustment: 0 },
+      });
+    }
+  }
 }
 
 async function main() {
   console.log("🌱 Seeding database...");
 
-  // Clear existing catalog data (keeps users/orders intact)
-  await db.customDesign.deleteMany();
-  await db.cartItem.deleteMany();
-  await db.productVariant.deleteMany();
-  await db.product.deleteMany();
+  // NOTE: we deliberately do NOT deleteMany() products/variants anymore.
+  // Deleting and recreating them reassigns random uuids to every variant,
+  // which silently invalidates every cart already sitting in a browser's
+  // localStorage. Upserting keeps ids (and therefore existing carts) valid.
 
   // ── Store-wide pricing defaults (base + per-side print charge) ──────
   await db.storeSettings.upsert({
@@ -71,8 +79,10 @@ async function main() {
   console.log("✅ Store settings ready (₹150 base + ₹15/side)");
 
   // ── The one customizable plain shirt (priced via StoreSettings) ─────
-  const plainShirt = await db.product.create({
-    data: {
+  const plainShirt = await db.product.upsert({
+    where: { slug: "custom-plain-shirt" },
+    update: {}, // don't clobber admin edits (price/description/etc.) on reseed
+    create: {
       name: "Custom Plain Shirt",
       slug: "custom-plain-shirt",
       description:
@@ -83,8 +93,8 @@ async function main() {
       isCustomizable: true,
     },
   });
-  await createVariants(plainShirt.id, 100);
-  console.log("✅ Created customizable plain shirt");
+  await upsertVariants(plainShirt.id, 100);
+  console.log("✅ Plain shirt ready");
 
   // ── Template-design shirts from public/templates ─────────────────────
   if (!fs.existsSync(TEMPLATES_DIR)) {
@@ -100,16 +110,27 @@ async function main() {
 
     for (const file of files) {
       const name = titleCase(file);
+      const slug = slugify(name, "tee");
       const filePath = path.join(TEMPLATES_DIR, file);
+
+      const existing = await db.product.findUnique({ where: { slug } });
+
+      // Only upload to Cloudinary + create the product if it doesn't exist yet.
+      // Re-uploading on every reseed is wasteful and would also churn the
+      // thumbnail URL for no reason.
+      if (existing) {
+        await upsertVariants(existing.id, 30);
+        console.log(`↺  Already exists, variants ensured: ${name} Tee`);
+        continue;
+      }
 
       const upload = await cloudinary.uploader.upload(filePath, { folder: "templates" });
       const imageUrl = upload.secure_url;
 
-      // Sellable, fixed-price, pre-made design shirt — no customization step
       const product = await db.product.create({
         data: {
           name: `${name} Tee`,
-          slug: slugify(name, "tee"),
+          slug,
           description: `Pre-printed ${name.toLowerCase()} design on a premium cotton tee.`,
           basePrice: DEFAULT_TEMPLATE_SHIRT_PRICE,
           thumbnail: imageUrl,
@@ -117,7 +138,7 @@ async function main() {
           isCustomizable: false,
         },
       });
-      await createVariants(product.id, 30);
+      await upsertVariants(product.id, 30);
 
       console.log(`✅ Created: ${name} Tee`);
     }
