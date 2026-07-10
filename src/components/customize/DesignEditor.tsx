@@ -257,9 +257,17 @@ export function DesignEditor({ product, initialColor, initialSize, pricing }: De
         productId: product.id, frontDesignUrl: frontUrl, backDesignUrl: backUrl, selectedColor: color, selectedSize: size,
       });
       addItem({
-        id: `${selectedVariant.id}-${designId}`, productId: product.id, name: `Custom ${product.name}`,
-        slug: product.slug, thumbnail: product.thumbnail, color, size, price: finalPrice, quantity: 1,
-        customDesignId: designId, customDesignUrl: frontUrl ?? backUrl,
+        id: selectedVariant.id,
+        productId: product.id,
+        name: `Custom ${product.name}`,
+        slug: product.slug,
+        thumbnail: product.thumbnail,
+        color,
+        size,
+        price: finalPrice,
+        quantity: 1,
+        customDesignId: designId,
+        customDesignUrl: frontUrl ?? backUrl,
       });
       toast.success("Design saved — added to your cart");
       router.push("/cart");
