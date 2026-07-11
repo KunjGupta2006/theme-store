@@ -13,7 +13,7 @@ declare global {
   interface Window { Razorpay: new (options: Record<string, unknown>) => { open: () => void }; }
 }
 
-export function CheckoutClient() {
+export function CheckoutClient({ shippingFlatRate, freeShippingThreshold }: { shippingFlatRate: number; freeShippingThreshold: number }) {
   const router = useRouter();
   const { items, totalPrice, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ export function CheckoutClient() {
   });
 
   const subtotal = totalPrice();
-  const shipping = subtotal >= 999 ? 0 : 79;
+  const shipping = subtotal >= freeShippingThreshold ? 0 : shippingFlatRate;
   const total = subtotal + shipping;
 
   if (items.length === 0) {

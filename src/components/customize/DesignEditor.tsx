@@ -175,6 +175,7 @@
       setSelectedId(id);
     }, [side, brushColor, brushSize]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (!file) return;

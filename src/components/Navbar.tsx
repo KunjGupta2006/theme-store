@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faUser, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
+import Link from "next/link";
 import { CartButton } from "@/components/cart/CartButton";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { usePathname } from "next/navigation";
@@ -158,11 +159,13 @@ function ProfileDropdown() {
 
       {open && (
         <div className="absolute right-0 top-full mt-2 w-36 rounded-md border border-white/20 bg-black/80 py-1 shadow-lg backdrop-blur-sm">
-          <button
+          <Link
+            href="/account"
             className="flex w-full items-center gap-2 px-4 py-2 text-sm text-white-600 transition-colors hover:bg-white/10"
+            onClick={() => setOpen(false)}
           >
-            Profile
-          </button>
+            My Account
+          </Link>
 
           <button
             onClick={() => signOut({ redirectUrl: "/" })}

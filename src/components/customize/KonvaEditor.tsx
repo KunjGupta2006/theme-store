@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
-import { Stage, Layer, Rect, Image as KonvaImage, Transformer, Group, Text } from "react-konva";
+import { useRef, useEffect, useState } from "react";
+import { Stage, Layer, Rect, Image as KonvaImage, Transformer, Text } from "react-konva";
 import useImage from "use-image";
 import type Konva from "konva";
 
@@ -66,7 +66,7 @@ function DesignImage({
             rotation: e.target.rotation(),
           });
         }}
-        onTransformEnd={(e) => {
+        onTransformEnd={() => {
           const node = imgRef.current!;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
@@ -96,7 +96,7 @@ function DesignImage({
   );
 }
 
-export default function KonvaEditor({ color, side, designUrl, mockupUrl }: KonvaEditorProps) {
+export default function KonvaEditor({ side, designUrl, mockupUrl }: KonvaEditorProps) {
   const [selected, setSelected] = useState(true);
   const [mockupImg] = useImage(mockupUrl ?? "", "anonymous");
 

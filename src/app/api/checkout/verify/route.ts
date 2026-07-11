@@ -2,19 +2,31 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
+import { checkoutRateLimiter } from "@/lib/rate-limit";
+import { env } from "@/lib/env";
+import { z } from "zod";
+
+const verifySchema = z.object({
+  razorpay_order_id: z.string().min(1),
+  razorpay_payment_id: z.string().min(1),
+  razorpay_signature: z.string().min(1),
+});
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for") || "unknown";
+  if (!checkoutRateLimiter.check(ip)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     const { userId: clerkId } = await auth();
     if (!clerkId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = await req.json();
-    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-      return NextResponse.json({ error: "Missing payment fields" }, { status: 400 });
-    }
+    const body = await req.json();
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = verifySchema.parse(body);
 
     const expected = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+      .createHmac("sha256", env.RAZORPAY_KEY_SECRET)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest("hex");
 

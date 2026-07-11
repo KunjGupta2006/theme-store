@@ -10,7 +10,6 @@ async function getDashboardData() {
   const now = new Date();
   const thirtyDaysAgo = new Date(now);
   thirtyDaysAgo.setDate(now.getDate() - 30);
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
   const [
     totalRevenue,
@@ -21,6 +20,7 @@ async function getDashboardData() {
     ordersByStatus,
     topProducts,
     revenueByDay,
+    lowStockVariants,
   ] = await Promise.all([
     // Total revenue from paid orders
     db.order.aggregate({
@@ -67,6 +67,9 @@ async function getDashboardData() {
       select: { createdAt: true, totalAmount: true },
       orderBy: { createdAt: "asc" },
     }),
+
+    // Low stock variants (less than 10)
+    db.productVariant.count({ where: { stockQuantity: { lt: 10 } } }),
   ]);
 
   // Resolve product names for top products
@@ -116,6 +119,7 @@ async function getDashboardData() {
       orders: totalOrders,
       users: totalUsers,
       pending: pendingOrders,
+      lowStock: lowStockVariants,
     },
     recentOrders,
     topProducts: topProducts.map((p) => ({
@@ -157,7 +161,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {[
           {
             label: "Total Revenue",
@@ -178,6 +182,11 @@ export default async function AdminDashboard() {
             label: "Pending Orders",
             value: stats.pending.toLocaleString(),
             sub: "Needs action",
+          },
+          {
+            label: "Low Stock Items",
+            value: stats.lowStock.toLocaleString(),
+            sub: "Variants < 10 units",
           },
         ].map((card) => (
           <div

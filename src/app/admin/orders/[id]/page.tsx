@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { OrderStatusForm } from "@/components/admin/OrderStatusForm";
+import { OrderStatusTimeline } from "@/components/admin/OrderStatusTimeline";
 import DesignPrintPreview from "@/components/admin/DesignPrintPreview";
 import { CopyOrderIdButton } from "@/components/admin/CopyOrderIdButton";
 import type { Metadata } from "next";
@@ -40,6 +41,9 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
             select: { frontDesignUrl: true, backDesignUrl: true, uploadedImageUrl: true, selectedColor: true, selectedSize: true },
           },
         },
+      },
+      statusHistory: {
+        orderBy: { changedAt: "desc" },
       },
     },
   });
@@ -134,7 +138,18 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
               </div>
             )}
           </div>
-          <OrderStatusForm orderId={order.id} currentStatus={order.orderStatus} currentTrackingId={order.trackingId} />
+          <OrderStatusForm 
+            orderId={order.id} 
+            currentStatus={order.orderStatus} 
+            currentTrackingId={order.trackingId} 
+            currentCarrier={order.carrier}
+            currentAdminNotes={order.adminNotes}
+          />
+          <OrderStatusTimeline 
+            currentStatus={order.orderStatus} 
+            history={order.statusHistory} 
+            createdAt={order.createdAt} 
+          />
         </div>
       </div>
     </div>

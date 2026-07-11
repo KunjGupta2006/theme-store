@@ -10,6 +10,7 @@ interface Props {
 
 export function ProductImageGallery({ images, name }: Props) {
   const [active, setActive] = useState(0);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setActive(0); }, [images]);
 
   if (images.length === 0) {

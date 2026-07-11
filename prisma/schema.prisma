@@ -157,7 +157,10 @@ model Order {
   razorpaySignature String?
   createdAt         DateTime      @default(now())
 
-  items OrderItem[]
+  items         OrderItem[]
+  statusHistory OrderStatusHistory[]
+  carrier       String?
+  adminNotes    String?
 }
 
 model OrderItem {
@@ -191,8 +194,20 @@ enum OrderStatus {
 // Singleton row holding store-wide, admin-editable pricing.
 // Used for plain custom-printed shirts: basePrice + (printChargePerSide * sides printed).
 model StoreSettings {
-  id                   String   @id @default("singleton")
-  customShirtBasePrice Float    @default(150)
-  printChargePerSide   Float    @default(15)
-  updatedAt            DateTime @updatedAt
+  id                    String   @id @default("singleton")
+  customShirtBasePrice  Float    @default(150)
+  printChargePerSide    Float    @default(15)
+  shippingFlatRate      Float    @default(79)
+  freeShippingThreshold Float    @default(999)
+  updatedAt             DateTime @updatedAt
+}
+
+model OrderStatusHistory {
+  id        String      @id @default(uuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  changedBy String      // clerkId of admin
+  note      String?
+  changedAt DateTime    @default(now())
 }

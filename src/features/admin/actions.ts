@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { orderStatusSchema } from "@/lib/validations";
 
 interface ActionResult {
   error?: string;
@@ -270,18 +271,42 @@ export async function deleteProductImage(imageId: string): Promise<ActionResult>
 export async function updateOrderStatus(orderId: string, formData: FormData): Promise<ActionResult> {
   try {
     await requireAdmin();
-    const orderStatus = formData.get("orderStatus") as string;
-    const trackingId = (formData.get("trackingId") as string) || null;
-    await db.order.update({
-      where: { id: orderId },
-      data: {
-        orderStatus: orderStatus as "PROCESSING" | "PRINTING" | "SHIPPED" | "DELIVERED" | "CANCELLED",
-        ...(trackingId ? { trackingId } : {}),
-      },
+    const { userId: adminId } = await auth();
+
+    const parsed = orderStatusSchema.safeParse({
+      status: formData.get("orderStatus"),
+      trackingId: formData.get("trackingId") || undefined,
+      carrier: formData.get("carrier") || undefined,
+      adminNotes: formData.get("adminNotes") || undefined,
     });
+
+    if (!parsed.success) return { error: parsed.error.errors[0].message };
+    const { status, trackingId, carrier, adminNotes } = parsed.data;
+
+    await db.$transaction(async (tx) => {
+      await tx.order.update({
+        where: { id: orderId },
+        data: {
+          orderStatus: status,
+          trackingId: trackingId || null,
+          carrier: carrier || null,
+          adminNotes: adminNotes || null,
+        },
+      });
+
+      await tx.orderStatusHistory.create({
+        data: {
+          orderId,
+          status,
+          changedBy: adminId!,
+          note: adminNotes || null,
+        }
+      });
+    });
+
     revalidatePath(`/admin/orders/${orderId}`);
     revalidatePath("/admin/orders");
-    return {};
+    return { success: true };
   } catch (err) {
     console.error("updateOrderStatus failed:", err);
     return { error: "Failed to update order status." };
@@ -293,11 +318,24 @@ type BulkOrderStatus = "PROCESSING" | "PRINTING" | "SHIPPED" | "DELIVERED" | "CA
 export async function bulkUpdateOrderStatus(orderIds: string[], orderStatus: BulkOrderStatus): Promise<ActionResult> {
   try {
     await requireAdmin();
+    const { userId: adminId } = await auth();
+
     if (orderIds.length === 0) return { error: "No orders selected." };
-    await db.order.updateMany({ where: { id: { in: orderIds } }, data: { orderStatus } });
+    
+    await db.$transaction(async (tx) => {
+      await tx.order.updateMany({ where: { id: { in: orderIds } }, data: { orderStatus } });
+      
+      const historyEntries = orderIds.map(orderId => ({
+        orderId,
+        status: orderStatus,
+        changedBy: adminId!,
+      }));
+      await tx.orderStatusHistory.createMany({ data: historyEntries });
+    });
+
     revalidatePath("/admin/orders");
     for (const id of orderIds) revalidatePath(`/admin/orders/${id}`);
-    return {};
+    return { success: true };
   } catch (err) {
     console.error("bulkUpdateOrderStatus failed:", err);
     return { error: "Failed to update selected orders." };
@@ -323,6 +361,8 @@ export async function updateStoreSettings(_prevState: ActionResult, formData: Fo
     await requireAdmin();
     const customShirtBasePrice = parseFloat(formData.get("customShirtBasePrice") as string);
     const printChargePerSide = parseFloat(formData.get("printChargePerSide") as string);
+    const shippingFlatRate = parseFloat(formData.get("shippingFlatRate") as string);
+    const freeShippingThreshold = parseFloat(formData.get("freeShippingThreshold") as string);
 
     if (!Number.isFinite(customShirtBasePrice) || customShirtBasePrice < 0) {
       return { error: "Enter a valid custom shirt base price." };
@@ -330,18 +370,85 @@ export async function updateStoreSettings(_prevState: ActionResult, formData: Fo
     if (!Number.isFinite(printChargePerSide) || printChargePerSide < 0) {
       return { error: "Enter a valid print charge." };
     }
+    if (!Number.isFinite(shippingFlatRate) || shippingFlatRate < 0) {
+      return { error: "Enter a valid shipping flat rate." };
+    }
+    if (!Number.isFinite(freeShippingThreshold) || freeShippingThreshold < 0) {
+      return { error: "Enter a valid free shipping threshold." };
+    }
 
     await db.storeSettings.upsert({
       where: { id: "singleton" },
-      update: { customShirtBasePrice, printChargePerSide },
-      create: { id: "singleton", customShirtBasePrice, printChargePerSide },
+      update: { customShirtBasePrice, printChargePerSide, shippingFlatRate, freeShippingThreshold },
+      create: { id: "singleton", customShirtBasePrice, printChargePerSide, shippingFlatRate, freeShippingThreshold },
     });
 
     revalidatePath("/admin/settings");
     revalidatePath("/customize");
+    revalidatePath("/checkout");
     return { success: true };
   } catch (err) {
     console.error("updateStoreSettings failed:", err);
     return { error: "Failed to save settings." };
   }
+}
+
+// --- Search & Dashboard -----------------------------------------------
+
+export async function adminSearch(query: string) {
+  await requireAdmin();
+  const q = query.trim();
+  if (!q) return { products: [], orders: [], users: [] };
+
+  const [products, orders, users] = await Promise.all([
+    db.product.findMany({
+      where: { name: { contains: q, mode: "insensitive" } },
+      take: 5,
+      select: { id: true, name: true, slug: true, thumbnail: true },
+    }),
+    db.order.findMany({
+      where: {
+        OR: [
+          { id: { contains: q, mode: "insensitive" } },
+          { customerName: { contains: q, mode: "insensitive" } },
+          { customerPhone: { contains: q, mode: "insensitive" } },
+          { trackingId: { contains: q, mode: "insensitive" } },
+        ],
+      },
+      take: 5,
+      select: { id: true, customerName: true, orderStatus: true, totalAmount: true },
+    }),
+    db.user.findMany({
+      where: {
+        OR: [
+          { name: { contains: q, mode: "insensitive" } },
+          { email: { contains: q, mode: "insensitive" } },
+        ],
+      },
+      take: 5,
+      select: { id: true, name: true, email: true, imageUrl: true },
+    }),
+  ]);
+
+  return { products, orders, users };
+}
+
+export async function getDashboardStats() {
+  await requireAdmin();
+  
+  const [pendingActionOrders, lowStockVariants] = await Promise.all([
+    db.order.findMany({
+      where: { orderStatus: { in: ["PROCESSING", "PRINTING"] } },
+      orderBy: { createdAt: "asc" },
+      take: 5,
+      include: { user: { select: { name: true, email: true } } },
+    }),
+    db.productVariant.findMany({
+      where: { stockQuantity: { lt: 10 } },
+      include: { product: { select: { name: true, thumbnail: true } } },
+      take: 5,
+    }),
+  ]);
+
+  return { pendingActionOrders, lowStockVariants };
 }

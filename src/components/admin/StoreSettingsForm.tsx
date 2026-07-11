@@ -7,6 +7,8 @@ import { updateStoreSettings } from "@/features/admin/actions";
 interface Settings {
   customShirtBasePrice: number;
   printChargePerSide: number;
+  shippingFlatRate: number;
+  freeShippingThreshold: number;
 }
 
 type ActionState = { error?: string; success?: boolean };
@@ -47,6 +49,34 @@ export function StoreSettingsForm({ settings }: { settings: Settings }) {
           step={0.01}
           min={0}
           defaultValue={settings.printChargePerSide}
+          className="w-32 bg-white border border-black/[0.08] px-3 py-1.5 text-sm text-center text-[#111111] focus:outline-none focus:border-[#111111] rounded"
+        />
+      </div>
+      <div className="flex items-center gap-4 px-6 py-4">
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-[#111111]">Shipping Flat Rate</p>
+          <p className="text-[10px] text-[#999] font-mono mt-0.5">shippingFlatRate</p>
+        </div>
+        <input
+          name="shippingFlatRate"
+          type="number"
+          step={0.01}
+          min={0}
+          defaultValue={settings.shippingFlatRate}
+          className="w-32 bg-white border border-black/[0.08] px-3 py-1.5 text-sm text-center text-[#111111] focus:outline-none focus:border-[#111111] rounded"
+        />
+      </div>
+      <div className="flex items-center gap-4 px-6 py-4">
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-[#111111]">Free Shipping Threshold</p>
+          <p className="text-[10px] text-[#999] font-mono mt-0.5">freeShippingThreshold</p>
+        </div>
+        <input
+          name="freeShippingThreshold"
+          type="number"
+          step={0.01}
+          min={0}
+          defaultValue={settings.freeShippingThreshold}
           className="w-32 bg-white border border-black/[0.08] px-3 py-1.5 text-sm text-center text-[#111111] focus:outline-none focus:border-[#111111] rounded"
         />
       </div>

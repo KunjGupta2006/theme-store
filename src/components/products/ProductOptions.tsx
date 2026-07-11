@@ -38,7 +38,6 @@ export function ProductOptions({
   const currentSelectedSize = selectedSize && availableSizesForColor.includes(selectedSize) ? selectedSize : null;
   const selectedVariant = variants.find((v) => v.color === selectedColor && v.size === currentSelectedSize);
   const finalPrice = basePrice + (selectedVariant?.priceAdjustment ?? 0);
-  const activeColorInfo = colors.find((c) => c.name === selectedColor);
 
   const handleAddToCart = () => {
     if (colorFullyOutOfStock) { setError(`${selectedColor} is currently out of stock`); return; }

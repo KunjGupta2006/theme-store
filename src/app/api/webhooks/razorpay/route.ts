@@ -1,13 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { db } from "@/lib/db";
+import { webhookRateLimiter } from "@/lib/rate-limit";
+import { env } from "@/lib/env";
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for") || "unknown";
+  if (!webhookRateLimiter.check(ip)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   const body = await req.text();
   const signature = req.headers.get("x-razorpay-signature");
-  if (!signature) return NextResponse.json({ error: "Missing signature" }, { status: 400 });
+  if (!signature || !env.RAZORPAY_WEBHOOK_SECRET) {
+    return NextResponse.json({ error: "Configuration error or no signature" }, { status: 400 });
+  }
 
-  const expected = crypto.createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET!).update(body).digest("hex");
+  const expected = crypto
+    .createHmac("sha256", env.RAZORPAY_WEBHOOK_SECRET)
+    .update(body)
+    .digest("hex");
   if (expected !== signature) return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
 
   const event = JSON.parse(body);

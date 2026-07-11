@@ -8,11 +8,13 @@ interface OrderStatusFormProps {
   orderId: string;
   currentStatus: string;
   currentTrackingId: string | null;
+  currentCarrier: string | null;
+  currentAdminNotes: string | null;
 }
 
 const STATUSES = ["PROCESSING", "PRINTING", "SHIPPED", "DELIVERED", "CANCELLED"];
 
-export function OrderStatusForm({ orderId, currentStatus, currentTrackingId }: OrderStatusFormProps) {
+export function OrderStatusForm({ orderId, currentStatus, currentTrackingId, currentCarrier, currentAdminNotes }: OrderStatusFormProps) {
   const [isPending, startTransition] = useTransition();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -47,6 +49,25 @@ export function OrderStatusForm({ orderId, currentStatus, currentTrackingId }: O
           defaultValue={currentTrackingId ?? ""}
           placeholder="Optional"
           className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
+        />
+      </div>
+      <div className="space-y-1.5">
+        <label className="text-xs text-[#666666] tracking-widest uppercase">Carrier</label>
+        <input
+          name="carrier"
+          defaultValue={currentCarrier ?? ""}
+          placeholder="e.g. FedEx, BlueDart"
+          className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded"
+        />
+      </div>
+      <div className="space-y-1.5">
+        <label className="text-xs text-[#666666] tracking-widest uppercase">Admin Notes</label>
+        <textarea
+          name="adminNotes"
+          defaultValue={currentAdminNotes ?? ""}
+          placeholder="Internal notes (optional)"
+          rows={2}
+          className="w-full bg-white border border-black/8 px-4 py-3 text-sm text-[#111111] focus:outline-none focus:border-[#111111] transition-colors rounded resize-none"
         />
       </div>
       <button
