@@ -5,9 +5,13 @@ import { adminSearch } from "@/features/admin/actions";
 import Link from "next/link";
 import Image from "next/image";
 
+interface SearchProduct { id: string; name: string; thumbnail?: string | null; }
+interface SearchOrder { id: string; customerName: string; orderStatus: string; }
+interface SearchUser { id: string; name: string; email: string; imageUrl?: string | null; }
+
 export function AdminSearch() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<{ products: Record<string, unknown>[]; orders: Record<string, unknown>[]; users: Record<string, unknown>[] } | null>(null);
+  const [results, setResults] = useState<{ products: SearchProduct[]; orders: SearchOrder[]; users: SearchUser[] } | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 

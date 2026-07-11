@@ -280,7 +280,7 @@ export async function updateOrderStatus(orderId: string, formData: FormData): Pr
       adminNotes: formData.get("adminNotes") || undefined,
     });
 
-    if (!parsed.success) return { error: parsed.error.errors[0].message };
+    if (!parsed.success) return { error: parsed.error.issues[0].message };
     const { status, trackingId, carrier, adminNotes } = parsed.data;
 
     await db.$transaction(async (tx) => {

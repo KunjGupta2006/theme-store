@@ -28,8 +28,7 @@ export default async function AdminLayout({
         <div className="sticky top-0 z-40 bg-[#F5F1EA]/80 backdrop-blur-md border-b border-black/6 px-8 py-4 flex items-center justify-between">
           <AdminSearch />
           <div className="flex items-center gap-4">
-            <UserButton 
-              afterSignOutUrl="/"
+            <UserButton
               appearance={{
                 elements: {
                   userButtonAvatarBox: "w-10 h-10 border border-black/10 shadow-sm"

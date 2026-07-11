@@ -28,7 +28,7 @@ export async function createRazorpayOrder(items: CheckoutItem[], address: Addres
     };
 
     const parsedAddress = addressSchema.safeParse(mappedAddress);
-    if (!parsedAddress.success) return { error: parsedAddress.error.errors[0].message };
+    if (!parsedAddress.success) return { error: parsedAddress.error.issues[0].message };
     const validAddress = parsedAddress.data;
 
     let subtotal = 0;

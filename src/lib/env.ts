@@ -6,6 +6,8 @@ const envSchema = z.object({
   
   CLERK_SECRET_KEY: z.string().min(1),
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
+  CLERK_WEBHOOK_SECRET: z.string().min(1).optional(),
+  NEXT_PUBLIC_CLERK_SIGN_OUT_URL: z.string().optional(),
   
   CLOUDINARY_CLOUD_NAME: z.string().min(1),
   CLOUDINARY_API_KEY: z.string().min(1),
@@ -14,6 +16,7 @@ const envSchema = z.object({
   RAZORPAY_KEY_ID: z.string().min(1),
   RAZORPAY_KEY_SECRET: z.string().min(1),
   RAZORPAY_WEBHOOK_SECRET: z.string().min(1).optional(),
+  NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string().min(1),
 });
 
 const _env = envSchema.safeParse(process.env);
