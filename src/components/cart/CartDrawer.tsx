@@ -65,7 +65,7 @@ export function CartDrawer() {
           ) : (
             items.map((item) => (
               <div
-                key={item.id}
+                key={`${item.id}-${item.customDesignId ?? "default"}`}
                 className="flex gap-4 pb-4 border-b border-black/6"
               >
                 {/* Image */}
@@ -106,7 +106,7 @@ export function CartDrawer() {
                   <div className="flex items-center gap-3 mt-2">
                     <div className="flex items-center border border-black/10">
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        onClick={() => updateQuantity(item.id, item.quantity - 1, item.customDesignId)}
                         className="w-7 h-7 flex items-center justify-center text-[#666666] hover:text-[#111111]"
                       >
                         −
@@ -115,14 +115,14 @@ export function CartDrawer() {
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        onClick={() => updateQuantity(item.id, item.quantity + 1, item.customDesignId)}
                         className="w-7 h-7 flex items-center justify-center text-[#666666] hover:text-[#111111]"
                       >
                         +
                       </button>
                     </div>
                     <button
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item.id, item.customDesignId)}
                       className="text-xs text-[#666666] hover:text-red-500 transition-colors underline"
                     >
                       Remove

@@ -47,7 +47,7 @@ export default function CartPage() {
           {/* Items */}
           <div className="lg:col-span-2 space-y-0 divide-y divide-black/6">
             {items.map((item) => (
-              <div key={item.id} className="flex gap-6 py-6">
+              <div key={`${item.id}-${item.customDesignId ?? "default"}`} className="flex gap-6 py-6">
                 <div className="w-24 h-24 bg-[#EEE7DD] shrink-0 relative overflow-hidden">
                   {item.thumbnail && (
                     <Image
@@ -85,23 +85,23 @@ export default function CartPage() {
                   <div className="flex items-center gap-4 mt-3">
                     <div className="flex items-center border border-black/10">
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        onClick={() => updateQuantity(item.id, item.quantity - 1, item.customDesignId)}
                         className="w-8 h-8 flex items-center justify-center text-[#666666] hover:text-[#111111]"
                       >
-                        −
+                        -
                       </button>
                       <span className="w-8 h-8 flex items-center justify-center text-sm">
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        onClick={() => updateQuantity(item.id, item.quantity + 1, item.customDesignId)}
                         className="w-8 h-8 flex items-center justify-center text-[#666666] hover:text-[#111111]"
                       >
                         +
                       </button>
                     </div>
                     <button
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item.id, item.customDesignId)}
                       className="text-xs text-[#666666] hover:text-red-500 transition-colors underline"
                     >
                       Remove

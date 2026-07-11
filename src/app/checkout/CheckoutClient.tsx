@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
@@ -96,7 +97,7 @@ export function CheckoutClient() {
     <>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <main className="min-h-screen bg-[#F5F1EA]">
-        <div className="max-w-[1000px] mx-auto px-6 pt-24 pb-24 grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="max-w-250 mx-auto px-6 pt-24 pb-24 grid grid-cols-1 lg:grid-cols-3 gap-12">
           <form onSubmit={handlePay} className="lg:col-span-2 space-y-4">
             <h1 className="font-['Inter_Tight'] text-3xl font-bold text-[#111111] mb-6">Shipping Address</h1>
             <input required placeholder="Full Name" value={address.fullName} onChange={(e) => update("fullName", e.target.value)} className="w-full bg-white border border-black/8 px-4 py-3 text-sm rounded" />
@@ -113,15 +114,20 @@ export function CheckoutClient() {
             </button>
           </form>
 
-          <div className="bg-[#FAF7F2] border border-black/[0.06] p-6 space-y-3 h-fit sticky top-24">
+          <div className="bg-[#FAF7F2] border border-black/6 p-6 space-y-3 h-fit sticky top-24">
             <h2 className="font-['Inter_Tight'] text-lg font-bold text-[#111111]">Order Summary</h2>
             {items.map((i) => (
-              <div key={i.id} className="flex justify-between text-xs text-[#666666]">
-                <span>{i.name} ({i.color}, {i.size}) × {i.quantity}</span>
-                <span>₹{(i.price * i.quantity).toLocaleString("en-IN")}</span>
+              <div key={`${i.id}-${i.customDesignId ?? "default"}`} className="flex gap-3 text-xs text-[#666666]">
+                {i.customDesignUrl && (
+                  <Image src={i.customDesignUrl} alt="Custom design" className="w-10 h-10 object-cover rounded border border-black/10 shrink-0" />
+                )}
+                <div className="flex-1 flex justify-between">
+                  <span>{i.name} ({i.color}, {i.size}) × {i.quantity}</span>
+                  <span>₹{(i.price * i.quantity).toLocaleString("en-IN")}</span>
+                </div>
               </div>
             ))}
-            <div className="border-t border-black/[0.08] pt-3 space-y-1">
+            <div className="border-t border-black/8 pt-3 space-y-1">
               <div className="flex justify-between text-sm text-[#666666]"><span>Subtotal</span><span>₹{subtotal.toLocaleString("en-IN")}</span></div>
               <div className="flex justify-between text-sm text-[#666666]"><span>Shipping</span><span>{shipping === 0 ? "Free" : `₹${shipping}`}</span></div>
               <div className="flex justify-between font-medium text-[#111111] pt-2"><span>Total</span><span>₹{total.toLocaleString("en-IN")}</span></div>

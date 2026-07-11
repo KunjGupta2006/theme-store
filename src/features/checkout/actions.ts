@@ -4,22 +4,9 @@ import { db } from "@/lib/db";
 import { getRazorpay } from "@/lib/razorpay";
 import { auth } from "@clerk/nextjs/server";
 
-interface CheckoutItem {
-  variantId: string;
-  quantity: number;
-  customDesignId?: string;
-}
-interface AddressInput {
-  fullName: string; phone: string;
-  addressLine1: string; addressLine2?: string;
-  city: string; state: string; pincode: string;
-}
-interface CreateOrderResult {
-  error?: string;
-  orderId?: string;
-  razorpayOrderId?: string;
-  amount?: number;
-}
+interface CheckoutItem { variantId: string; quantity: number; customDesignId?: string; }
+interface AddressInput { fullName: string; phone: string; addressLine1: string; addressLine2?: string; city: string; state: string; pincode: string; }
+interface CreateOrderResult { error?: string; orderId?: string; razorpayOrderId?: string; amount?: number; }
 
 export async function createRazorpayOrder(items: CheckoutItem[], address: AddressInput): Promise<CreateOrderResult> {
   try {
@@ -29,7 +16,6 @@ export async function createRazorpayOrder(items: CheckoutItem[], address: Addres
     if (!user) return { error: "User not found" };
     if (items.length === 0) return { error: "Cart is empty" };
 
-    // Recalculate every price server-side — never trust client totals.
     let subtotal = 0;
     const validated: { variantId: string; productId: string; quantity: number; price: number; customDesignId?: string }[] = [];
 
@@ -40,11 +26,10 @@ export async function createRazorpayOrder(items: CheckoutItem[], address: Addres
       const price = variant.product.basePrice + variant.priceAdjustment;
       subtotal += price * item.quantity;
       validated.push({ variantId: variant.id, productId: variant.productId, quantity: item.quantity, price, customDesignId: item.customDesignId });
-    } 
+    }
 
     const shipping = subtotal >= 999 ? 0 : 79;
     const totalAmount = subtotal + shipping;
-
     const shippingAddress = `${address.fullName}\n${address.addressLine1}${address.addressLine2 ? ", " + address.addressLine2 : ""}\n${address.city}, ${address.state} ${address.pincode}\nPhone: ${address.phone}`;
 
     const order = await db.order.create({
@@ -59,12 +44,7 @@ export async function createRazorpayOrder(items: CheckoutItem[], address: Addres
       },
     });
 
-    const razorpayOrder = await getRazorpay().orders.create({
-      amount: Math.round(totalAmount * 100), // paise
-      currency: "INR",
-      receipt: order.id,
-    });
-
+    const razorpayOrder = await getRazorpay().orders.create({ amount: Math.round(totalAmount * 100), currency: "INR", receipt: order.id });
     await db.order.update({ where: { id: order.id }, data: { razorpayOrderId: razorpayOrder.id } });
 
     return { orderId: order.id, razorpayOrderId: razorpayOrder.id, amount: totalAmount };
@@ -79,7 +59,18 @@ export async function getOrderForOwner(orderId: string) {
   if (!clerkId) return null;
   const order = await db.order.findUnique({
     where: { id: orderId },
-    include: { user: true, items: { include: { product: true, variant: true } } },
+    include: {
+      user: true,
+      items: {
+        include: {
+          product: true,
+          variant: true,
+          // Needed so the confirmation page can preview the printed design,
+          // not just the plain product thumbnail.
+          customDesign: { select: { frontDesignUrl: true, backDesignUrl: true, uploadedImageUrl: true } },
+        },
+      },
+    },
   });
   if (!order || order.user.clerkId !== clerkId) return null;
   return order;
