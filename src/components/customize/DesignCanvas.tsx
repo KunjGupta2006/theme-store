@@ -273,9 +273,14 @@ export default function DesignCanvas({
         if (!stage) return null;
         guideLayerRef.current?.hide();
         shirtLayerRef.current?.hide();
+        const transformers = stage.find("Transformer");
+        transformers.forEach((tr) => tr.hide());
+        stage.batchDraw();
         const dataUrl = stage.toDataURL({ pixelRatio: 2 });
+        transformers.forEach((tr) => tr.show());
         guideLayerRef.current?.show();
         shirtLayerRef.current?.show();
+        stage.batchDraw();
         return dataUrl;
       },
       commitPendingEdit: () => {

@@ -182,6 +182,9 @@ export async function updateVariantStock(variantId: string, formData: FormData):
   }
 }
 
+const SIZES = ["S", "M", "L", "XL", "XXL"] as const;
+type Size = (typeof SIZES)[number];
+
 export async function addProductVariant(productId: string, formData: FormData): Promise<ActionResult> {
   try {
     await requireAdmin();
@@ -193,18 +196,17 @@ export async function addProductVariant(productId: string, formData: FormData): 
     if (!size) return { error: "Size is required" };
     if (!color) return { error: "Color is required" };
 
-    const validSizes = ["S", "M", "L", "XL", "XXL"];
-    if (!validSizes.includes(size)) return { error: "Invalid size" };
+    if (!SIZES.includes(size as Size)) return { error: "Invalid size" };
 
     const existing = await db.productVariant.findUnique({
-      where: { productId_size_color: { productId, size: size as any, color } },
+      where: { productId_size_color: { productId, size: size as Size, color } },
     });
     if (existing) return { error: "A variant with this size and color already exists" };
 
     await db.productVariant.create({
       data: {
         productId,
-        size: size as any,
+        size: size as Size,
         color,
         stockQuantity: Number.isFinite(stockQuantity) ? stockQuantity : 0,
         priceAdjustment: Number.isFinite(priceAdjustment) ? priceAdjustment : 0,
@@ -286,6 +288,21 @@ export async function updateOrderStatus(orderId: string, formData: FormData): Pr
   }
 }
 
+type BulkOrderStatus = "PROCESSING" | "PRINTING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
+
+export async function bulkUpdateOrderStatus(orderIds: string[], orderStatus: BulkOrderStatus): Promise<ActionResult> {
+  try {
+    await requireAdmin();
+    if (orderIds.length === 0) return { error: "No orders selected." };
+    await db.order.updateMany({ where: { id: { in: orderIds } }, data: { orderStatus } });
+    revalidatePath("/admin/orders");
+    for (const id of orderIds) revalidatePath(`/admin/orders/${id}`);
+    return {};
+  } catch (err) {
+    console.error("bulkUpdateOrderStatus failed:", err);
+    return { error: "Failed to update selected orders." };
+  }
+}
 // --- Users -------------------------------------------------------------
 export async function updateUserRole(userId: string, formData: FormData): Promise<ActionResult> {
   try {

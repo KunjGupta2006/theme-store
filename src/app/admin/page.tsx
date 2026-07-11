@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { RevenueChart } from "@/components/admin/RevenueChart";
 import { OrderStatusChart } from "@/components/admin/OrderStatusChart";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Dashboard — Admin" };
@@ -221,12 +222,12 @@ export default async function AdminDashboard() {
         <div className="lg:col-span-2 bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
           <div className="px-6 py-4 border-b border-black/6 flex items-center justify-between">
             <h2 className="text-sm font-medium text-[#111111]">Recent Orders</h2>
-            <a
+            <Link
               href="/admin/orders"
               className="text-xs text-[#666666] hover:text-[#111111] transition-colors"
             >
               View all →
-            </a>
+            </Link>
           </div>
           <table className="w-full">
             <thead>

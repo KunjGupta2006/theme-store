@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { OrderStatusForm } from "@/components/admin/OrderStatusForm";
+import DesignPrintPreview from "@/components/admin/DesignPrintPreview";
+import { CopyOrderIdButton } from "@/components/admin/CopyOrderIdButton";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Order — Admin" };
@@ -49,11 +51,13 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
         <Link href="/admin/orders" className="text-sm text-[#666666] hover:text-[#111111] transition-colors">← Orders</Link>
         <span className="text-[#666666]">/</span>
         <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">Order #{order.id.slice(0, 8)}</h1>
+        <CopyOrderIdButton orderId={order.id} />
+        <span className="text-xs text-[#666666] ml-auto">{order.createdAt.toLocaleString("en-IN")}</span>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
           <div className="px-6 py-4 border-b border-black/6"><h2 className="text-sm font-medium text-[#111111]">Items</h2></div>
-          <div className="divide-y divide-black/6">
+          <div className="divide-y divide-black/[0.06]">
             {order.items.map((item) => {
               // Plain (non-customized) products just show the product thumbnail.
               // Customized products get their own dedicated print section below
@@ -92,21 +96,12 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
                   {designImages.length > 0 && (
                     <div className="flex gap-3 pl-[68px]">
                       {designImages.map((d) => (
-                        <a
+                        <DesignPrintPreview
                           key={d.label}
-                          href={d.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group block"
-                          title={`Open ${d.label.toLowerCase()} design full-size to print`}
-                        >
-                          <div className="w-24 h-24 bg-white border border-black/10 rounded overflow-hidden relative group-hover:border-black/30 transition-colors">
-                            <Image src={d.url} alt={`${item.product.name} — ${d.label} design`} fill className="object-contain" />
-                          </div>
-                          <p className="text-[10px] text-[#666666] text-center mt-1 group-hover:text-[#111111] transition-colors">
-                            {d.label} · Print ↗
-                          </p>
-                        </a>
+                          label={d.label}
+                          url={d.url}
+                          productName={item.product.name}
+                        />
                       ))}
                     </div>
                   )}
@@ -132,6 +127,12 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
               <span className={`text-[10px] px-2 py-1 rounded-full font-medium ${PAYMENT_COLORS[order.paymentStatus]}`}>{order.paymentStatus}</span>
               <span className={`text-[10px] px-2 py-1 rounded-full font-medium ${STATUS_COLORS[order.orderStatus]}`}>{order.orderStatus}</span>
             </div>
+            {order.razorpayPaymentId && (
+              <div className="pt-2 border-t border-black/6">
+                <p className="text-xs text-[#666666] tracking-widest uppercase mb-1">Payment Reference</p>
+                <p className="text-xs font-mono text-[#111111] break-all">{order.razorpayPaymentId}</p>
+              </div>
+            )}
           </div>
           <OrderStatusForm orderId={order.id} currentStatus={order.orderStatus} currentTrackingId={order.trackingId} />
         </div>
