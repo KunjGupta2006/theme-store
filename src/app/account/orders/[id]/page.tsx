@@ -36,8 +36,17 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
             </div>
             <div className="text-left md:text-right">
               <p className="text-xs text-[#666666] tracking-widest uppercase mb-1">Date Placed</p>
+              {/* time of order (India) */}
               <p className="text-sm text-[#111111]">
-                {new Date(order.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                {new Date(order.createdAt).toLocaleString("en-IN", {
+                  timeZone: "Asia/Kolkata",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
               </p>
             </div>
           </div>
@@ -67,7 +76,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                     <div className="absolute left-[-24px] top-1 w-2 h-2 rounded-full bg-white border border-black/20" />
                     <p className="text-sm text-[#666666]">{history.status}</p>
                     <p className="text-xs text-[#999999] mt-0.5">
-                      {new Date(history.changedAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                      {new Date(history.changedAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
                     </p>
                   </div>
                 ))}
@@ -77,7 +86,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                   <div className="absolute left-[-24px] top-1 w-2 h-2 rounded-full bg-white border border-black/20" />
                   <p className="text-sm text-[#666666]">PLACED</p>
                   <p className="text-xs text-[#999999] mt-0.5">
-                    {new Date(order.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    {new Date(order.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
                   </p>
                 </div>
               </div>

@@ -36,7 +36,15 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
       user: { select: { name: true, email: true } },
       items: {
         include: {
-          product: { select: { name: true, thumbnail: true } },
+          variant: { select: { color: true, size: true } },
+          product: { 
+            select: { 
+              name: true, 
+              thumbnail: true,
+              colors: { select: { name: true, frontMockup: true } },
+              images: { select: { url: true, colorName: true }, orderBy: { position: "asc" } }
+            } 
+          },
           customDesign: {
             select: { frontDesignUrl: true, backDesignUrl: true, uploadedImageUrl: true, selectedColor: true, selectedSize: true },
           },
@@ -56,7 +64,7 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
         <span className="text-[#666666]">/</span>
         <h1 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">Order #{order.id.slice(0, 8)}</h1>
         <CopyOrderIdButton orderId={order.id} />
-        <span className="text-xs text-[#666666] ml-auto">{order.createdAt.toLocaleString("en-IN")}</span>
+        <span className="text-xs text-[#666666] ml-auto">{order.createdAt.toLocaleString("en-IN", { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}</span>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-[#FAF7F2] border border-black/6 rounded overflow-hidden">
@@ -75,13 +83,18 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
                   : null,
               ].filter((d): d is { label: string; url: string } => d !== null);
 
+              const itemColor = item.customDesign?.selectedColor || item.variant?.color;
+              const colorImage = item.product.images?.find((img) => img.colorName === itemColor)?.url;
+              const colorMockup = item.product.colors?.find((c) => c.name === itemColor)?.frontMockup;
+              const displayImage = colorMockup || colorImage || item.product.thumbnail || "";
+
               return (
                 <div key={item.id} className="px-6 py-4 space-y-3">
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                       <div className="w-14 h-14 bg-[#EEE7DD] shrink-0 relative overflow-hidden rounded">
-                        {item.product.thumbnail && (
-                          <Image src={item.product.thumbnail} alt={item.product.name} fill className="object-cover" />
+                        {displayImage && (
+                          <Image src={displayImage} alt={item.product.name} fill className="object-cover" />
                         )}
                       </div>
                       <div>

@@ -45,7 +45,7 @@ export default async function AccountPage() {
                 <div key={order.id} className="bg-white border border-black/8 rounded p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div>
                     <p className="text-xs text-[#666666] tracking-widest uppercase mb-1">Order #{order.id.slice(0, 8)}</p>
-                    <p className="text-sm text-[#111111] mb-1">{new Date(order.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <p className="text-sm text-[#111111] mb-1">{new Date(order.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <span className="text-[10px] tracking-widest uppercase px-2 py-1 bg-[#F5F1EA] text-[#666] rounded-sm">
                         {order.orderStatus}

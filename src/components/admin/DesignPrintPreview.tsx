@@ -25,12 +25,10 @@ export default function DesignPrintPreview({ label, url, productName }: DesignPr
           body { margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
           img { max-width: 100%; max-height: 100vh; object-fit: contain; }
         </style></head>
-        <body><img src="${url}" /></body>
+        <body><img src="${url}" onload="window.focus(); window.print();" /></body>
       </html>
     `);
     doc.close();
-    iframe.contentWindow?.focus();
-    iframe.contentWindow?.print();
   }, [url]);
 
   return (

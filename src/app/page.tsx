@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 // import { Analyics } from "@vercel/analytics/next"
 
 export default function HomePage() {
@@ -25,12 +26,19 @@ export default function HomePage() {
               Premium essentials built for those who value substance over excess.
             </p>
             <div className="flex justify-between items-center gap-6" >
-            <button className="label-caps mt-10 bg-white px-10 py-3.5 tracking-widest rounded-xl text-[#1c1b1b] transition-all hover:bg-inverse-surface hover:text-surface hover:cursor-pointer hover:scale-105  md:mt-12">
-              Explore Collection
-            </button>
-            <button className="label-caps mt-10 bg-[#1c1b1b] px-10 py-3.5 tracking-widest rounded-xl text-white transition-all hover:opacity-90 hover:cursor-pointer hover:scale-105  md:mt-12">
-              Customize Now
-            </button>
+              <Link
+                href="/shop"
+                className="label-caps mt-10 bg-white px-10 py-3.5 tracking-widest rounded-xl text-[#1c1b1b] transition-all hover:bg-inverse-surface hover:text-surface hover:cursor-pointer hover:scale-105 md:mt-12"
+              >
+                Explore Collection
+              </Link>
+
+              <Link
+                href="/customize"
+                className="label-caps mt-10 bg-[#1c1b1b] px-10 py-3.5 tracking-widest rounded-xl text-white transition-all hover:opacity-90 hover:cursor-pointer hover:scale-105 md:mt-12"
+              >
+                Customize Now
+              </Link>
             </div>
           </div>
 
