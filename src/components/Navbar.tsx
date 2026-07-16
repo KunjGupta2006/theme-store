@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faUser, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faUser, faBars, faXmark, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
+import { isCurrentUserAdmin } from "@/features/auth/actions";
 import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { CartButton } from "@/components/cart/CartButton";
@@ -134,8 +135,13 @@ export default function Navbar() {
 
 function ProfileDropdown() {
   const [open, setOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { signOut } = useClerk();
+
+  useEffect(() => {
+    isCurrentUserAdmin().then(setIsAdmin).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -159,6 +165,16 @@ function ProfileDropdown() {
 
       {open && (
         <div className="absolute right-0 top-full mt-2 w-36 rounded-md border border-white/20 bg-black/80 py-1 shadow-lg backdrop-blur-sm">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="flex w-full items-center gap-2 px-4 py-2 text-sm text-white transition-colors hover:bg-white/10"
+              onClick={() => setOpen(false)}
+            >
+              <FontAwesomeIcon icon={faShieldHalved} className="text-xs" />
+              Dashboard
+            </Link>
+          )}
           <Link
             href="/account"
             className="flex w-full items-center gap-2 px-4 py-2 text-sm text-white-600 transition-colors hover:bg-white/10"

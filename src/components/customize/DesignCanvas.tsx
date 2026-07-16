@@ -276,7 +276,14 @@ export default function DesignCanvas({
         const transformers = stage.find("Transformer");
         transformers.forEach((tr) => tr.hide());
         stage.batchDraw();
-        const dataUrl = stage.toDataURL({ pixelRatio: 2 });
+        const dataUrl = stage.toDataURL({
+          x: PRINT_X,
+          y: PRINT_Y,
+          width: PRINT_W,
+          height: PRINT_H,
+          pixelRatio: 2,
+          mimeType: 'image/png',
+        });
         transformers.forEach((tr) => tr.show());
         guideLayerRef.current?.show();
         shirtLayerRef.current?.show();

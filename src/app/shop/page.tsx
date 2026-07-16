@@ -1,8 +1,12 @@
 import { db } from "@/lib/db";
 import { ProductCard } from "@/components/products/ProductCard";
 import { ShopFilters } from "@/components/products/ShopFilters";
+import { Pagination } from "@/components/products/Pagination";
+import Footer from "@/components/Footer";
 import { Suspense } from "react";
 import type { Metadata } from "next";
+
+const PRODUCTS_PER_PAGE = 5;
 
 export const metadata: Metadata = {
   title: "Shop — Shirt Store",
@@ -21,6 +25,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const color = typeof params.color === "string" ? params.color : undefined;
   const size = typeof params.size === "string" ? params.size : undefined;
   const sort = typeof params.sort === "string" ? params.sort : "newest";
+  const page = Math.max(1, parseInt(typeof params.page === "string" ? params.page : "1", 10));
 
   const availableColors = await db.productColor.findMany({
     distinct: ["name", "hex"],
@@ -28,35 +33,48 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     select: { name: true, hex: true },
   });
 
-  const products = await db.product.findMany({
-    where: {
-      ...(color || size
-        ? {
-            variants: {
-              some: {
-                ...(color ? { color } : {}),
-                ...(size
-                  ? { size: size as "S" | "M" | "L" | "XL" | "XXL" }
-                  : {}),
-                stockQuantity: { gt: 0 },
-              },
+  const whereClause = {
+    ...(color || size
+      ? {
+          variants: {
+            some: {
+              ...(color ? { color } : {}),
+              ...(size
+                ? { size: size as "S" | "M" | "L" | "XL" | "XXL" }
+                : {}),
+              stockQuantity: { gt: 0 },
             },
-          }
-        : {}),
-    },
-include: {
-  variants: { select: { id: true, color: true, size: true, stockQuantity: true, priceAdjustment: true } },
-  colors: { orderBy: { position: "asc" } },
-},
-    orderBy:
-      sort === "price_asc"
-        ? { basePrice: "asc" }
-        : sort === "price_desc"
-        ? { basePrice: "desc" }
-        : { createdAt: "desc" },
-  });
+          },
+        }
+      : {}),
+  };
 
-  return (
+  const orderByClause =
+    sort === "price_asc"
+      ? { basePrice: "asc" as const }
+      : sort === "price_desc"
+      ? { basePrice: "desc" as const }
+      : { createdAt: "desc" as const };
+
+  const [totalCount, products] = await Promise.all([
+    db.product.count({ where: whereClause }),
+    db.product.findMany({
+      where: whereClause,
+      include: {
+        variants: { select: { id: true, color: true, size: true, stockQuantity: true, priceAdjustment: true } },
+        colors: { orderBy: { position: "asc" } },
+      },
+      orderBy: orderByClause,
+      skip: (page - 1) * PRODUCTS_PER_PAGE,
+      take: PRODUCTS_PER_PAGE,
+    }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(totalCount / PRODUCTS_PER_PAGE));
+  const rangeStart = (page - 1) * PRODUCTS_PER_PAGE + 1;
+  const rangeEnd = Math.min(page * PRODUCTS_PER_PAGE, totalCount);
+
+  return (<>
     <main className="min-h-screen bg-[#F5F1EA]">
       {/* Editorial header */}
       <section className="max-w-[1280px] mx-auto px-6 pt-24 pb-12">
@@ -71,7 +89,9 @@ include: {
             Black and white. Front and back. Your design or ours.
           </p>
           <p className="text-xs text-[#666666] hidden md:block">
-            {products.length} {products.length === 1 ? "style" : "styles"}
+            {totalCount === 0
+              ? "0 styles"
+              : `Showing ${rangeStart}\u2013${rangeEnd} of ${totalCount} ${totalCount === 1 ? "style" : "styles"}`}
           </p>
         </div>
       </section>
@@ -108,6 +128,18 @@ include: {
           </div>
         )}
       </section>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <section className="max-w-[1280px] mx-auto px-6 pb-16">
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            searchParams={{ color, size, sort }}
+          />
+        </section>
+      )}
     </main>
-  );
+    <Footer />
+  </>);
 }
