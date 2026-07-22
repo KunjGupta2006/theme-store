@@ -13,7 +13,7 @@
   type Color = string ;
   type Size = "S" | "M" | "L" | "XL" | "XXL";
   type Tool = "select" | "upload" | "text" | "paint";
-  type MobilePanel = "studio" | "canvas" | "details";
+  type MobilePanel = "studio" | "details";
 
   interface ProductColorInfo { name: string; hex: string; frontMockup?: string | null; backMockup?: string | null; }
   interface Variant { id: string; size: Size; color: Color; stockQuantity: number; priceAdjustment: number; }
@@ -69,7 +69,7 @@
     const [fitScale, setFitScale] = useState(1);
     const [elements, setElements] = useState<DesignElement[]>([]);
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const [mobilePanel, setMobilePanel] = useState<MobilePanel>("canvas");
+    const [mobilePanel, setMobilePanel] = useState<MobilePanel>("studio");
 
     const [uploading, setUploading] = useState(false);
     const [saving, setSaving] = useState(false);
@@ -135,7 +135,7 @@
       ]);
       setSelectedId(id);
       setTool("select");
-      setMobilePanel("canvas");
+      setMobilePanel("studio");
     };
 
     const addTextElement = () => {
@@ -152,7 +152,7 @@
       ]);
       setSelectedId(id);
       setTool("select");
-      setMobilePanel("canvas"); // jump to the canvas so the user sees the inline editor open
+      setMobilePanel("studio"); // remain on studio tools
     };
 
     const addPathElement = useCallback((points: number[]) => {
@@ -300,14 +300,13 @@
 
     const mobileTabs: { key: MobilePanel; label: string }[] = [
       { key: "studio", label: "Tools" },
-      { key: "canvas", label: "Canvas" },
       { key: "details", label: "Details" },
     ];
 
     return (
       <div className="flex flex-col lg:flex-row h-[100dvh] overflow-hidden bg-[#F5F1EA]">
         {/* Mobile-only panel switcher */}
-        <div className="lg:hidden flex items-center border-b border-black/6 bg-[#FAF7F2] shrink-0">
+        <div className="lg:hidden flex items-center border-b border-black/6 bg-[#FAF7F2] shrink-0 order-1">
           {mobileTabs.map((t) => (
             <button
               key={t.key}
@@ -322,7 +321,7 @@
         </div>
 
         {/* Left — Studio Editor */}
-        <div className={`${mobilePanel === "studio" ? "flex" : "hidden"} lg:flex w-full lg:w-72 h-full bg-[#FAF7F2] lg:border-r border-black/6 flex-col shrink-0`}>
+        <div className={`${mobilePanel === "studio" ? "flex" : "hidden"} lg:flex w-full lg:w-72 flex-1 lg:flex-none lg:h-full bg-[#FAF7F2] lg:border-r border-black/6 flex-col shrink-0 min-h-0 order-2 lg:order-1`}>
           <div className="hidden lg:block px-5 py-5 border-b border-black/6">
             <h2 className="font-['Inter_Tight'] text-lg font-bold text-[#111111]">Studio Editor</h2>
             <p className="text-xs text-[#666666] mt-0.5">Design your bespoke piece.</p>
@@ -513,7 +512,7 @@
         </div>
 
         {/* Center — Canvas */}
-        <div className={`${mobilePanel === "canvas" ? "flex" : "hidden"} lg:flex flex-1 flex-col bg-[#F5F1EA] overflow-hidden min-h-0`}>
+        <div className="flex h-[50dvh] lg:h-full lg:flex-1 flex-col bg-[#F5F1EA] overflow-hidden shrink-0 min-h-0 order-3 lg:order-2">
           <div className="flex items-center justify-center px-6 py-3 border-b border-black/6 bg-[#FAF7F2] shrink-0">
             <div className="flex items-center gap-1 bg-[#EEE7DD] p-1 rounded-full">
               {(["front", "back"] as Side[]).map((s) => (
@@ -563,7 +562,7 @@
         </div>
 
         {/* Right — Product info */}
-        <div className={`${mobilePanel === "details" ? "flex" : "hidden"} lg:flex w-full lg:w-80 h-full bg-[#FAF7F2] lg:border-l border-black/6 flex-col shrink-0`}>
+        <div className={`${mobilePanel === "details" ? "flex" : "hidden"} lg:flex w-full lg:w-80 flex-1 lg:flex-none lg:h-full bg-[#FAF7F2] lg:border-l border-black/6 flex-col shrink-0 min-h-0 order-2 lg:order-3`}>
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
             <div>
               <h2 className="font-['Inter_Tight'] text-2xl font-bold text-[#111111]">{product.name}</h2>

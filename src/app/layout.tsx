@@ -4,6 +4,7 @@ import { Inter, Inter_Tight } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
@@ -20,21 +21,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en" className={`${inter.variable} ${interTight.variable}`}>
         <SpeedInsights/>
         <body>
-          <Navbar />
-          {children}
-          <Toaster
-            position="bottom-right"
-            toastOptions={{
-              style: {
-                background: "#FAF7F2",
-                border: "1px solid rgba(0,0,0,0.08)",
-                color: "#111111",
-                borderRadius: "4px",
-                fontSize: "13px",
-                fontFamily: "Inter, sans-serif",
-              },
-            }}
-          />
+          <SmoothScroll>
+            <Navbar />
+            {children}
+            <Toaster
+              position="bottom-right"
+              toastOptions={{
+                style: {
+                  background: "#FAF7F2",
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  color: "#111111",
+                  borderRadius: "4px",
+                  fontSize: "13px",
+                  fontFamily: "Inter, sans-serif",
+                },
+              }}
+            />
+          </SmoothScroll>
         </body>
       </html>
     </ClerkProvider>

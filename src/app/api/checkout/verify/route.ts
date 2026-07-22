@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { checkoutRateLimiter } from "@/lib/rate-limit";
 import { env } from "@/lib/env";
+import { sendOrderConfirmationEmail } from "@/lib/email";
 import { z } from "zod";
 
 const verifySchema = z.object({
@@ -60,6 +61,39 @@ export async function POST(req: NextRequest) {
         }
       }
     });
+
+    // Fire-and-forget: send order confirmation email
+    const orderWithProducts = await db.order.findUnique({
+      where: { id: order.id },
+      include: {
+        user: { select: { name: true, email: true } },
+        items: {
+          include: {
+            product: { select: { name: true } },
+            variant: { select: { color: true, size: true } },
+            customDesign: { select: { selectedColor: true, selectedSize: true } },
+          },
+        },
+      },
+    });
+    if (orderWithProducts) {
+      sendOrderConfirmationEmail({
+        customerName: orderWithProducts.user.name,
+        customerEmail: orderWithProducts.user.email,
+        orderId: orderWithProducts.id,
+        items: orderWithProducts.items.map((item) => ({
+          productName: item.product.name,
+          quantity: item.quantity,
+          price: item.price,
+          color: item.customDesign?.selectedColor || item.variant?.color || undefined,
+          size: item.customDesign?.selectedSize || item.variant?.size || undefined,
+          isCustom: !!item.customDesignId,
+        })),
+        subtotal: orderWithProducts.subtotal,
+        totalAmount: orderWithProducts.totalAmount,
+        shippingAddress: orderWithProducts.shippingAddress,
+      }).catch((err) => console.error("[email] background send failed:", err));
+    }
 
     return NextResponse.json({ orderId: order.id });
   } catch (err) {

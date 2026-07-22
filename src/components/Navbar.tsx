@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 
 const navLinks = [
   { label: "Shop", href: "/shop" },
-  { label: "Customize", href: "/customize" },
+  { label: "Customize", href: "/shop/plain-t-shirt" },
   { label: "About", href: "/about" },
 ];
 
@@ -177,7 +177,7 @@ function ProfileDropdown() {
           )}
           <Link
             href="/account"
-            className="flex w-full items-center gap-2 px-4 py-2 text-sm text-white-600 transition-colors hover:bg-white/10"
+            className="flex w-full items-center gap-2 px-4 py-2 text-sm text-white transition-colors hover:bg-white/10"
             onClick={() => setOpen(false)}
           >
             My Account

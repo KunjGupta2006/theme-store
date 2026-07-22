@@ -41,7 +41,7 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
             select: { 
               name: true, 
               thumbnail: true,
-              colors: { select: { name: true, frontMockup: true } },
+              colors: { select: { name: true, frontMockup: true, backMockup: true } },
               images: { select: { url: true, colorName: true }, orderBy: { position: "asc" } }
             } 
           },
@@ -75,17 +75,18 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
               // Customized products get their own dedicated print section below
               // instead, since the admin needs the actual design file to print —
               // not just the shirt color it's printed on.
-              const designImages = [
-                item.customDesign?.frontDesignUrl ? { label: "Front", url: item.customDesign.frontDesignUrl } : null,
-                item.customDesign?.backDesignUrl ? { label: "Back", url: item.customDesign.backDesignUrl } : null,
-                !item.customDesign?.frontDesignUrl && !item.customDesign?.backDesignUrl && item.customDesign?.uploadedImageUrl
-                  ? { label: "Uploaded artwork", url: item.customDesign.uploadedImageUrl }
-                  : null,
-              ].filter((d): d is { label: string; url: string } => d !== null);
-
               const itemColor = item.customDesign?.selectedColor || item.variant?.color;
+              const itemColorObj = item.product.colors?.find((c) => c.name === itemColor);
+              const designImages = [
+                item.customDesign?.frontDesignUrl ? { label: "Front", url: item.customDesign.frontDesignUrl, mockupUrl: itemColorObj?.frontMockup ?? null } : null,
+                item.customDesign?.backDesignUrl ? { label: "Back", url: item.customDesign.backDesignUrl, mockupUrl: itemColorObj?.backMockup ?? null } : null,
+                !item.customDesign?.frontDesignUrl && !item.customDesign?.backDesignUrl && item.customDesign?.uploadedImageUrl
+                  ? { label: "Uploaded artwork", url: item.customDesign.uploadedImageUrl, mockupUrl: itemColorObj?.frontMockup ?? null }
+                  : null,
+              ].filter((d): d is { label: string; url: string; mockupUrl: string | null } => d !== null);
+
               const colorImage = item.product.images?.find((img) => img.colorName === itemColor)?.url;
-              const colorMockup = item.product.colors?.find((c) => c.name === itemColor)?.frontMockup;
+              const colorMockup = itemColorObj?.frontMockup;
               const displayImage = colorMockup || colorImage || item.product.thumbnail || "";
 
               return (
@@ -118,6 +119,7 @@ export default async function AdminOrderDetailPage({ params }: OrderDetailPagePr
                           label={d.label}
                           url={d.url}
                           productName={item.product.name}
+                          mockupUrl={d.mockupUrl}
                         />
                       ))}
                     </div>

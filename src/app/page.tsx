@@ -3,6 +3,8 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { ProductCard } from "@/components/products/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
+import ParallaxHero from "@/components/ParallaxHero";
+import ParallaxBanner from "@/components/ParallaxBanner";
 import Footer from "@/components/Footer";
 
 export default async function HomePage() {
@@ -28,59 +30,9 @@ export default async function HomePage() {
     <>
       <main>
         {/* ═══════════════════════════════════════════════════════════════
-            SECTION 1 — Hero (existing)
+            SECTION 1 — Hero (parallax)
         ═══════════════════════════════════════════════════════════════ */}
-        <section className="relative h-screen w-full overflow-hidden">
-          <Image
-            src="/home-bg.png"
-            alt=""
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-black/50" />
-
-          <div className="relative z-10 mx-auto flex h-full max-w-max flex-col items-center justify-center gap-8 px-5 md:flex-row md:items-center md:justify-between md:px-16">
-            <div className="flex flex-col items-center text-center md:items-start md:w-1/2 md:text-left">
-
-              <h1 className="display-lg-mobile mt-6 text-white md:display-lg md:mt-8">
-                Where Craft<br />Meets Creativity
-              </h1>
-
-              <p className="body-lg mt-5 max-w-xl text-white/65 md:mt-6">
-                Premium essentials built for those who value substance over excess.
-              </p>
-              <div className="flex justify-between items-center gap-6" >
-                <Link
-                  href="/shop"
-                  className="label-caps mt-10 bg-white px-10 py-3.5 tracking-widest rounded-xl text-[#1c1b1b] transition-all hover:bg-inverse-surface hover:text-surface hover:cursor-pointer hover:scale-105 md:mt-12"
-                >
-                  Explore Collection
-                </Link>
-
-                <Link
-                  href="/customize"
-                  className="label-caps mt-10 bg-[#1c1b1b] px-10 py-3.5 tracking-widest rounded-xl text-white transition-all hover:opacity-90 hover:cursor-pointer hover:scale-105 md:mt-12"
-                >
-                  Customize Now
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex items-start justify-around md:w-2/3">
-              <div className="animate-float relative h-60 w-52 md:h-125 md:w-125">
-                <Image
-                  src="/home-t-shirt.png"
-                  alt="Premium t-shirt"
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-contain drop-shadow-2xl"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+        <ParallaxHero />
 
         {/* ═══════════════════════════════════════════════════════════════
             SECTION 2 — What We Do (existing)
@@ -176,6 +128,11 @@ export default async function HomePage() {
             )}
           </div>
         </section>
+
+        {/* ═══════════════════════════════════════════════════════════════
+            SECTION 3.5 — Parallax Lifestyle Banner (NEW)
+        ═══════════════════════════════════════════════════════════════ */}
+        <ParallaxBanner />
 
         {/* ═══════════════════════════════════════════════════════════════
             SECTION 4 — How It Works (NEW)

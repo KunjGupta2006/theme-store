@@ -7,10 +7,21 @@ interface DesignPrintPreviewProps {
   label: string;
   url: string;
   productName: string;
+  mockupUrl?: string | null;
 }
 
-export default function DesignPrintPreview({ label, url, productName }: DesignPrintPreviewProps) {
+// Mirror the DesignCanvas print-area coordinates so the admin sees exactly
+// where the design will be placed on the shirt.
+const STAGE_W = 440;
+const STAGE_H = 520;
+const PRINT_X = 140;
+const PRINT_Y = 130;
+const PRINT_W = 160;
+const PRINT_H = 200;
+
+export default function DesignPrintPreview({ label, url, productName, mockupUrl }: DesignPrintPreviewProps) {
   const [open, setOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"alignment" | "printable">("alignment");
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const handlePrint = useCallback(() => {
@@ -51,7 +62,7 @@ export default function DesignPrintPreview({ label, url, productName }: DesignPr
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
           onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
         >
-          <div className="bg-white rounded-lg shadow-2xl max-w-[90vw] max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-2xl max-w-[90vw] max-h-[90vh] flex flex-col" style={{ width: 640 }}>
             <div className="flex items-center justify-between px-5 py-3 border-b border-black/10">
               <h3 className="text-sm font-medium text-[#111111]">{productName} — {label}</h3>
               <div className="flex items-center gap-2">
@@ -69,8 +80,72 @@ export default function DesignPrintPreview({ label, url, productName }: DesignPr
                 </button>
               </div>
             </div>
+
+            {/* Tab bar */}
+            {mockupUrl && (
+              <div className="flex border-b border-black/10">
+                <button
+                  onClick={() => setActiveTab("alignment")}
+                  className={`flex-1 py-2.5 text-[11px] tracking-widest uppercase transition-colors border-b-2 ${
+                    activeTab === "alignment"
+                      ? "text-[#111111] border-[#111111]"
+                      : "text-[#999999] border-transparent hover:text-[#666666]"
+                  }`}
+                >
+                  Alignment Preview
+                </button>
+                <button
+                  onClick={() => setActiveTab("printable")}
+                  className={`flex-1 py-2.5 text-[11px] tracking-widest uppercase transition-colors border-b-2 ${
+                    activeTab === "printable"
+                      ? "text-[#111111] border-[#111111]"
+                      : "text-[#999999] border-transparent hover:text-[#666666]"
+                  }`}
+                >
+                  Printable Design
+                </button>
+              </div>
+            )}
+
             <div className="p-5 flex items-center justify-center overflow-auto">
-              <Image src={url} alt={`${productName} — ${label} design`} width={600} height={800} className="object-contain max-w-full max-h-[75vh]" />
+              {activeTab === "alignment" && mockupUrl ? (
+                <div className="flex flex-col items-center gap-3">
+                  {/* Mockup with design overlaid at exact print-area coordinates */}
+                  <div
+                    className="relative bg-[#f5f1ea] rounded-lg overflow-hidden border border-black/10"
+                    style={{ width: STAGE_W, height: STAGE_H }}
+                  >
+                    <Image
+                      src={mockupUrl}
+                      alt={`${productName} mockup`}
+                      fill
+                      className="object-cover"
+                    />
+                    {/* Design overlay at the exact print-area position */}
+                    <div
+                      className="absolute border border-dashed border-black/20 overflow-hidden"
+                      style={{
+                        left: PRINT_X,
+                        top: PRINT_Y,
+                        width: PRINT_W,
+                        height: PRINT_H,
+                      }}
+                    >
+                      <Image
+                        src={url}
+                        alt={`${productName} — ${label} design overlay`}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-[#999999] text-center">
+                    Showing exact design placement on the {label.toLowerCase()} of the shirt.
+                  </p>
+                </div>
+              ) : (
+                <Image src={url} alt={`${productName} — ${label} design`} width={600} height={800} className="object-contain max-w-full max-h-[75vh]" />
+              )}
             </div>
           </div>
         </div>

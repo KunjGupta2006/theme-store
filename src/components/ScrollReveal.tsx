@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
   delay?: number; // delay in ms
   direction?: "up" | "down" | "left" | "right";
+  blur?: boolean;
 }
 
 export default function ScrollReveal({
@@ -14,46 +15,34 @@ export default function ScrollReveal({
   className = "",
   delay = 0,
   direction = "up",
+  blur = true,
 }: ScrollRevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   const translateMap = {
-    up: "translateY(32px)",
-    down: "translateY(-32px)",
-    left: "translateX(32px)",
-    right: "translateX(-32px)",
+    up: { y: 40 },
+    down: { y: -40 },
+    left: { x: 40 },
+    right: { x: -40 },
+  };
+
+  const initial = {
+    opacity: 0,
+    filter: blur ? "blur(10px)" : "blur(0px)",
+    ...translateMap[direction]
   };
 
   return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? "translate(0)" : translateMap[direction],
-        transition: `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+    <motion.div
+      initial={initial}
+      whileInView={{ opacity: 1, filter: "blur(0px)", x: 0, y: 0 }}
+      viewport={{ once: true, margin: "-10% 0px" }}
+      transition={{
+        duration: 0.8,
+        delay: delay / 1000,
+        ease: [0.16, 1, 0.3, 1],
       }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

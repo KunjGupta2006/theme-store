@@ -24,7 +24,7 @@ export default async function AdminLayout({
   return (
     <div className="flex min-h-screen bg-[#F5F1EA]">
       <AdminSidebar />
-      <main className="flex-1 ml-56 min-h-screen">
+      <main className="flex-1 md:ml-56 min-h-screen pb-16 md:pb-0">
         <div className="sticky top-0 z-40 bg-[#F5F1EA]/80 backdrop-blur-md border-b border-black/6 px-8 py-4 flex items-center justify-between">
           <AdminSearch />
           <div className="flex items-center gap-4">
